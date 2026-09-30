@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_steps",
+  "info": {
+    "displayName": "Steps Section",
+    "icon": "bulletList"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "steps": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

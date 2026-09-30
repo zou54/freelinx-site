@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_heroes",
+  "info": {
+    "displayName": "Hero",
+    "icon": "rocket"
+  },
+  "options": {},
+  "attributes": {
+    "badge": { "type": "string", "default": "PORTAGE SALARIAL" },
+    "title": { "type": "text", "required": true },
+    "highlight": { "type": "text" },
+    "description": { "type": "text" },
+    "bannerText": { "type": "string" },
+    "bannerHighlight": { "type": "string" },
+    "primaryCtaLabel": { "type": "string" },
+    "primaryCtaHref": { "type": "string", "default": "#" },
+    "secondaryCtaLabel": { "type": "string" },
+    "secondaryCtaHref": { "type": "string", "default": "#" },
+    "stats": {
+      "type": "component",
+      "component": "shared.icon-stat",
+      "repeatable": true
+    }
+  }
+}

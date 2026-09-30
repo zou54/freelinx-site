@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_sectors",
+  "info": {
+    "displayName": "Sectors Section",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "sectors": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

@@ -1,0 +1,66 @@
+{
+  "kind": "singleType",
+  "collectionName": "homepages",
+  "info": {
+    "singularName": "homepage",
+    "pluralName": "homepages",
+    "displayName": "Homepage",
+    "description": "Contenu de la page d'accueil"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "hero": {
+      "type": "component",
+      "component": "sections.hero",
+      "repeatable": false
+    },
+    "whySection": {
+      "type": "component",
+      "component": "sections.why",
+      "repeatable": false
+    },
+    "stepsSection": {
+      "type": "component",
+      "component": "sections.steps",
+      "repeatable": false
+    },
+    "benefitsSection": {
+      "type": "component",
+      "component": "sections.benefits",
+      "repeatable": false
+    },
+    "commitmentsSection": {
+      "type": "component",
+      "component": "sections.commitments",
+      "repeatable": false
+    },
+    "figuresSection": {
+      "type": "component",
+      "component": "sections.figures",
+      "repeatable": false
+    },
+    "sectorsSection": {
+      "type": "component",
+      "component": "sections.sectors",
+      "repeatable": false
+    },
+    "testimonialsSection": {
+      "type": "component",
+      "component": "sections.testimonials",
+      "repeatable": false
+    },
+    "faqSection": {
+      "type": "component",
+      "component": "sections.faq",
+      "repeatable": false
+    },
+    "finalCtaSection": {
+      "type": "component",
+      "component": "sections.final-cta",
+      "repeatable": false
+    }
+  }
+}

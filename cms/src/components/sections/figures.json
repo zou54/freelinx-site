@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_figures",
+  "info": {
+    "displayName": "Figures Section",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "figures": {
+      "type": "component",
+      "component": "shared.figure-item",
+      "repeatable": true
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

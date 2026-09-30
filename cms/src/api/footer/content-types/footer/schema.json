@@ -1,0 +1,45 @@
+{
+  "kind": "singleType",
+  "collectionName": "footers",
+  "info": {
+    "singularName": "footer",
+    "pluralName": "footers",
+    "displayName": "Footer",
+    "description": "Pied de page du site"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "logoLabel": { "type": "string", "default": "freelinx" },
+    "description": { "type": "text" },
+    "socialLinks": {
+      "type": "component",
+      "component": "shared.nav-link",
+      "repeatable": true
+    },
+    "navTitle": { "type": "string", "default": "Navigation" },
+    "navLinks": {
+      "type": "component",
+      "component": "shared.nav-link",
+      "repeatable": true
+    },
+    "resourcesTitle": { "type": "string", "default": "Ressources" },
+    "resourceLinks": {
+      "type": "component",
+      "component": "shared.nav-link",
+      "repeatable": true
+    },
+    "contactTitle": { "type": "string", "default": "Contact" },
+    "email": { "type": "string" },
+    "phone": { "type": "string" },
+    "city": { "type": "string" },
+    "copyrightText": { "type": "string" },
+    "legalLinks": {
+      "type": "component",
+      "component": "shared.nav-link",
+      "repeatable": true
+    }
+  }
+}

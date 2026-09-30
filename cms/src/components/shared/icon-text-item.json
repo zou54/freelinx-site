@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_icon_text_items",
+  "info": {
+    "displayName": "Icon Text Item",
+    "icon": "puzzle"
+  },
+  "options": {},
+  "attributes": {
+    "icon": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true }
+  }
+}

@@ -1,36 +1,48 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Freelinx
 
-## Getting Started
+Site marketing Freelinx (portage salarial) : front en Next.js, contenu géré via Strapi (CMS headless self-hosted).
 
-First, run the development server:
+## Structure du repo
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+```
+frontend/           Next.js (App Router, Tailwind v4) — le site public
+cms/                Strapi — administration du contenu (textes, tarifs, FAQ, navigation…)
+design-reference/   Maquettes HTML statiques d'origine, gardées comme référence de design
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Lancer le projet en local
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 1. CMS (Strapi)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+cd cms
+cp .env.example .env   # première fois seulement
+npm install
+npm run develop         # http://localhost:1337/admin — SQLite en dev
+```
 
-## Learn More
+Ou via Docker (Postgres inclus) :
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+cd cms
+docker compose up
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+Au premier démarrage, un script de seed crée automatiquement un compte et le contenu de la page d'accueil (textes, FAQ, chiffres…) repris du design actuel, et ouvre l'accès public en lecture sur les contenus du site. Aucune saisie manuelle n'est nécessaire pour retrouver le contenu existant.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 2. Frontend (Next.js)
 
-## Deploy on Vercel
+```bash
+cd frontend
+cp .env.local.example .env.local   # première fois seulement
+npm install
+npm run dev              # http://localhost:3000
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Le frontend lit son contenu sur `NEXT_PUBLIC_STRAPI_URL` (par défaut `http://localhost:1337`). S'il ne peut pas joindre Strapi (CMS éteint, réseau indisponible), il retombe sur un contenu par défaut intégré au code pour ne jamais afficher une page vide ou casser le build.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## État de la migration
+
+- **Page d'accueil** : entièrement pilotée par Strapi (hero, sections, FAQ, chiffres, témoignages, header, footer).
+- **Autres pages** (portage commercial, portage salarial, qui sommes-nous, tarifs, simulateur) : migrées en routes Next.js avec le même design, mais contenu encore statique — à brancher sur Strapi dans une prochaine itération.
+- **Simulateur** : la logique de calcul du salaire reste en TypeScript côté frontend (pas pilotée par le CMS).

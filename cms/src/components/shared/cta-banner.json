@@ -1,0 +1,17 @@
+{
+  "collectionName": "components_shared_cta_banners",
+  "info": {
+    "displayName": "CTA Banner",
+    "icon": "envelope"
+  },
+  "options": {},
+  "attributes": {
+    "icon": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true },
+    "primaryLabel": { "type": "string" },
+    "primaryHref": { "type": "string", "default": "#" },
+    "secondaryLabel": { "type": "string" },
+    "secondaryHref": { "type": "string", "default": "#" }
+  }
+}

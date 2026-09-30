@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_shared_label_details",
+  "info": {
+    "displayName": "Label Detail",
+    "icon": "information"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "detail": { "type": "string", "required": true }
+  }
+}

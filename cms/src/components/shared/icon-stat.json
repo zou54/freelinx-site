@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_shared_icon_stats",
+  "info": {
+    "displayName": "Icon Stat",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "icon": { "type": "string", "required": true },
+    "label": { "type": "string", "required": true },
+    "sublabel": { "type": "string" }
+  }
+}

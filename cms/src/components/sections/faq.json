@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_faqs",
+  "info": {
+    "displayName": "FAQ Section",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "faqs": {
+      "type": "component",
+      "component": "shared.faq-item",
+      "repeatable": true
+    },
+    "seeAllLabel": { "type": "string" },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_testimonials",
+  "info": {
+    "displayName": "Testimonials Section",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "testimonials": {
+      "type": "component",
+      "component": "shared.testimonial-item",
+      "repeatable": true
+    }
+  }
+}

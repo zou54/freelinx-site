@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_whies",
+  "info": {
+    "displayName": "Why Section",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "intro1": { "type": "text" },
+    "intro2": { "type": "text" },
+    "intro3": { "type": "text" },
+    "features": {
+      "type": "component",
+      "component": "shared.feature-item",
+      "repeatable": true
+    }
+  }
+}

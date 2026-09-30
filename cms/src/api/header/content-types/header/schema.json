@@ -1,0 +1,41 @@
+{
+  "kind": "singleType",
+  "collectionName": "headers",
+  "info": {
+    "singularName": "header",
+    "pluralName": "headers",
+    "displayName": "Header",
+    "description": "Barre de navigation et bandeau supérieur"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "logoLabel": { "type": "string", "default": "Freelinx" },
+    "hours": {
+      "type": "component",
+      "component": "shared.label-detail",
+      "repeatable": false
+    },
+    "phone": {
+      "type": "component",
+      "component": "shared.label-detail",
+      "repeatable": false
+    },
+    "address": {
+      "type": "component",
+      "component": "shared.label-detail",
+      "repeatable": false
+    },
+    "navLinks": {
+      "type": "component",
+      "component": "shared.nav-link",
+      "repeatable": true
+    },
+    "primaryCtaLabel": { "type": "string" },
+    "primaryCtaHref": { "type": "string", "default": "#" },
+    "secondaryCtaLabel": { "type": "string" },
+    "secondaryCtaHref": { "type": "string", "default": "#" }
+  }
+}

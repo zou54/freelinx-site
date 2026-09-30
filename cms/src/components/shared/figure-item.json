@@ -1,0 +1,14 @@
+{
+  "collectionName": "components_shared_figure_items",
+  "info": {
+    "displayName": "Figure Item",
+    "icon": "chartBubble"
+  },
+  "options": {},
+  "attributes": {
+    "icon": { "type": "string", "required": true },
+    "value": { "type": "string", "required": true },
+    "caption": { "type": "string", "required": true },
+    "description": { "type": "text", "required": true }
+  }
+}

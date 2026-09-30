@@ -1,0 +1,28 @@
+{
+  "collectionName": "components_sections_final_ctas",
+  "info": {
+    "displayName": "Final CTA Section",
+    "icon": "rocket"
+  },
+  "options": {},
+  "attributes": {
+    "badge": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "paragraph": { "type": "text" },
+    "quote": { "type": "text" },
+    "primaryCtaLabel": { "type": "string" },
+    "primaryCtaHref": { "type": "string", "default": "#" },
+    "secondaryCtaLabel": { "type": "string" },
+    "secondaryCtaHref": { "type": "string", "default": "#" },
+    "iconItems": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    },
+    "statItems": {
+      "type": "component",
+      "component": "shared.icon-stat-text",
+      "repeatable": true
+    }
+  }
+}

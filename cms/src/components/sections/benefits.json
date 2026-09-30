@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_benefits",
+  "info": {
+    "displayName": "Benefits Section",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "intro1": { "type": "text" },
+    "intro2": { "type": "text" },
+    "highlightCardText": { "type": "string" },
+    "benefits": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

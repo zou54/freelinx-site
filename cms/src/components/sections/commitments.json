@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_commitments",
+  "info": {
+    "displayName": "Commitments Section",
+    "icon": "medal"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "commitments": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

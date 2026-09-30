@@ -1,0 +1,36 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${DATABASE_NAME:-freelinx}
+      POSTGRES_USER: ${DATABASE_USERNAME:-freelinx}
+      POSTGRES_PASSWORD: ${DATABASE_PASSWORD:-freelinx}
+    volumes:
+      - strapi-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USERNAME:-freelinx}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  strapi:
+    build: .
+    restart: unless-stopped
+    env_file:
+      - .env
+    environment:
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres
+      DATABASE_PORT: 5432
+    ports:
+      - "1337:1337"
+    volumes:
+      - strapi-uploads:/opt/app/public/uploads
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+volumes:
+  strapi-postgres-data:
+  strapi-uploads:
