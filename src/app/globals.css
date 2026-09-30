@@ -1,0 +1,61 @@
+@import "tailwindcss";
+
+:root {
+  --color-red: #e8154f;
+  --color-red-dark: #c81044;
+  --color-navy: #0b0f2b;
+  --color-navy-soft: #3a3f5c;
+  --color-pink-pale: #fdedf1;
+  --color-pink-pale-2: #fff6f8;
+  --color-cream: #fefbf8;
+  --color-gray-text: #5b6072;
+  --color-border: #f0dce2;
+
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-pill: 999px;
+}
+
+@theme inline {
+  --color-red: var(--color-red);
+  --color-red-dark: var(--color-red-dark);
+  --color-navy: var(--color-navy);
+  --color-navy-soft: var(--color-navy-soft);
+  --color-pink-pale: var(--color-pink-pale);
+  --color-pink-pale-2: var(--color-pink-pale-2);
+  --color-cream: var(--color-cream);
+  --color-gray-text: var(--color-gray-text);
+  --color-border: var(--color-border);
+
+  --radius-lg: var(--radius-lg);
+  --radius-md: var(--radius-md);
+  --radius-pill: var(--radius-pill);
+
+  --font-heading: var(--font-plus-jakarta-sans);
+  --font-sans: var(--font-inter);
+
+  --breakpoint-lg: 1080px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-sans), sans-serif;
+  color: var(--color-navy);
+  background: #ffffff;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-heading), sans-serif;
+  letter-spacing: -0.4px;
+}
+
+svg {
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}

@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qui sommes nous — Freelinx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --red: #E8154F;
+    --red-dark: #C81044;
+    --navy: #0B0F2B;
+    --navy-soft: #3A3F5C;
+    --pink-pale: #FDEDF1;
+    --pink-pale-2: #FFF6F8;
+    --gray-text: #5B6072;
+    --border: #F0DCE2;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-pill: 999px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif;
+    color: var(--navy);
+    background:#fff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,h5,h6{ font-family:'Plus Jakarta Sans', sans-serif; letter-spacing:-0.4px; }
+  svg{ stroke-linecap: round; stroke-linejoin: round; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width:700px){ .wrap{ padding:0 20px; } }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:13.5px;
+    padding: 12px 20px; border-radius: var(--radius-pill);
+    text-decoration:none; cursor:pointer; white-space:nowrap;
+    border: 1.5px solid transparent;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn-solid{ background: var(--red); color:#fff; box-shadow:0 8px 20px -6px rgba(232,21,79,0.5); }
+  .btn-solid:hover{ background: var(--red-dark); }
+  .btn-outline-red{ background:#fff; color:var(--red); border-color:var(--red); }
+  .btn-outline-red:hover{ background:var(--red); color:#fff; }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{ background:#fff; border-bottom:1px solid #F5DCE2; padding:14px 0; }
+  .topbar .wrap{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  .topbar-logo{ display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:19px; color:var(--red); }
+  .topbar-logo .mark{ width:24px; height:24px; border-radius:6px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+  .topbar-info{ display:flex; align-items:center; gap:0; flex-wrap:wrap; }
+  .topbar-item{ display:flex; align-items:center; gap:12px; padding:0 26px; }
+  .topbar-item + .topbar-item{ border-left:1px solid #EFE0E4; }
+  .topbar-item svg{ color:var(--red); flex-shrink:0; }
+  .topbar-item .label{ font-size:12.5px; font-weight:700; color:var(--red); line-height:1.4; }
+  .topbar-item .detail{ font-size:12.5px; color:var(--navy-soft); line-height:1.4; margin-top:2px; }
+
+  /* ---------- STICKY NAV ---------- */
+  .sticky-nav{ position:sticky; top:0; z-index:100; background:var(--red); box-shadow:0 12px 30px -20px rgba(11,15,43,0.25); }
+  header{ display:flex; align-items:center; justify-content:space-between; min-height:65px; padding:0; gap:24px; }
+  nav ul{ list-style:none; display:flex; align-items:center; gap:28px; flex-shrink:0; }
+  nav li{ flex-shrink:0; }
+  nav a{ text-decoration:none; color:rgba(255,255,255,0.92); font-weight:600; font-size:15px; display:flex; align-items:center; gap:6px; white-space:nowrap; transition:color .15s ease, opacity .15s ease; }
+  nav a:hover{ color:#fff; opacity:0.85; }
+  nav a.active{ color:#fff; }
+  nav a .chev{ opacity:0.8; }
+  .nav-dropdown{ position:relative; }
+  .nav-dropdown-menu{ position:absolute; top:100%; left:0; margin-top:14px; background:#fff; border-radius:14px; box-shadow:0 24px 48px -20px rgba(11,15,43,0.35); padding:10px; min-width:222px; opacity:0; visibility:hidden; transform:translateY(6px); transition:opacity .15s ease, transform .15s ease, visibility .15s ease; z-index:200; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu{ opacity:1; visibility:visible; transform:translateY(0); }
+  .nav-dropdown-menu a{ display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:9px; color:var(--navy); font-weight:600; font-size:14px; text-decoration:none; white-space:nowrap; transition:background .15s ease; }
+  .nav-dropdown-menu a:hover{ background:var(--pink-pale-2); color:var(--red); }
+  .nav-dropdown-menu a .dot{ width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0; }
+
+  .mnav-group{ border-bottom:1px solid rgba(255,255,255,0.15); }
+  .mnav-group .mnav{ border-bottom:none; }
+  .mnav-sub{ display:none; flex-direction:column; padding:0 4px 14px 16px; gap:2px; }
+  .mnav-sub.open{ display:flex; }
+  .mnav-sub a{ color:rgba(255,255,255,0.85); text-decoration:none; font-weight:600; font-size:14.5px; padding:10px 8px; border-radius:8px; }
+  .mnav-sub a:hover{ background:rgba(255,255,255,0.1); color:#fff; }
+  .mnav-toggle-chev{ transition:transform .2s ease; }
+  .mnav-toggle-chev.open{ transform:rotate(180deg); }
+  .header-actions{ display:flex; align-items:center; gap:14px; flex-shrink:0; }
+  .btn-portal{ display:inline-flex; align-items:center; justify-content:center; background:var(--navy); color:#fff; font-weight:700; font-size:13px; letter-spacing:0.6px; text-transform:uppercase; padding:13px 26px; border-radius:8px; text-decoration:none; white-space:nowrap; transition:background .15s ease, transform .15s ease; }
+  .btn-portal:hover{ background:#161B3D; transform:translateY(-1px); }
+  .btn-portal-outline{ background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,0.55); }
+  .btn-portal-outline:hover{ background:rgba(255,255,255,0.12); transform:translateY(-1px); }
+
+  .hamburger{ display:none; flex-direction:column; justify-content:center; gap:5px; width:38px; height:38px; background:transparent; border:none; cursor:pointer; padding:0; flex-shrink:0; }
+  .hamburger span{ display:block; width:24px; height:2.5px; background:#fff; border-radius:2px; transition:transform .2s ease, opacity .2s ease; }
+  .hamburger.open span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+  .mobile-panel{ display:none; position:absolute; top:100%; left:0; right:0; background:var(--red); border-top:1px solid rgba(255,255,255,0.15); box-shadow:0 20px 30px -10px rgba(11,15,43,0.3); max-height:calc(100vh - 65px); overflow-y:auto; }
+  .mobile-panel.open{ display:block; }
+  .mobile-panel-inner{ padding:10px 24px 28px; display:flex; flex-direction:column; }
+  .mobile-panel a.mnav{ color:#fff; text-decoration:none; font-weight:600; font-size:16px; padding:16px 4px; border-bottom:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:space-between; }
+  .mobile-panel-actions{ display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+  .mobile-panel-actions .btn-portal{ width:100%; justify-content:center; }
+
+  @media (max-width:1080px){
+    nav{ display:none; }
+    .header-actions{ display:none; }
+    .topbar-info{ display:none; }
+    .hamburger{ display:flex; }
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  .sect{ padding:52px 0; }
+
+  /* ---------- ABOUT HERO ---------- */
+  .about-hero{ padding:48px 0 60px; }
+  .about-hero .wrap{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+  .about-eyebrow{ font-size:12px; font-weight:800; letter-spacing:0.6px; color:var(--red); text-transform:uppercase; margin-bottom:14px; }
+  .about-hero h1{ font-size:34px; line-height:1.25; color:var(--navy); margin-bottom:18px; }
+  .about-hero .rule{ width:48px; height:4px; background:var(--red); border-radius:2px; margin-bottom:20px; }
+  .about-hero p{ font-size:14.5px; line-height:1.75; color:var(--gray-text); margin-bottom:14px; }
+  .about-hero p strong{ color:var(--navy); font-weight:700; }
+
+  .team-photos{ position:relative; }
+  .team-photos .deco-circle{
+    position:absolute; top:8%; right:-140px; width:340px; height:340px; border-radius:50%;
+    background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    z-index:0;
+  }
+  .team-row{ position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .photo-card{ background:#fff; border-radius:18px; border:1px solid var(--border); overflow:hidden; box-shadow:0 24px 48px -28px rgba(11,15,43,0.3); }
+  .photo-frame{ aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .photo-frame.mono{ background:linear-gradient(160deg,#EDEEF2 0%, #C9CBD3 100%); }
+  .photo-frame.color{ background:linear-gradient(160deg,#FFE3EC 0%, #F7A9C0 100%); }
+  .photo-frame .avatar{
+    width:104px; height:104px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:32px; color:#fff;
+    box-shadow:0 14px 30px -12px rgba(11,15,43,0.35);
+  }
+  .photo-frame.mono .avatar{ background:linear-gradient(135deg,#4A4E5C 0%, #1E212E 100%); }
+  .photo-frame.color .avatar{ background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); }
+  .photo-frame::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,0.35) 1.5px, transparent 1.5px);
+    background-size:16px 16px; opacity:0.5;
+  }
+  .photo-cap{ padding:18px 20px 22px; }
+  .photo-cap h6{ font-size:15px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+  .photo-cap .role{ font-size:12.5px; font-weight:700; color:var(--red); margin-bottom:10px; }
+  .photo-cap .rule{ width:26px; height:3px; background:var(--red); border-radius:2px; margin:0; }
+  @media (max-width:980px){
+    .about-hero .wrap{ grid-template-columns:1fr; }
+    .team-photos{ margin-top:10px; }
+    .team-photos .deco-circle{ right:-100px; width:240px; height:240px; }
+  }
+  @media (max-width:560px){
+    .team-row{ grid-template-columns:1fr 1fr; gap:12px; }
+    .team-photos .deco-circle{ display:none; }
+  }
+
+  /* ---------- MISSION (bloc pale rose) ---------- */
+  .mission-sect{ background:var(--pink-pale-2); border-radius:24px; padding:44px 48px; }
+  .mission-grid{ display:grid; grid-template-columns:auto 1fr; gap:44px; align-items:center; }
+  .mission-icon{ width:150px; height:150px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 20px 40px -20px rgba(11,15,43,0.18); flex-shrink:0; }
+  .mission-icon svg{ width:60px; height:60px; color:var(--red); }
+  .mission-content h3{ font-size:22px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .mission-content .rule{ width:40px; height:3px; background:var(--red); border-radius:2px; margin-bottom:18px; }
+  .mission-content .lead{ font-size:16px; font-weight:700; color:var(--red); line-height:1.5; margin-bottom:18px; }
+  .mission-content p{ font-size:13.5px; line-height:1.75; color:var(--gray-text); margin-bottom:12px; }
+  @media (max-width:760px){
+    .mission-sect{ padding:32px 26px; }
+    .mission-grid{ grid-template-columns:1fr; text-align:center; }
+    .mission-icon{ margin:0 auto; }
+  }
+
+  /* ---------- CONVICTION (2 colonnes + connecteur) ---------- */
+  .conviction-sect{ background:#fff; border:1px solid var(--border); border-radius:24px; padding:44px 48px; box-shadow:0 20px 48px -32px rgba(11,15,43,0.18); }
+  .conviction-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:center; }
+  .conv-left{ display:flex; gap:24px; align-items:flex-start; padding-right:36px; }
+  .conv-icon{ width:76px; height:76px; border-radius:50%; background:var(--pink-pale-2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .conv-icon svg{ width:32px; height:32px; color:var(--red); }
+  .conv-left h3{ font-size:20px; font-weight:700; color:var(--navy); line-height:1.3; margin-bottom:10px; }
+  .conv-left .lead{ font-size:14px; font-weight:700; color:var(--red); line-height:1.6; }
+  .conv-divider{ position:relative; align-self:stretch; width:1px; background:var(--border); display:flex; align-items:center; justify-content:center; }
+  .conv-connector{ width:38px; height:38px; border-radius:50%; background:var(--red); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -8px rgba(232,21,79,0.5); flex-shrink:0; }
+  .conv-connector svg{ width:16px; height:16px; color:#fff; }
+  .conv-right{ padding-left:36px; }
+  .conv-right p{ font-size:13.5px; line-height:1.75; color:var(--gray-text); margin-bottom:14px; }
+  .conv-right strong{ color:var(--navy); font-weight:700; }
+  @media (max-width:860px){
+    .conviction-sect{ padding:32px 26px; }
+    .conviction-grid{ grid-template-columns:1fr; }
+    .conv-left{ padding-right:0; padding-bottom:24px; }
+    .conv-divider{ width:auto; height:1px; align-self:stretch; }
+    .conv-connector{ margin:0 auto; transform:rotate(90deg); }
+    .conv-right{ padding-left:0; padding-top:24px; }
+  }
+
+  /* ---------- NOS VALEURS ---------- */
+  .values-head{ text-align:center; margin-bottom:36px; }
+  .values-head h2{ font-size:26px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+  .values-head .rule{ width:44px; height:3px; background:var(--red); border-radius:2px; margin:0 auto; }
+  .values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .value-card{ background:#fff; border:1px solid var(--border); border-radius:18px; padding:32px 22px; text-align:center; box-shadow:0 20px 44px -32px rgba(11,15,43,0.18); display:flex; flex-direction:column; height:100%; }
+  .value-icon{ width:72px; height:72px; border-radius:50%; background:var(--pink-pale); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; flex-shrink:0; }
+  .value-icon svg{ width:30px; height:30px; color:var(--red); }
+  .value-card h4{ font-size:15px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .value-card p{ font-size:12.5px; line-height:1.6; color:var(--gray-text); margin-bottom:16px; flex:1 0 auto; }
+  .value-card .rule{ width:26px; height:3px; background:var(--red); border-radius:2px; margin:auto auto 0; }
+  @media (max-width:900px){ .values-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .values-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- QUOTE BANNER ---------- */
+  .quote-banner{ background:var(--pink-pale); border-radius:24px; padding:42px 48px; }
+  .quote-grid{ display:grid; grid-template-columns:auto 1fr auto auto; gap:32px; align-items:center; }
+  .quote-mark-big{ width:46px; height:34px; color:var(--red); flex-shrink:0; }
+  .quote-banner p{ font-size:16px; line-height:1.6; color:var(--navy); margin-bottom:10px; }
+  .quote-banner p.bold{ font-weight:700; color:var(--red); margin-bottom:0; }
+  .quote-divider{ width:1px; align-self:stretch; background:rgba(232,21,79,0.25); }
+  .quote-deco{ width:90px; height:90px; flex-shrink:0; }
+  @media (max-width:760px){
+    .quote-banner{ padding:32px 26px; }
+    .quote-grid{ grid-template-columns:1fr; text-align:center; }
+    .quote-mark-big{ margin:0 auto; }
+    .quote-divider{ width:60px; height:1px; margin:6px auto; }
+    .quote-deco{ margin:0 auto; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{ background:var(--navy); color:#fff; margin-top:20px; padding-top:64px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; padding-bottom:48px; }
+  .footer-brand .flogo{ display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:20px; color:#fff; margin-bottom:14px; }
+  .footer-brand .flogo .mark{ width:26px; height:26px; border-radius:6px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; }
+  .footer-brand p{ font-size:13px; line-height:1.75; color:rgba(255,255,255,0.6); margin-bottom:22px; max-width:280px; }
+  .footer-social{ display:flex; gap:10px; }
+  .footer-social a{ width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; color:#fff; transition:background .15s ease; }
+  .footer-social a:hover{ background:var(--red); }
+  .footer-social svg{ width:16px; height:16px; }
+
+  .footer-col h5{ font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:#fff; margin-bottom:20px; }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:13px; }
+  .footer-col a{ font-size:13.5px; color:rgba(255,255,255,0.65); text-decoration:none; transition:color .15s ease; }
+  .footer-col a:hover{ color:#fff; }
+
+  .footer-contact li{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.5; }
+  .footer-contact svg{ width:16px; height:16px; color:var(--red); flex-shrink:0; margin-top:2px; }
+
+  .footer-bottom{ border-top:1px solid rgba(255,255,255,0.12); padding:22px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-bottom p{ font-size:12.5px; color:rgba(255,255,255,0.5); }
+  .footer-legal{ display:flex; gap:22px; list-style:none; flex-wrap:wrap; }
+  .footer-legal a{ font-size:12.5px; color:rgba(255,255,255,0.5); text-decoration:none; }
+  .footer-legal a:hover{ color:#fff; }
+
+  @media (max-width:860px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){
+    .footer-grid{ grid-template-columns:1fr; gap:32px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+    .footer-brand p{ max-width:none; }
+  }
+
+  /* ---------- RDV MODAL ---------- */
+  .rdv-overlay{
+    position:fixed; inset:0; z-index:1000; background:rgba(11,15,43,0.6);
+    display:none; align-items:center; justify-content:center; padding:24px;
+    backdrop-filter:blur(2px);
+  }
+  .rdv-overlay.open{ display:flex; }
+  .rdv-modal{
+    position:relative; background:#fff; border-radius:26px; overflow:hidden;
+    width:100%; max-width:980px; height:min(700px,88vh); max-height:88vh;
+    display:grid; grid-template-columns:36% 64%;
+    box-shadow:0 40px 100px -30px rgba(11,15,43,0.5);
+  }
+  .rdv-photo{
+    background-image:
+      linear-gradient(180deg, rgba(11,15,43,0.05) 0%, rgba(11,15,43,0.35) 100%),
+      linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    background-size:cover; background-position:center;
+    position:relative;
+  }
+  .rdv-photo::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,0.14) 1.5px, transparent 1.5px);
+    background-size:18px 18px;
+  }
+  .rdv-photo-brand{
+    position:absolute; left:28px; bottom:28px; color:#fff;
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .rdv-photo-brand .mark{ width:26px; height:26px; border-radius:6px; background:#fff; color:var(--red); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; }
+  .rdv-content{ padding:40px 44px 28px; height:100%; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
+  .rdv-close{
+    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
+    background:#fff; border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--navy); z-index:5; transition:background .15s ease, color .15s ease;
+  }
+  .rdv-close:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+  .rdv-close svg{ width:16px; height:16px; }
+
+  .rdv-step{ display:flex; flex-direction:column; height:100%; min-height:0; }
+  .rdv-step[hidden]{ display:none; }
+  .rdv-eyebrow{ font-size:11.5px; font-weight:800; letter-spacing:0.6px; color:var(--red); text-transform:uppercase; margin-bottom:10px; }
+  .rdv-content h2{ font-family:'Plus Jakarta Sans', sans-serif; font-size:27px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .rdv-content h2 .dot{ color:var(--red); }
+  .rdv-content > .rdv-step > p.rdv-sub{ font-size:13.5px; color:var(--gray-text); line-height:1.6; margin-bottom:22px; }
+
+  .rdv-progress{ height:5px; background:var(--border); border-radius:99px; margin-bottom:26px; overflow:hidden; flex-shrink:0; }
+  .rdv-progress-bar{ height:100%; background:var(--red); border-radius:99px; transition:width .25s ease; }
+
+  .rdv-days{ overflow-y:auto; padding-right:6px; margin-right:-6px; flex:1 1 auto; min-height:0; }
+  .rdv-day + .rdv-day{ margin-top:26px; }
+  .rdv-day-label{ font-size:14px; font-weight:800; color:var(--navy); margin-bottom:12px; }
+  .rdv-slots{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .rdv-slot{
+    font-family:'Inter', sans-serif; font-size:13.5px; font-weight:600; color:var(--navy);
+    background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:12px 8px;
+    text-align:center; cursor:pointer; transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .rdv-slot:hover{ border-color:var(--red); }
+  .rdv-slot.selected{ background:var(--red); border-color:var(--red); color:#fff; }
+
+  .rdv-footer{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding-top:20px; margin-top:18px; border-top:1px solid var(--border); flex-shrink:0; }
+  .rdv-back{ background:none; border:none; font-family:'Inter', sans-serif; font-weight:600; font-size:13.5px; color:var(--gray-text); cursor:pointer; display:flex; align-items:center; gap:6px; padding:12px 4px; }
+  .rdv-back:hover{ color:var(--navy); }
+  .rdv-back svg{ width:15px; height:15px; }
+  .rdv-continue[disabled]{ opacity:0.4; cursor:not-allowed; pointer-events:none; }
+  .rdv-footer .btn svg{ width:15px; height:15px; }
+
+  .rdv-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .rdv-field{ margin-bottom:18px; }
+  .rdv-field label{ display:block; font-size:12.5px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .rdv-field input, .rdv-field select{
+    width:100%; font-family:'Inter', sans-serif; font-size:14px; color:var(--navy);
+    padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; background:#fff;
+    outline:none; transition:border-color .15s ease;
+  }
+  .rdv-field input:focus, .rdv-field select:focus{ border-color:var(--red); }
+  .rdv-phone{ display:grid; grid-template-columns:74px 1fr; gap:10px; }
+  .rdv-phone-code{
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:var(--gray-text);
+    background:#F4F5FA; border:1.5px solid var(--border); border-radius:10px; padding:12px 8px;
+    user-select:none; cursor:not-allowed;
+  }
+  .rdv-check{ display:flex; align-items:flex-start; gap:10px; font-size:12.5px; color:var(--gray-text); line-height:1.6; cursor:pointer; margin-bottom:6px; }
+  .rdv-check input{ margin-top:2px; accent-color:var(--red); width:16px; height:16px; flex-shrink:0; }
+  .rdv-check a{ color:var(--red); font-weight:600; text-decoration:underline; }
+
+  .rdv-success{ text-align:center; padding:30px 10px 10px; margin:auto 0; }
+  .rdv-success-icon{ width:74px; height:74px; border-radius:50%; background:var(--pink-pale); display:flex; align-items:center; justify-content:center; margin:0 auto 22px; }
+  .rdv-success-icon svg{ width:32px; height:32px; color:var(--red); }
+  .rdv-success h2{ margin-bottom:12px; }
+  .rdv-success p{ font-size:14px; color:var(--gray-text); line-height:1.7; margin-bottom:26px; }
+  .rdv-success p strong{ color:var(--navy); }
+  .rdv-success .btn{ margin:0 auto; }
+
+  @media (max-width:760px){
+    .rdv-modal{ grid-template-columns:1fr; height:min(640px,92vh); max-height:92vh; }
+    .rdv-photo{ display:none; }
+    .rdv-content{ padding:56px 22px 22px; }
+    .rdv-slots{ grid-template-columns:repeat(2,1fr); }
+    .rdv-row{ grid-template-columns:1fr; gap:0; }
+  }
+</style>
+</head>
+<body>
+
+  <div class="topbar">
+    <div class="wrap">
+      <div class="topbar-logo"><span class="mark">F</span>Freelinx</div>
+      <div class="topbar-info">
+        <div class="topbar-item">
+          <svg width="17" height="17" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 30"><defs><style>.st0{fill:#e8154f;}</style></defs><path class="st0" d="M19.31,3.56h-1.69v-1.69h-1.12v1.69H7.5v-1.69h-1.12v1.69h-1.69c-1.55,0-2.81,1.26-2.81,2.81v12.94c0,1.55,1.26,2.81,2.81,2.81h14.62c1.55,0,2.81-1.26,2.81-2.81V6.37c0-1.55-1.26-2.81-2.81-2.81ZM21,19.31c0,.93-.76,1.69-1.69,1.69H4.69c-.93,0-1.69-.76-1.69-1.69v-10.12h18v10.12ZM21,8.06H3v-1.69c0-.93.76-1.69,1.69-1.69h1.69v1.12h1.12v-1.12h9v1.12h1.12v-1.12h1.69c.93,0,1.69.76,1.69,1.69v1.69Z"/></svg>
+          <div><div class="label">9:00 - 20:00</div><div class="detail">Lundi à Vendredi</div></div>
+        </div>
+        <div class="topbar-item">
+          <svg width="17" height="17" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 110 135"><defs><style>.st0{fill:#e8154f;}</style></defs><path class="st0" d="M55,20.14c-17.03,0-31.44,11.17-36.4,26.57-2.05.53-3.6,2.32-3.6,4.53v14.38c0,2.62,2.14,4.76,4.76,4.76s4.76-2.14,4.76-4.76v-14.38c0-1.29-.62-2.37-1.46-3.23,4.39-13.46,16.98-23.2,31.94-23.2s27.55,9.74,31.94,23.2c-.84.86-1.46,1.94-1.46,3.23v14.38c0,1.29.62,2.37,1.46,3.23-4.01,12.31-14.91,21.46-28.17,22.94-.95-1.33-2.46-2.17-4.12-2.17-2.81,0-5.12,2.31-5.12,5.12s2.31,5.12,5.12,5.12c2.19,0,4.04-1.44,4.75-3.46,15.08-1.73,27.49-12.21,32.02-26.27,2.04-.53,3.59-2.32,3.59-4.53v-14.38c0-2.21-1.55-4-3.6-4.53-4.96-15.4-19.38-26.57-36.4-26.57v.02Z"/></svg>
+          <div><div class="label">Contactez-nous</div><div class="detail">+33 6 99 68 43 73</div></div>
+        </div>
+        <div class="topbar-item">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><div class="label">231 rue Saint-Honoré</div><div class="detail">Paris, 75001</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-nav">
+    <header class="wrap">
+      <nav>
+        <ul>
+          <li><a href="freelinx-hero-mockup.html">Accueil</a></li>
+          <li class="nav-dropdown"><a href="#">Nos Services <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></a><div class="nav-dropdown-menu"><a href="portage-salarial.html"><span class="dot"></span>Portage salarial</a><a href="portage-commercial.html"><span class="dot"></span>Portage commercial</a></div></li>
+          <li><a href="tarifs.html">Tarifs</a></li>
+          <li><a href="qui-sommes-nous.html" class="active">Qui sommes nous&nbsp;?</a></li>
+          <li><a href="freelinx-hero-mockup.html#faq">FAQ</a></li>
+          <li><a href="freelinx-hero-mockup.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a class="btn-portal" href="#">Prendre rendez-vous</a>
+        <a class="btn-portal btn-portal-outline" href="simulateur.html">Faire une simulation</a>
+      </div>
+      <button class="hamburger" id="hamburgerBtn" style="margin-left:auto;" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="mobile-panel" id="mobilePanel">
+      <div class="mobile-panel-inner">
+        <a class="mnav" href="freelinx-hero-mockup.html">Accueil</a>
+        <div class="mnav-group"><a class="mnav" href="#" id="mnavServicesToggle">Nos Services <svg class="mnav-toggle-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></a><div class="mnav-sub" id="mnavServicesSub"><a href="portage-salarial.html">Portage salarial</a><a href="portage-commercial.html">Portage commercial</a></div></div>
+        <a class="mnav" href="tarifs.html">Tarifs</a>
+        <a class="mnav" href="qui-sommes-nous.html">Qui sommes nous&nbsp;?</a>
+        <a class="mnav" href="freelinx-hero-mockup.html#faq">FAQ</a>
+        <a class="mnav" href="freelinx-hero-mockup.html#contact">Contact</a>
+        <div class="mobile-panel-actions">
+          <a class="btn-portal" href="#">Prendre rendez-vous</a>
+          <a class="btn-portal btn-portal-outline" href="simulateur.html">Faire une simulation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var btn = document.getElementById('hamburgerBtn');
+      var panel = document.getElementById('mobilePanel');
+      if(btn && panel){
+        btn.addEventListener('click', function(){
+          btn.classList.toggle('open');
+          panel.classList.toggle('open');
+        });
+      }
+      var mnavToggle = document.getElementById('mnavServicesToggle');
+      var mnavSub = document.getElementById('mnavServicesSub');
+      if(mnavToggle && mnavSub){
+        mnavToggle.addEventListener('click', function(e){
+          e.preventDefault();
+          mnavSub.classList.toggle('open');
+          var chev = mnavToggle.querySelector('.mnav-toggle-chev');
+          if(chev) chev.classList.toggle('open');
+        });
+      }
+    })();
+  </script>
+
+  <!-- ===================== ABOUT HERO ===================== -->
+  <section class="about-hero">
+    <div class="wrap">
+      <div>
+        <div class="about-eyebrow">Qui sommes-nous&nbsp;?</div>
+        <h1>Freelinx, un partenaire de<br>confiance à vos côtés pour<br>aller plus loin.</h1>
+        <div class="rule"></div>
+        <p>Freelinx, c'est avant tout une équipe d'associés passionnés et expérimentés, forts de plus de 10 ans d'expertise dans le domaine du portage salarial et plus de <strong>20 ans de conseil.</strong></p>
+        <p>Nous avons créé Freelinx avec une conviction profonde&nbsp;: offrir aux consultants un accompagnement qui allie transparence, réactivité et simplicité.</p>
+      </div>
+
+      <div class="team-photos">
+        <div class="deco-circle"></div>
+        <div class="team-row">
+          <div class="photo-card">
+            <div class="photo-frame mono"><div class="avatar">IB</div></div>
+            <div class="photo-cap">
+              <h6>Ibrahim BENAMOUR</h6>
+              <div class="role">Président Directeur Général</div>
+              <div class="rule"></div>
+            </div>
+          </div>
+          <div class="photo-card">
+            <div class="photo-frame color"><div class="avatar">MG</div></div>
+            <div class="photo-cap">
+              <h6>Meryem GHANNAM</h6>
+              <div class="role">Directrice Générale</div>
+              <div class="rule"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== MISSION ===================== -->
+  <section class="sect wrap">
+    <div class="mission-sect">
+      <div class="mission-grid">
+        <div class="mission-icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.4" fill="currentColor" stroke="none"/><path d="M12 3v3M12 18v3M3 12h3M18 12h3"/></svg>
+        </div>
+        <div class="mission-content">
+          <h3>Notre mission</h3>
+          <div class="rule"></div>
+          <div class="lead">Vous permettre de vous concentrer pleinement sur votre métier, votre expertise et vos clients.</div>
+          <p>Notre mission est claire&nbsp;: vous permettre de vous concentrer pleinement sur votre métier, votre expertise et vos clients, pendant que nous prenons en charge l'intégralité de la gestion administrative, comptable et sociale.</p>
+          <p>Nous croyons fermement que la réussite de nos consultants passe par une relation de confiance basée sur la clarté et l'honnêteté.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== CONVICTION ===================== -->
+  <section class="sect wrap" style="padding-top:0;">
+    <div class="conviction-sect">
+      <div class="conviction-grid">
+        <div class="conv-left">
+          <div class="conv-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20c0-3.6 2.9-6.2 6.5-6.2s6.5 2.6 6.5 6.2"/><circle cx="17" cy="8.5" r="2.6"/><path d="M15.8 13.9c2.9.4 5.2 2.7 5.2 6.1"/></svg>
+          </div>
+          <div>
+            <h3>Freelinx est née<br>d'une conviction forte&nbsp;:</h3>
+            <div class="lead">le portage salarial mérite un accompagnement plus humain, plus transparent et plus réactif.</div>
+          </div>
+        </div>
+        <div class="conv-divider">
+          <div class="conv-connector">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6"><path d="M9 6l6 6-6 6"/></svg>
+          </div>
+        </div>
+        <div class="conv-right">
+          <p>Nous avons créé une société capable d'offrir aux consultants indépendants bien plus qu'une simple gestion administrative.</p>
+          <p>Notre ambition est de devenir un <strong>véritable partenaire de confiance</strong>, présent à chaque étape de votre parcours professionnel.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== NOS VALEURS ===================== -->
+  <section class="sect wrap">
+    <div class="values-head">
+      <h2>Nos valeurs</h2>
+      <div class="rule"></div>
+    </div>
+    <div class="values-grid">
+      <div class="value-card">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="5"/><path d="M8.5 12.5L7 21l5-2.5 5 2.5-1.5-8.5"/></svg></div>
+        <h4>Exigence</h4>
+        <p>Un haut niveau de qualité dans chaque échange.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M7 3h7l4 4v14a1 1 0 01-1 1H7a1 1 0 01-1-1V4a1 1 0 011-1z"/><path d="M9 10h6M9 13h6"/><circle cx="10.5" cy="16.5" r="2.2"/><path d="M12.2 18.2L14 20"/></svg></div>
+        <h4>Transparence</h4>
+        <p>Des informations claires, une rémunération lisible et aucun frais caché.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M8 12a3.2 3.2 0 100-6.4A3.2 3.2 0 008 12z"/><path d="M2.8 18c0-2.9 2.3-5 5.2-5s5.2 2.1 5.2 5"/><path d="M16 4.3a3.2 3.2 0 010 6.1M18.4 13.3c2 .5 3.5 2.1 3.8 4.4"/></svg></div>
+        <h4>Proximité</h4>
+        <p>Un interlocuteur dédié, disponible et à votre écoute.</p>
+        <div class="rule"></div>
+      </div>
+      <div class="value-card">
+        <div class="value-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 11l4.5-4h3L14 10"/><path d="M21 11l-4.5-4h-2.7"/><path d="M3 11v5l3 3h2.2"/><path d="M21 11v5l-3 3h-2"/><path d="M8.2 19l2.8-2.8a1.6 1.6 0 012.2 0l.3.3a1.6 1.6 0 002.2 0l2.3-2.3"/><path d="M10.5 15.8L9 14.3a1.5 1.5 0 00-2.1 0"/></svg></div>
+        <h4>Engagement</h4>
+        <p>Un accompagnement durable pour soutenir votre croissance.</p>
+        <div class="rule"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== QUOTE BANNER ===================== -->
+  <section class="sect wrap" style="padding-top:0;">
+    <div class="quote-banner">
+      <div class="quote-grid">
+        <svg class="quote-mark-big" viewBox="0 0 48 36" fill="currentColor"><path d="M0 20.2C0 9.4 7.6 2 18.4 0l2.2 4.8C13 6.6 9 11 8.4 16.4c1-.4 2.2-.6 3.4-.6 5 0 8.8 3.6 8.8 8.8 0 5.4-4 9.4-9.6 9.4C4.6 34 0 28 0 20.2zm27 0C27 9.4 34.6 2 45.4 0l2.2 4.8C40 6.6 36 11 35.4 16.4c1-.4 2.2-.6 3.4-.6 5 0 8.8 3.6 8.8 8.8 0 5.4-4 9.4-9.6 9.4-7.4 0-12-6-12-14z"/></svg>
+        <div>
+          <p>Chaque consultant est unique. C'est pourquoi nous privilégions une relation de proximité, des conseils personnalisés et un accompagnement durable.</p>
+          <p class="bold">Notre réussite se mesure avant tout à celle des consultants que nous accompagnons.</p>
+        </div>
+        <div class="quote-divider"></div>
+        <svg class="quote-deco" viewBox="0 0 100 100" fill="none" stroke="var(--red)" stroke-width="2.2"><circle cx="78" cy="24" r="10" opacity="0.3"/><path d="M10 78L34 42l14 16 12-18 30 38z"/><path d="M50 40l6-10 4 6"/></svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== FOOTER ===================== -->
+  <footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="flogo"><span class="mark">F</span>Freelinx</div>
+          <p>Freelinx accompagne les consultants indépendants avec une gestion administrative simple, transparente et sans surprise.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M12 16.5v-4a2 2 0 014 0v4M12 12.5v4"/></svg></a>
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 9h2.5V6H14c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.3l.7-3H14V9z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Nos services</h5>
+          <ul>
+            <li><a href="portage-salarial.html">Portage salarial</a></li>
+            <li><a href="portage-commercial.html">Portage commercial</a></li>
+            <li><a href="tarifs.html">Tarifs</a></li>
+            <li><a href="simulateur.html">Faire une simulation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>L'entreprise</h5>
+          <ul>
+            <li><a href="qui-sommes-nous.html">Qui sommes nous&nbsp;?</a></li>
+            <li><a href="freelinx-hero-mockup.html#faq">FAQ</a></li>
+            <li><a href="freelinx-hero-mockup.html#contact">Contact</a></li>
+            <li><a href="#">Prendre rendez-vous</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul class="footer-contact">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>231 rue Saint-Honoré, Paris, 75001</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/></svg><a href="tel:+33699684373" style="color:inherit;text-decoration:none;">+33 6 99 68 43 73</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg><a href="mailto:contact@freelinx.fr" style="color:inherit;text-decoration:none;">contact@freelinx.fr</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>9:00 - 20:00, Lundi à Vendredi</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Freelinx. Tous droits réservés.</p>
+        <ul class="footer-legal">
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">CGU</a></li>
+          <li><a href="#">Politique de confidentialité</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ===================== RDV MODAL ===================== -->
+  <div class="rdv-overlay" id="rdvOverlay">
+    <div class="rdv-modal" role="dialog" aria-modal="true" aria-label="Prendre rendez-vous">
+      <div class="rdv-photo">
+        <div class="rdv-photo-brand"><span class="mark">F</span>Freelinx</div>
+      </div>
+      <div class="rdv-content">
+        <button class="rdv-close" id="rdvClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+
+        <!-- STEP 1 : choix du créneau -->
+        <div class="rdv-step" data-step="1">
+          <div class="rdv-eyebrow">Prendre rendez-vous</div>
+          <h2>Parlons de votre projet<span class="dot">.</span></h2>
+          <p class="rdv-sub">Choisissez le créneau qui vous convient le mieux. Notre équipe vous recontactera à l'heure choisie.</p>
+          <div class="rdv-progress"><div class="rdv-progress-bar" style="width:50%"></div></div>
+          <div class="rdv-days" id="rdvDays"></div>
+          <div class="rdv-footer">
+            <span></span>
+            <button class="btn btn-solid rdv-continue" id="rdvContinue" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+
+        <!-- STEP 2 : informations -->
+        <div class="rdv-step" data-step="2" hidden>
+          <div class="rdv-eyebrow">Prendre rendez-vous</div>
+          <h2>Vos informations<span class="dot">.</span></h2>
+          <p class="rdv-sub">Quelques informations pour préparer notre échange.</p>
+          <form id="rdvForm" style="display:flex; flex-direction:column; min-height:0; flex:1;">
+            <div style="overflow-y:auto; flex:1 1 auto; min-height:0; padding-right:4px;">
+              <div class="rdv-row">
+                <div class="rdv-field"><label>Nom*</label><input type="text" required></div>
+                <div class="rdv-field"><label>Prénom*</label><input type="text" required></div>
+              </div>
+              <div class="rdv-field">
+                <label>Téléphone*</label>
+                <div class="rdv-phone">
+                  <div class="rdv-phone-code" aria-label="Indicatif France fixe">+33</div>
+                  <input type="tel" placeholder="6 12 34 56 78" required>
+                </div>
+              </div>
+              <div class="rdv-field"><label>Email*</label><input type="email" required></div>
+              <label class="rdv-check">
+                <input type="checkbox" required>
+                <span>J'ai lu et j'accepte les conditions décrites dans la <a href="#">politique de confidentialité</a>.</span>
+              </label>
+            </div>
+            <div class="rdv-footer">
+              <button type="button" class="rdv-back" id="rdvBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg> Retour</button>
+              <button type="submit" class="btn btn-solid">Planifier mon appel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </form>
+        </div>
+
+        <!-- STEP 3 : confirmation -->
+        <div class="rdv-step" data-step="3" hidden style="flex:1; display:flex; flex-direction:column;">
+          <div class="rdv-success">
+            <div class="rdv-success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <h2>Rendez-vous confirmé<span class="dot">.</span></h2>
+            <p>Merci&nbsp;! Notre équipe vous appellera le <strong id="rdvSummaryDate"></strong> à <strong id="rdvSummaryTime"></strong>.</p>
+            <button class="btn btn-solid" id="rdvDone">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var overlay = document.getElementById('rdvOverlay');
+      if(!overlay) return;
+      var steps = overlay.querySelectorAll('.rdv-step');
+      var daysWrap = document.getElementById('rdvDays');
+      var continueBtn = document.getElementById('rdvContinue');
+      var backBtn = document.getElementById('rdvBack');
+      var closeBtn = document.getElementById('rdvClose');
+      var doneBtn = document.getElementById('rdvDone');
+      var form = document.getElementById('rdvForm');
+      var selectedSlot = null;
+
+      var joursSemaine = ['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
+      var mois = ['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
+      var heures = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30'];
+
+      function fmtHeure(h){
+        var parts = h.split(':');
+        return parts[0] + 'h' + parts[1];
+      }
+
+      function buildDays(){
+        daysWrap.innerHTML = '';
+        var today = new Date();
+        for(var i = 1; i <= 21; i++){
+          var d = new Date(today);
+          d.setDate(d.getDate() + i);
+          var label = joursSemaine[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()];
+          var dayEl = document.createElement('div');
+          dayEl.className = 'rdv-day';
+          var labelEl = document.createElement('div');
+          labelEl.className = 'rdv-day-label';
+          labelEl.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+          dayEl.appendChild(labelEl);
+          var slotsEl = document.createElement('div');
+          slotsEl.className = 'rdv-slots';
+          heures.forEach(function(h){
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'rdv-slot';
+            btn.textContent = fmtHeure(h);
+            btn.dataset.date = label;
+            btn.dataset.time = fmtHeure(h);
+            btn.addEventListener('click', function(){
+              var prev = daysWrap.querySelector('.rdv-slot.selected');
+              if(prev) prev.classList.remove('selected');
+              this.classList.add('selected');
+              selectedSlot = { date: this.dataset.date, time: this.dataset.time };
+              continueBtn.disabled = false;
+            });
+            slotsEl.appendChild(btn);
+          });
+          dayEl.appendChild(slotsEl);
+          daysWrap.appendChild(dayEl);
+        }
+      }
+
+      function showStep(n){
+        steps.forEach(function(s){
+          s.hidden = (s.getAttribute('data-step') != String(n));
+        });
+      }
+
+      function openModal(){
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if(!daysWrap.children.length){ buildDays(); }
+        showStep(1);
+      }
+      function closeModal(){
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      function resetModal(){
+        selectedSlot = null;
+        continueBtn.disabled = true;
+        var prev = daysWrap.querySelector('.rdv-slot.selected');
+        if(prev) prev.classList.remove('selected');
+        if(form) form.reset();
+        showStep(1);
+      }
+
+      document.querySelectorAll('a,button').forEach(function(el){
+        if(el.id === 'rdvClose' || el.id === 'rdvDone') return;
+        var _rdvTxt = el.textContent ? el.textContent.trim().toLowerCase() : '';
+        if(_rdvTxt.indexOf('rendez-vous') !== -1 || _rdvTxt.indexOf('rappel') !== -1){
+          el.addEventListener('click', function(e){
+            e.preventDefault();
+            openModal();
+          });
+        }
+      });
+
+      closeBtn.addEventListener('click', function(){ closeModal(); setTimeout(resetModal, 300); });
+      overlay.addEventListener('click', function(e){
+        if(e.target === overlay){ closeModal(); setTimeout(resetModal, 300); }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && overlay.classList.contains('open')){ closeModal(); setTimeout(resetModal, 300); }
+      });
+
+      continueBtn.addEventListener('click', function(){
+        if(!selectedSlot) return;
+        showStep(2);
+      });
+      backBtn.addEventListener('click', function(){ showStep(1); });
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(selectedSlot){
+          document.getElementById('rdvSummaryDate').textContent = selectedSlot.date;
+          document.getElementById('rdvSummaryTime').textContent = selectedSlot.time;
+        }
+        showStep(3);
+      });
+      doneBtn.addEventListener('click', function(){ closeModal(); setTimeout(resetModal, 300); });
+    })();
+  </script>
+
+</body>
+</html>

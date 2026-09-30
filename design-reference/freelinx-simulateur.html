@@ -1,0 +1,2045 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Simulateur portage salarial — Freelinx</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+
+  :root{
+    --red: #E8154F;
+    --red-dark: #C81044;
+    --navy: #0B0F2B;
+    --navy-soft: #3A3F5C;
+    --pink-pale: #FDEDF1;
+    --pink-pale-2: #FFF6F8;
+    --gray-text: #5B6072;
+    --border: #F0DCE2;
+    --radius-lg: 20px;
+    --radius-md: 14px;
+    --radius-pill: 999px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  body{
+    font-family:'Inter', sans-serif;
+    color: var(--navy);
+    background:#fff;
+    -webkit-font-smoothing: antialiased;
+    overflow-x:hidden;
+  }
+  h1,h2,h3,h4,h5,h6{ font-family:'Plus Jakarta Sans', sans-serif; letter-spacing:-0.4px; }
+  svg{ stroke-linecap: round; stroke-linejoin: round; }
+  img{ max-width:100%; display:block; }
+  .wrap{ max-width: 1120px; margin: 0 auto; padding: 0 40px; }
+  @media (max-width:700px){ .wrap{ padding:0 20px; } }
+
+  /* ---------- BUTTONS ---------- */
+  .btn{
+    display:inline-flex; align-items:center; justify-content:center; gap:8px;
+    font-family:'Inter', sans-serif; font-weight:600; font-size:13.5px;
+    padding: 12px 20px; border-radius: var(--radius-pill);
+    text-decoration:none; cursor:pointer; white-space:nowrap;
+    border: 1.5px solid transparent;
+    transition: transform .15s ease, background .15s ease, color .15s ease;
+  }
+  .btn:hover{ transform: translateY(-1px); }
+  .btn-solid{ background: var(--red); color:#fff; box-shadow:0 8px 20px -6px rgba(232,21,79,0.5); }
+  .btn-solid:hover{ background: var(--red-dark); }
+  .btn-outline-red{ background:#fff; color:var(--red); border-color:var(--red); }
+  .btn-outline-red:hover{ background:var(--red); color:#fff; }
+
+  /* ---------- TOPBAR ---------- */
+  .topbar{ background:#fff; border-bottom:1px solid #F5DCE2; padding:14px 0; }
+  .topbar .wrap{ display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:14px; }
+  .topbar-logo{ display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:19px; color:var(--red); }
+  .topbar-logo .mark{ width:24px; height:24px; border-radius:6px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:13px; font-weight:800; }
+  .topbar-info{ display:flex; align-items:center; gap:0; flex-wrap:wrap; }
+  .topbar-item{ display:flex; align-items:center; gap:12px; padding:0 26px; }
+  .topbar-item + .topbar-item{ border-left:1px solid #EFE0E4; }
+  .topbar-item svg{ color:var(--red); flex-shrink:0; }
+  .topbar-item .label{ font-size:12.5px; font-weight:700; color:var(--red); line-height:1.4; }
+  .topbar-item .detail{ font-size:12.5px; color:var(--navy-soft); line-height:1.4; margin-top:2px; }
+
+  /* ---------- STICKY NAV ---------- */
+  .sticky-nav{ position:sticky; top:0; z-index:100; background:var(--red); box-shadow:0 12px 30px -20px rgba(11,15,43,0.25); }
+  header{ display:flex; align-items:center; justify-content:space-between; min-height:65px; padding:0; gap:24px; }
+  nav ul{ list-style:none; display:flex; align-items:center; gap:28px; flex-shrink:0; }
+  nav li{ flex-shrink:0; }
+  nav a{ text-decoration:none; color:rgba(255,255,255,0.92); font-weight:600; font-size:15px; display:flex; align-items:center; gap:6px; white-space:nowrap; transition:color .15s ease, opacity .15s ease; }
+  nav a:hover{ color:#fff; opacity:0.85; }
+  nav a.active{ color:#fff; }
+  nav a .chev{ opacity:0.8; }
+  .nav-dropdown{ position:relative; }
+  .nav-dropdown-menu{ position:absolute; top:100%; left:0; margin-top:14px; background:#fff; border-radius:14px; box-shadow:0 24px 48px -20px rgba(11,15,43,0.35); padding:10px; min-width:222px; opacity:0; visibility:hidden; transform:translateY(6px); transition:opacity .15s ease, transform .15s ease, visibility .15s ease; z-index:200; }
+  .nav-dropdown:hover .nav-dropdown-menu, .nav-dropdown:focus-within .nav-dropdown-menu{ opacity:1; visibility:visible; transform:translateY(0); }
+  .nav-dropdown-menu a{ display:flex; align-items:center; gap:10px; padding:11px 14px; border-radius:9px; color:var(--navy); font-weight:600; font-size:14px; text-decoration:none; white-space:nowrap; transition:background .15s ease; }
+  .nav-dropdown-menu a:hover{ background:var(--pink-pale-2); color:var(--red); }
+  .nav-dropdown-menu a .dot{ width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0; }
+
+  .mnav-group{ border-bottom:1px solid rgba(255,255,255,0.15); }
+  .mnav-group .mnav{ border-bottom:none; }
+  .mnav-sub{ display:none; flex-direction:column; padding:0 4px 14px 16px; gap:2px; }
+  .mnav-sub.open{ display:flex; }
+  .mnav-sub a{ color:rgba(255,255,255,0.85); text-decoration:none; font-weight:600; font-size:14.5px; padding:10px 8px; border-radius:8px; }
+  .mnav-sub a:hover{ background:rgba(255,255,255,0.1); color:#fff; }
+  .mnav-toggle-chev{ transition:transform .2s ease; }
+  .mnav-toggle-chev.open{ transform:rotate(180deg); }
+  .header-actions{ display:flex; align-items:center; gap:14px; flex-shrink:0; }
+  .btn-portal{ display:inline-flex; align-items:center; justify-content:center; background:var(--navy); color:#fff; font-weight:700; font-size:13px; letter-spacing:0.6px; text-transform:uppercase; padding:13px 26px; border-radius:8px; text-decoration:none; white-space:nowrap; transition:background .15s ease, transform .15s ease; }
+  .btn-portal:hover{ background:#161B3D; transform:translateY(-1px); }
+  .btn-portal-outline{ background:transparent; color:#fff; border:1.5px solid rgba(255,255,255,0.55); }
+  .btn-portal-outline:hover{ background:rgba(255,255,255,0.12); transform:translateY(-1px); }
+
+  .hamburger{ display:none; flex-direction:column; justify-content:center; gap:5px; width:38px; height:38px; background:transparent; border:none; cursor:pointer; padding:0; flex-shrink:0; }
+  .hamburger span{ display:block; width:24px; height:2.5px; background:#fff; border-radius:2px; transition:transform .2s ease, opacity .2s ease; }
+  .hamburger.open span:nth-child(1){ transform:translateY(7.5px) rotate(45deg); }
+  .hamburger.open span:nth-child(2){ opacity:0; }
+  .hamburger.open span:nth-child(3){ transform:translateY(-7.5px) rotate(-45deg); }
+  .mobile-panel{ display:none; position:absolute; top:100%; left:0; right:0; background:var(--red); border-top:1px solid rgba(255,255,255,0.15); box-shadow:0 20px 30px -10px rgba(11,15,43,0.3); max-height:calc(100vh - 65px); overflow-y:auto; }
+  .mobile-panel.open{ display:block; }
+  .mobile-panel-inner{ padding:10px 24px 28px; display:flex; flex-direction:column; }
+  .mobile-panel a.mnav{ color:#fff; text-decoration:none; font-weight:600; font-size:16px; padding:16px 4px; border-bottom:1px solid rgba(255,255,255,0.15); display:flex; align-items:center; justify-content:space-between; }
+  .mobile-panel-actions{ display:flex; flex-direction:column; gap:12px; margin-top:20px; }
+  .mobile-panel-actions .btn-portal{ width:100%; justify-content:center; }
+
+  @media (max-width:1080px){
+    nav{ display:none; }
+    .header-actions{ display:none; }
+    .topbar-info{ display:none; }
+    .hamburger{ display:flex; }
+  }
+
+  /* ---------- SECTION SHELL ---------- */
+  .sect{ padding:52px 0; }
+
+  /* ---------- ABOUT HERO ---------- */
+  .about-hero{ padding:48px 0 60px; }
+  .about-hero .wrap{ display:grid; grid-template-columns:1fr 1fr; gap:56px; align-items:center; }
+  .about-eyebrow{ font-size:12px; font-weight:800; letter-spacing:0.6px; color:var(--red); text-transform:uppercase; margin-bottom:14px; }
+  .about-hero h1{ font-size:34px; line-height:1.25; color:var(--navy); margin-bottom:18px; }
+  .about-hero .rule{ width:48px; height:4px; background:var(--red); border-radius:2px; margin-bottom:20px; }
+  .about-hero p{ font-size:14.5px; line-height:1.75; color:var(--gray-text); margin-bottom:14px; }
+  .about-hero p strong{ color:var(--navy); font-weight:700; }
+
+  .team-photos{ position:relative; }
+  .team-photos .deco-circle{
+    position:absolute; top:8%; right:-140px; width:340px; height:340px; border-radius:50%;
+    background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    z-index:0;
+  }
+  .team-row{ position:relative; z-index:1; display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  .photo-card{ background:#fff; border-radius:18px; border:1px solid var(--border); overflow:hidden; box-shadow:0 24px 48px -28px rgba(11,15,43,0.3); }
+  .photo-frame{ aspect-ratio:3/4; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; }
+  .photo-frame.mono{ background:linear-gradient(160deg,#EDEEF2 0%, #C9CBD3 100%); }
+  .photo-frame.color{ background:linear-gradient(160deg,#FFE3EC 0%, #F7A9C0 100%); }
+  .photo-frame .avatar{
+    width:104px; height:104px; border-radius:50%; display:flex; align-items:center; justify-content:center;
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:32px; color:#fff;
+    box-shadow:0 14px 30px -12px rgba(11,15,43,0.35);
+  }
+  .photo-frame.mono .avatar{ background:linear-gradient(135deg,#4A4E5C 0%, #1E212E 100%); }
+  .photo-frame.color .avatar{ background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); }
+  .photo-frame::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,0.35) 1.5px, transparent 1.5px);
+    background-size:16px 16px; opacity:0.5;
+  }
+  .photo-cap{ padding:18px 20px 22px; }
+  .photo-cap h6{ font-size:15px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+  .photo-cap .role{ font-size:12.5px; font-weight:700; color:var(--red); margin-bottom:10px; }
+  .photo-cap .rule{ width:26px; height:3px; background:var(--red); border-radius:2px; margin:0; }
+  @media (max-width:980px){
+    .about-hero .wrap{ grid-template-columns:1fr; }
+    .team-photos{ margin-top:10px; }
+    .team-photos .deco-circle{ right:-100px; width:240px; height:240px; }
+  }
+  @media (max-width:560px){
+    .team-row{ grid-template-columns:1fr 1fr; gap:12px; }
+    .team-photos .deco-circle{ display:none; }
+  }
+
+  /* ---------- MISSION (bloc pale rose) ---------- */
+  .mission-sect{ background:var(--pink-pale-2); border-radius:24px; padding:44px 48px; }
+  .mission-grid{ display:grid; grid-template-columns:auto 1fr; gap:44px; align-items:center; }
+  .mission-icon{ width:150px; height:150px; border-radius:50%; background:#fff; display:flex; align-items:center; justify-content:center; box-shadow:0 20px 40px -20px rgba(11,15,43,0.18); flex-shrink:0; }
+  .mission-icon svg{ width:60px; height:60px; color:var(--red); }
+  .mission-content h3{ font-size:22px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .mission-content .rule{ width:40px; height:3px; background:var(--red); border-radius:2px; margin-bottom:18px; }
+  .mission-content .lead{ font-size:16px; font-weight:700; color:var(--red); line-height:1.5; margin-bottom:18px; }
+  .mission-content p{ font-size:13.5px; line-height:1.75; color:var(--gray-text); margin-bottom:12px; }
+  @media (max-width:760px){
+    .mission-sect{ padding:32px 26px; }
+    .mission-grid{ grid-template-columns:1fr; text-align:center; }
+    .mission-icon{ margin:0 auto; }
+  }
+
+  /* ---------- CONVICTION (2 colonnes + connecteur) ---------- */
+  .conviction-sect{ background:#fff; border:1px solid var(--border); border-radius:24px; padding:44px 48px; box-shadow:0 20px 48px -32px rgba(11,15,43,0.18); }
+  .conviction-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:center; }
+  .conv-left{ display:flex; gap:24px; align-items:flex-start; padding-right:36px; }
+  .conv-icon{ width:76px; height:76px; border-radius:50%; background:var(--pink-pale-2); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .conv-icon svg{ width:32px; height:32px; color:var(--red); }
+  .conv-left h3{ font-size:20px; font-weight:700; color:var(--navy); line-height:1.3; margin-bottom:10px; }
+  .conv-left .lead{ font-size:14px; font-weight:700; color:var(--red); line-height:1.6; }
+  .conv-divider{ position:relative; align-self:stretch; width:1px; background:var(--border); display:flex; align-items:center; justify-content:center; }
+  .conv-connector{ width:38px; height:38px; border-radius:50%; background:var(--red); display:flex; align-items:center; justify-content:center; box-shadow:0 10px 22px -8px rgba(232,21,79,0.5); flex-shrink:0; }
+  .conv-connector svg{ width:16px; height:16px; color:#fff; }
+  .conv-right{ padding-left:36px; }
+  .conv-right p{ font-size:13.5px; line-height:1.75; color:var(--gray-text); margin-bottom:14px; }
+  .conv-right strong{ color:var(--navy); font-weight:700; }
+  @media (max-width:860px){
+    .conviction-sect{ padding:32px 26px; }
+    .conviction-grid{ grid-template-columns:1fr; }
+    .conv-left{ padding-right:0; padding-bottom:24px; }
+    .conv-divider{ width:auto; height:1px; align-self:stretch; }
+    .conv-connector{ margin:0 auto; transform:rotate(90deg); }
+    .conv-right{ padding-left:0; padding-top:24px; }
+  }
+
+  /* ---------- NOS VALEURS ---------- */
+  .values-head{ text-align:center; margin-bottom:36px; }
+  .values-head h2{ font-size:26px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+  .values-head .rule{ width:44px; height:3px; background:var(--red); border-radius:2px; margin:0 auto; }
+  .values-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:20px; }
+  .value-card{ background:#fff; border:1px solid var(--border); border-radius:18px; padding:32px 22px; text-align:center; box-shadow:0 20px 44px -32px rgba(11,15,43,0.18); display:flex; flex-direction:column; height:100%; }
+  .value-icon{ width:72px; height:72px; border-radius:50%; background:var(--pink-pale); display:flex; align-items:center; justify-content:center; margin:0 auto 18px; flex-shrink:0; }
+  .value-icon svg{ width:30px; height:30px; color:var(--red); }
+  .value-card h4{ font-size:15px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .value-card p{ font-size:12.5px; line-height:1.6; color:var(--gray-text); margin-bottom:16px; flex:1 0 auto; }
+  .value-card .rule{ width:26px; height:3px; background:var(--red); border-radius:2px; margin:auto auto 0; }
+  @media (max-width:900px){ .values-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:520px){ .values-grid{ grid-template-columns:1fr; } }
+
+  /* ---------- QUOTE BANNER ---------- */
+  .quote-banner{ background:var(--pink-pale); border-radius:24px; padding:42px 48px; }
+  .quote-grid{ display:grid; grid-template-columns:auto 1fr auto auto; gap:32px; align-items:center; }
+  .quote-mark-big{ width:46px; height:34px; color:var(--red); flex-shrink:0; }
+  .quote-banner p{ font-size:16px; line-height:1.6; color:var(--navy); margin-bottom:10px; }
+  .quote-banner p.bold{ font-weight:700; color:var(--red); margin-bottom:0; }
+  .quote-divider{ width:1px; align-self:stretch; background:rgba(232,21,79,0.25); }
+  .quote-deco{ width:90px; height:90px; flex-shrink:0; }
+  @media (max-width:760px){
+    .quote-banner{ padding:32px 26px; }
+    .quote-grid{ grid-template-columns:1fr; text-align:center; }
+    .quote-mark-big{ margin:0 auto; }
+    .quote-divider{ width:60px; height:1px; margin:6px auto; }
+    .quote-deco{ margin:0 auto; }
+  }
+
+  /* ---------- FOOTER ---------- */
+  .site-footer{ background:var(--navy); color:#fff; margin-top:20px; padding-top:64px; }
+  .footer-grid{ display:grid; grid-template-columns:1.4fr 1fr 1fr 1.2fr; gap:40px; padding-bottom:48px; }
+  .footer-brand .flogo{ display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:20px; color:#fff; margin-bottom:14px; }
+  .footer-brand .flogo .mark{ width:26px; height:26px; border-radius:6px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; }
+  .footer-brand p{ font-size:13px; line-height:1.75; color:rgba(255,255,255,0.6); margin-bottom:22px; max-width:280px; }
+  .footer-social{ display:flex; gap:10px; }
+  .footer-social a{ width:36px; height:36px; border-radius:50%; background:rgba(255,255,255,0.08); display:flex; align-items:center; justify-content:center; color:#fff; transition:background .15s ease; }
+  .footer-social a:hover{ background:var(--red); }
+  .footer-social svg{ width:16px; height:16px; }
+
+  .footer-col h5{ font-size:13px; font-weight:800; text-transform:uppercase; letter-spacing:0.5px; color:#fff; margin-bottom:20px; }
+  .footer-col ul{ list-style:none; display:flex; flex-direction:column; gap:13px; }
+  .footer-col a{ font-size:13.5px; color:rgba(255,255,255,0.65); text-decoration:none; transition:color .15s ease; }
+  .footer-col a:hover{ color:#fff; }
+
+  .footer-contact li{ display:flex; gap:10px; align-items:flex-start; font-size:13px; color:rgba(255,255,255,0.65); line-height:1.5; }
+  .footer-contact svg{ width:16px; height:16px; color:var(--red); flex-shrink:0; margin-top:2px; }
+
+  .footer-bottom{ border-top:1px solid rgba(255,255,255,0.12); padding:22px 0; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:12px; }
+  .footer-bottom p{ font-size:12.5px; color:rgba(255,255,255,0.5); }
+  .footer-legal{ display:flex; gap:22px; list-style:none; flex-wrap:wrap; }
+  .footer-legal a{ font-size:12.5px; color:rgba(255,255,255,0.5); text-decoration:none; }
+  .footer-legal a:hover{ color:#fff; }
+
+  @media (max-width:860px){ .footer-grid{ grid-template-columns:1fr 1fr; } }
+  @media (max-width:560px){
+    .footer-grid{ grid-template-columns:1fr; gap:32px; }
+    .footer-bottom{ flex-direction:column; align-items:flex-start; }
+    .footer-brand p{ max-width:none; }
+  }
+
+  /* ---------- RDV MODAL ---------- */
+  .rdv-overlay{
+    position:fixed; inset:0; z-index:1000; background:rgba(11,15,43,0.6);
+    display:none; align-items:center; justify-content:center; padding:24px;
+    backdrop-filter:blur(2px);
+  }
+  .rdv-overlay.open{ display:flex; }
+  .rdv-modal{
+    position:relative; background:#fff; border-radius:26px; overflow:hidden;
+    width:100%; max-width:980px; height:min(700px,88vh); max-height:88vh;
+    display:grid; grid-template-columns:36% 64%;
+    box-shadow:0 40px 100px -30px rgba(11,15,43,0.5);
+  }
+  .rdv-photo{
+    background-image:
+      linear-gradient(180deg, rgba(11,15,43,0.05) 0%, rgba(11,15,43,0.35) 100%),
+      linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%);
+    background-size:cover; background-position:center;
+    position:relative;
+  }
+  .rdv-photo::before{
+    content:""; position:absolute; inset:0;
+    background-image: radial-gradient(rgba(255,255,255,0.14) 1.5px, transparent 1.5px);
+    background-size:18px 18px;
+  }
+  .rdv-photo-brand{
+    position:absolute; left:28px; bottom:28px; color:#fff;
+    font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:18px;
+    display:flex; align-items:center; gap:8px;
+  }
+  .rdv-photo-brand .mark{ width:26px; height:26px; border-radius:6px; background:#fff; color:var(--red); display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; }
+  .rdv-content{ padding:40px 44px 28px; height:100%; overflow:hidden; display:flex; flex-direction:column; min-height:0; }
+  .rdv-close{
+    position:absolute; top:18px; right:18px; width:36px; height:36px; border-radius:50%;
+    background:#fff; border:1px solid var(--border); display:flex; align-items:center; justify-content:center;
+    cursor:pointer; color:var(--navy); z-index:5; transition:background .15s ease, color .15s ease;
+  }
+  .rdv-close:hover{ background:var(--red); color:#fff; border-color:var(--red); }
+  .rdv-close svg{ width:16px; height:16px; }
+
+  .rdv-step{ display:flex; flex-direction:column; height:100%; min-height:0; }
+  .rdv-step[hidden]{ display:none; }
+  .rdv-eyebrow{ font-size:11.5px; font-weight:800; letter-spacing:0.6px; color:var(--red); text-transform:uppercase; margin-bottom:10px; }
+  .rdv-content h2{ font-family:'Plus Jakarta Sans', sans-serif; font-size:27px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .rdv-content h2 .dot{ color:var(--red); }
+  .rdv-content > .rdv-step > p.rdv-sub{ font-size:13.5px; color:var(--gray-text); line-height:1.6; margin-bottom:22px; }
+
+  .rdv-progress{ height:5px; background:var(--border); border-radius:99px; margin-bottom:26px; overflow:hidden; flex-shrink:0; }
+  .rdv-progress-bar{ height:100%; background:var(--red); border-radius:99px; transition:width .25s ease; }
+
+  .rdv-days{ overflow-y:auto; padding-right:6px; margin-right:-6px; flex:1 1 auto; min-height:0; }
+  .rdv-day + .rdv-day{ margin-top:26px; }
+  .rdv-day-label{ font-size:14px; font-weight:800; color:var(--navy); margin-bottom:12px; }
+  .rdv-slots{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; }
+  .rdv-slot{
+    font-family:'Inter', sans-serif; font-size:13.5px; font-weight:600; color:var(--navy);
+    background:#fff; border:1.5px solid var(--border); border-radius:12px; padding:12px 8px;
+    text-align:center; cursor:pointer; transition:border-color .15s ease, background .15s ease, color .15s ease;
+  }
+  .rdv-slot:hover{ border-color:var(--red); }
+  .rdv-slot.selected{ background:var(--red); border-color:var(--red); color:#fff; }
+
+  .rdv-footer{ display:flex; align-items:center; justify-content:space-between; gap:14px; padding-top:20px; margin-top:18px; border-top:1px solid var(--border); flex-shrink:0; }
+  .rdv-back{ background:none; border:none; font-family:'Inter', sans-serif; font-weight:600; font-size:13.5px; color:var(--gray-text); cursor:pointer; display:flex; align-items:center; gap:6px; padding:12px 4px; }
+  .rdv-back:hover{ color:var(--navy); }
+  .rdv-back svg{ width:15px; height:15px; }
+  .rdv-continue[disabled]{ opacity:0.4; cursor:not-allowed; pointer-events:none; }
+  .rdv-footer .btn svg{ width:15px; height:15px; }
+
+  .rdv-row{ display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+  .rdv-field{ margin-bottom:18px; }
+  .rdv-field label{ display:block; font-size:12.5px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .rdv-field input, .rdv-field select{
+    width:100%; font-family:'Inter', sans-serif; font-size:14px; color:var(--navy);
+    padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; background:#fff;
+    outline:none; transition:border-color .15s ease;
+  }
+  .rdv-field input:focus, .rdv-field select:focus{ border-color:var(--red); }
+  .rdv-phone{ display:grid; grid-template-columns:74px 1fr; gap:10px; }
+  .rdv-phone-code{
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:var(--gray-text);
+    background:#F4F5FA; border:1.5px solid var(--border); border-radius:10px; padding:12px 8px;
+    user-select:none; cursor:not-allowed;
+  }
+  .rdv-check{ display:flex; align-items:flex-start; gap:10px; font-size:12.5px; color:var(--gray-text); line-height:1.6; cursor:pointer; margin-bottom:6px; }
+  .rdv-check input{ margin-top:2px; accent-color:var(--red); width:16px; height:16px; flex-shrink:0; }
+  .rdv-check a{ color:var(--red); font-weight:600; text-decoration:underline; }
+
+  .rdv-success{ text-align:center; padding:30px 10px 10px; margin:auto 0; }
+  .rdv-success-icon{ width:74px; height:74px; border-radius:50%; background:var(--pink-pale); display:flex; align-items:center; justify-content:center; margin:0 auto 22px; }
+  .rdv-success-icon svg{ width:32px; height:32px; color:var(--red); }
+  .rdv-success h2{ margin-bottom:12px; }
+  .rdv-success p{ font-size:14px; color:var(--gray-text); line-height:1.7; margin-bottom:26px; }
+  .rdv-success p strong{ color:var(--navy); }
+  .rdv-success .btn{ margin:0 auto; }
+
+  @media (max-width:760px){
+    .rdv-modal{ grid-template-columns:1fr; height:min(640px,92vh); max-height:92vh; }
+    .rdv-photo{ display:none; }
+    .rdv-content{ padding:56px 22px 22px; }
+    .rdv-slots{ grid-template-columns:repeat(2,1fr); }
+    .rdv-row{ grid-template-columns:1fr; gap:0; }
+  }
+
+
+  /* ---------- SIMULATOR PALETTE EXTENSION ---------- */
+  :root{
+    --green: #1F9D63;
+    --green-dark: #167A4D;
+    --green-pale: #E9F7F0;
+    --navy-pale: #EEF0F7;
+    --amber: #C97A17;
+  }
+
+  /* ---------- SIM HERO ---------- */
+  .sim-hero{ padding:48px 0 40px; text-align:center; }
+  .sim-hero .about-eyebrow{ justify-content:center; }
+  .sim-hero h1{ font-size:33px; line-height:1.25; color:var(--navy); margin:0 auto 16px; max-width:680px; }
+  .sim-hero .rule{ width:48px; height:4px; background:var(--red); border-radius:2px; margin:0 auto 20px; }
+  .sim-hero p{ font-size:14.5px; line-height:1.75; color:var(--gray-text); max-width:560px; margin:0 auto; }
+  .sim-hero .conformity-pill{
+    display:inline-flex; align-items:center; gap:8px; margin-top:20px;
+    background:var(--pink-pale); color:var(--red); font-size:12px; font-weight:700;
+    padding:9px 18px; border-radius:var(--radius-pill);
+  }
+  .sim-hero .conformity-pill svg{ width:15px; height:15px; }
+
+  /* ---------- SIM LAYOUT ---------- */
+  .sim-app{ display:grid; grid-template-columns:340px 1fr; gap:26px; align-items:start; }
+  @media (max-width:980px){ .sim-app{ grid-template-columns:1fr; } }
+
+  .sim-card{
+    background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg);
+    box-shadow:0 20px 48px -32px rgba(11,15,43,0.18);
+  }
+  .sim-params{ padding:28px 26px; position:sticky; top:88px; }
+  @media (max-width:980px){ .sim-params{ position:static; } }
+  .sim-params-head{ display:flex; align-items:center; gap:10px; margin-bottom:24px; }
+  .sim-params-head .ico{ width:38px; height:38px; border-radius:10px; background:var(--pink-pale); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .sim-params-head .ico svg{ width:18px; height:18px; color:var(--red); }
+  .sim-params-head h2{ font-size:16px; font-weight:800; color:var(--navy); }
+
+  .sim-field{ margin-bottom:20px; }
+  .sim-field label{ display:block; font-size:12.5px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .sim-field .hint{ font-size:11.5px; color:var(--gray-text); margin-top:6px; line-height:1.5; }
+  .sim-input-wrap{ position:relative; }
+  .sim-input-wrap input{
+    width:100%; font-family:'Inter', sans-serif; font-size:14.5px; font-weight:600; color:var(--navy);
+    padding:12px 40px 12px 14px; border:1.5px solid var(--border); border-radius:10px; background:#fff;
+    outline:none; transition:border-color .15s ease; -moz-appearance:textfield;
+  }
+  .sim-input-wrap input::-webkit-outer-spin-button, .sim-input-wrap input::-webkit-inner-spin-button{ -webkit-appearance:none; margin:0; }
+  .sim-input-wrap input:focus{ border-color:var(--red); }
+  .sim-input-wrap .unit{ position:absolute; right:14px; top:50%; transform:translateY(-50%); font-size:13px; font-weight:700; color:var(--gray-text); pointer-events:none; }
+
+  .sim-select{
+    width:100%; font-family:'Inter', sans-serif; font-size:14px; font-weight:600; color:var(--navy);
+    padding:12px 14px; border:1.5px solid var(--border); border-radius:10px; background:#fff;
+    outline:none; cursor:pointer; transition:border-color .15s ease;
+  }
+  .sim-select:focus{ border-color:var(--red); }
+
+  /* mode toggle */
+  .sim-mode{ display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:22px; }
+  .sim-mode button{
+    font-family:'Inter', sans-serif; font-weight:700; font-size:12.5px; color:var(--navy-soft);
+    background:var(--pink-pale-2); border:1.5px solid var(--border); border-radius:10px; padding:10px 6px;
+    cursor:pointer; transition:all .15s ease;
+  }
+  .sim-mode button.active{ background:var(--red); border-color:var(--red); color:#fff; box-shadow:0 8px 18px -8px rgba(232,21,79,0.5); }
+  .sim-mode button:not(.active):hover{ border-color:var(--red); color:var(--red); }
+
+  /* slider */
+  .sim-slider-row{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .sim-slider-row label{ margin-bottom:0; }
+  .sim-slider-row .val{ font-size:13px; font-weight:800; color:var(--red); }
+  input[type="range"].sim-range{
+    -webkit-appearance:none; width:100%; height:6px; border-radius:99px;
+    background:linear-gradient(90deg, var(--red) 0%, var(--red) var(--fill,40%), var(--border) var(--fill,40%), var(--border) 100%);
+    outline:none; cursor:pointer; margin:6px 0 4px;
+  }
+  input[type="range"].sim-range::-webkit-slider-thumb{
+    -webkit-appearance:none; width:18px; height:18px; border-radius:50%; background:#fff;
+    border:3px solid var(--red); box-shadow:0 4px 10px -2px rgba(11,15,43,0.35); cursor:pointer;
+  }
+  input[type="range"].sim-range::-moz-range-thumb{
+    width:18px; height:18px; border-radius:50%; background:#fff; border:3px solid var(--red); cursor:pointer;
+  }
+  .sim-range-labels{ display:flex; justify-content:space-between; font-size:11px; color:var(--gray-text); font-weight:600; }
+
+  .sim-advanced-toggle{
+    width:100%; display:flex; align-items:center; gap:8px; justify-content:center;
+    background:var(--pink-pale-2); border:1.5px dashed var(--border); border-radius:10px;
+    font-family:'Inter', sans-serif; font-weight:700; font-size:12.5px; color:var(--navy-soft);
+    padding:11px; cursor:pointer; margin-bottom:4px; transition:border-color .15s ease, color .15s ease;
+  }
+  .sim-advanced-toggle:hover{ border-color:var(--red); color:var(--red); }
+  .sim-advanced-toggle svg{ width:13px; height:13px; transition:transform .2s ease; }
+  .sim-advanced-toggle.open svg{ transform:rotate(180deg); }
+  .sim-advanced-body{ display:none; padding-top:18px; margin-top:4px; border-top:1px solid var(--border); }
+  .sim-advanced-body.open{ display:block; }
+
+  .sim-parts-note{ font-size:11.5px; color:var(--gray-text); margin-top:6px; }
+
+  .sim-submit{ width:100%; justify-content:center; margin-top:6px; font-size:14px; padding:15px 20px; }
+  .sim-submit svg{ width:16px; height:16px; }
+
+  /* ---------- SIM RESULTS ---------- */
+  .sim-tabs{ display:flex; gap:6px; overflow-x:auto; padding:8px; background:#fff; border:1px solid var(--border); border-radius:var(--radius-lg); box-shadow:0 20px 48px -32px rgba(11,15,43,0.18); margin-bottom:20px; }
+  .sim-tab{
+    display:flex; align-items:center; gap:7px; white-space:nowrap; flex-shrink:0;
+    font-family:'Inter', sans-serif; font-weight:700; font-size:13px; color:var(--gray-text);
+    background:transparent; border:none; border-radius:10px; padding:11px 18px; cursor:pointer; transition:all .15s ease;
+  }
+  .sim-tab svg{ width:15px; height:15px; }
+  .sim-tab.active{ background:var(--red); color:#fff; }
+  .sim-tab:not(.active):hover{ background:var(--pink-pale-2); color:var(--navy); }
+
+  .sim-panel{ display:none; }
+  .sim-panel.active{ display:block; }
+
+  .sim-block{ padding:28px 26px; margin-bottom:20px; }
+  .sim-block-title{ font-size:16px; font-weight:800; color:var(--navy); margin-bottom:20px; }
+
+  .sim-net-banner{
+    background:linear-gradient(120deg, var(--red) 0%, var(--red-dark) 100%); color:#fff;
+    border-radius:16px; padding:20px 24px; display:flex; align-items:center; gap:16px; margin-bottom:22px;
+    box-shadow:0 16px 34px -16px rgba(232,21,79,0.55);
+  }
+  .sim-net-banner .ico{ width:44px; height:44px; border-radius:12px; background:rgba(255,255,255,0.18); display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+  .sim-net-banner .ico svg{ width:22px; height:22px; }
+  .sim-net-banner .lbl{ font-size:12px; font-weight:700; opacity:0.85; margin-bottom:2px; }
+  .sim-net-banner .amt{ font-size:26px; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif; }
+
+  /* donut */
+  .sim-donut-row{ display:grid; grid-template-columns:auto 1fr; gap:36px; align-items:center; margin-bottom:6px; }
+  .sim-donut-wrap{ position:relative; width:190px; height:190px; max-width:190px; max-height:190px; flex-shrink:0; overflow:hidden; }
+  .sim-donut-wrap svg{ display:block; width:190px !important; height:190px !important; max-width:190px; max-height:190px; transform:rotate(-90deg); }
+  .sim-donut-center{ position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; }
+  .sim-donut-center .lbl{ font-size:10.5px; font-weight:700; color:var(--gray-text); text-transform:uppercase; letter-spacing:0.4px; }
+  .sim-donut-center .amt{ font-size:19px; font-weight:800; color:var(--navy); font-family:'Plus Jakarta Sans', sans-serif; }
+  .sim-legend{ display:flex; flex-direction:column; gap:12px; }
+  .sim-legend-item{ display:flex; align-items:center; gap:10px; font-size:13px; }
+  .sim-legend-dot{ width:11px; height:11px; border-radius:3px; flex-shrink:0; }
+  .sim-legend-name{ color:var(--navy-soft); flex:1; }
+  .sim-legend-pct{ font-weight:800; color:var(--navy); }
+  @media (max-width:560px){ .sim-donut-row{ grid-template-columns:1fr; justify-items:center; text-align:center; } }
+
+  /* stat cards */
+  .sim-stats-grid{ display:grid; grid-template-columns:repeat(2,1fr); gap:14px; margin-top:0; }
+  @media (max-width:560px){ .sim-stats-grid{ grid-template-columns:1fr; } }
+  .sim-stat{ background:var(--pink-pale-2); border:1px solid var(--border); border-radius:14px; padding:18px 20px; }
+  .sim-stat.is-net{ background:linear-gradient(120deg, var(--green) 0%, var(--green-dark) 100%); border-color:transparent; grid-column:1/-1; }
+  .sim-stat .sim-stat-top{ display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+  .sim-stat .name{ font-size:12.5px; font-weight:700; color:var(--navy-soft); margin-bottom:8px; }
+  .sim-stat.is-net .name{ color:rgba(255,255,255,0.85); }
+  .sim-stat .pct{ font-size:11.5px; font-weight:800; color:var(--red); background:#fff; padding:3px 9px; border-radius:99px; }
+  .sim-stat.is-net .pct{ color:var(--green); }
+  .sim-stat .amount{ font-size:22px; font-weight:800; color:var(--navy); font-family:'Plus Jakarta Sans', sans-serif; }
+  .sim-stat.is-net .amount{ color:#fff; }
+  .sim-stat .amount.big{ font-size:26px; }
+
+  .sim-stats-grid-4{ grid-template-columns:repeat(2,1fr); }
+  .sim-stat-ca{ background:var(--pink-pale-2); }
+  .sim-stat-brut{ background:var(--navy-pale); }
+  .sim-stat-avant{ background:var(--pink-pale); }
+  .sim-stat-impot{ background:#FBEFDD; }
+  .sim-stat-impot .amount{ color:var(--amber); }
+
+  /* détail des prélèvements */
+  .sim-detail-list-wrap{ border-top:1px solid var(--border); padding-top:24px; margin-top:26px; }
+  .sim-prelevement-row{ display:flex; align-items:center; justify-content:space-between; padding:9px 0; font-size:13.5px; }
+  .sim-prelevement-row .k{ color:var(--gray-text); }
+  .sim-prelevement-row .v{ font-weight:700; color:var(--red); }
+  .sim-charge-total{
+    display:flex; align-items:center; justify-content:space-between; border-top:2px solid var(--border);
+    margin-top:10px; padding-top:14px; font-size:14px; font-weight:800; color:var(--navy);
+  }
+  .sim-charge-total .v{ font-size:19px; color:var(--amber); }
+
+  /* info box */
+  .sim-info-box{
+    display:flex; gap:14px; align-items:flex-start; background:var(--pink-pale-2); border:1.5px solid var(--border);
+    border-radius:16px; padding:20px 22px; margin-top:6px;
+  }
+  .sim-info-box svg{ width:20px; height:20px; color:var(--red); flex-shrink:0; margin-top:2px; }
+  .sim-info-box .ttl{ font-size:13px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .sim-info-box ul{ padding-left:18px; margin:0; display:flex; flex-direction:column; gap:5px; }
+  .sim-info-box li{ font-size:12.5px; color:var(--gray-text); line-height:1.5; }
+
+  .sim-block-head-row{ display:flex; align-items:center; justify-content:space-between; gap:16px; margin-bottom:20px; flex-wrap:wrap; }
+  .sim-export-btn{ font-size:12.5px; padding:10px 18px; }
+  .sim-export-btn svg{ width:15px; height:15px; }
+
+  /* charts generic */
+  .sim-chart-wrap{ width:100%; overflow-x:auto; }
+  .sim-chart-wrap svg{ display:block; }
+  .sim-chart-legend{ display:flex; gap:18px; flex-wrap:wrap; margin-top:14px; }
+  .sim-chart-legend .li{ display:flex; align-items:center; gap:7px; font-size:12px; font-weight:600; color:var(--navy-soft); }
+  .sim-chart-legend .sw{ width:10px; height:10px; border-radius:3px; }
+
+  .sim-totals-row{ display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:18px; }
+  @media (max-width:560px){ .sim-totals-row{ grid-template-columns:1fr; } }
+  .sim-total-card{ background:var(--navy); color:#fff; border-radius:14px; padding:18px 20px; }
+  .sim-total-card .lbl{ font-size:12px; opacity:0.7; margin-bottom:6px; }
+  .sim-total-card .amt{ font-size:21px; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif; }
+
+  /* comparateur */
+  .cmp-head-row{ display:flex; align-items:center; gap:10px; margin-bottom:16px; }
+  .cmp-head-row svg{ width:24px; height:24px; color:var(--red); flex-shrink:0; }
+  .cmp-head-row h3{ font-size:19px; font-weight:800; color:var(--navy); margin:0; }
+
+  .cmp-hero-grid{ display:grid; grid-template-columns:1fr 1fr; gap:18px; margin-bottom:20px; }
+  .cmp-hero-card{
+    border-radius:18px; padding:24px 26px; color:#fff;
+    box-shadow:0 20px 44px -22px rgba(11,15,43,0.35);
+  }
+  .cmp-hero-card.cmp-hero-portage{ background:linear-gradient(135deg, var(--red) 0%, var(--red-dark) 100%); }
+  .cmp-hero-card.cmp-hero-salarie{ background:linear-gradient(135deg, var(--navy-soft) 0%, var(--navy) 100%); }
+  .cmp-hero-card h4{ font-size:15px; font-weight:800; margin:0 0 16px; opacity:0.95; }
+  .cmp-hero-row{ display:flex; align-items:baseline; justify-content:space-between; margin-bottom:10px; }
+  .cmp-hero-row:last-child{ margin-bottom:0; }
+  .cmp-hero-row .k{ font-size:12.5px; font-weight:600; opacity:0.85; }
+  .cmp-hero-row .v{ font-size:22px; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif; }
+  @media (max-width:560px){ .cmp-hero-grid{ grid-template-columns:1fr; } }
+
+  .cmp-banner{
+    display:flex; align-items:center; justify-content:space-between; gap:16px;
+    border-radius:18px; padding:22px 30px; margin-bottom:20px; color:#fff;
+    box-shadow:0 20px 44px -22px rgba(11,15,43,0.35);
+  }
+  .cmp-banner.cmp-banner-good{ background:linear-gradient(120deg, var(--green) 0%, var(--green-dark) 100%); }
+  .cmp-banner.cmp-banner-bad{ background:linear-gradient(120deg, var(--red) 0%, var(--red-dark) 100%); }
+  .cmp-banner .lbl{ font-size:12.5px; font-weight:700; opacity:0.85; margin-bottom:4px; }
+  .cmp-banner .amt{ font-size:27px; font-weight:800; font-family:'Plus Jakarta Sans', sans-serif; }
+  .cmp-banner-right{ text-align:right; }
+  .cmp-banner-ico{ width:34px; height:34px; opacity:0.9; flex-shrink:0; }
+  @media (max-width:560px){ .cmp-banner{ flex-wrap:wrap; justify-content:flex-start; } .cmp-banner-ico{ order:3; } .cmp-banner-right{ text-align:left; } }
+
+  .sim-compare-grid{ display:grid; grid-template-columns:1fr auto 1fr; gap:0; align-items:start; }
+  @media (max-width:760px){ .sim-compare-grid{ grid-template-columns:1fr; } }
+  .sim-compare-col{ padding:24px 26px; }
+  .sim-compare-col h4{ font-size:15px; font-weight:800; color:var(--navy); margin-bottom:16px; display:flex; align-items:center; gap:8px; }
+  .sim-compare-col h4 .dot{ width:8px; height:8px; border-radius:50%; }
+  .sim-compare-row{ display:flex; align-items:center; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--border); font-size:13px; }
+  .sim-compare-row:last-child{ border-bottom:1px solid var(--border); }
+  .sim-compare-row .k{ color:var(--gray-text); }
+  .sim-compare-row .v{ font-weight:800; color:var(--navy); }
+  .sim-compare-divider{ width:1px; background:var(--border); }
+  @media (max-width:760px){ .sim-compare-divider{ width:auto; height:1px; } }
+
+  .cmp-sub{ display:flex; align-items:center; gap:7px; font-size:13px; font-weight:800; margin:20px 0 12px; }
+  .cmp-sub svg{ width:16px; height:16px; flex-shrink:0; }
+  .cmp-sub-good{ color:var(--green-dark); }
+  .cmp-sub-bad{ color:var(--red-dark); }
+  .cmp-list{ list-style:none; display:flex; flex-direction:column; gap:9px; }
+  .cmp-list li{ position:relative; padding-left:16px; font-size:13px; color:var(--navy-soft); line-height:1.4; }
+  .cmp-list li::before{ content:""; position:absolute; left:0; top:6px; width:6px; height:6px; border-radius:50%; background:var(--green); }
+  .cmp-list-bad li::before{ background:var(--red); }
+
+  .cmp-conclusion{
+    background:linear-gradient(135deg, var(--pink-pale-2) 0%, var(--navy-pale) 100%);
+    border:1px solid var(--border); border-radius:18px; padding:26px 30px; margin-top:20px;
+  }
+  .cmp-conclusion h4{ font-size:16px; font-weight:800; color:var(--navy); margin-bottom:12px; }
+  .cmp-conclusion p{ font-size:13.5px; line-height:1.7; color:var(--navy-soft); margin-bottom:10px; }
+  .cmp-conclusion p:last-child{ margin-bottom:0; }
+  .cmp-conclusion strong{ color:var(--red); font-weight:800; }
+
+  /* details tables */
+  .sim-details-grid{ display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+  @media (max-width:860px){ .sim-details-grid{ grid-template-columns:1fr; } }
+  .sim-details-col h4{ font-size:13.5px; font-weight:800; color:var(--navy); margin-bottom:12px; }
+  table.sim-table{ width:100%; border-collapse:collapse; font-size:12.5px; }
+  table.sim-table th{ text-align:left; font-weight:700; color:var(--navy-soft); padding:9px 4px; border-bottom:1.5px solid var(--border); }
+  table.sim-table th:last-child, table.sim-table td:last-child{ text-align:right; }
+  table.sim-table td{ padding:9px 4px; color:var(--navy); border-bottom:1px solid var(--border); }
+  table.sim-table tr.total td{ font-weight:800; background:var(--pink-pale-2); }
+  .sim-disclaimer{ font-size:11.5px; color:var(--gray-text); text-align:center; margin-top:6px; line-height:1.6; }
+
+  .sim-toast{
+    position:fixed; left:50%; bottom:32px; transform:translateX(-50%) translateY(20px); z-index:1200;
+    background:var(--navy); color:#fff; font-size:13px; font-weight:600; padding:14px 24px; border-radius:99px;
+    box-shadow:0 20px 40px -16px rgba(11,15,43,0.5); display:flex; align-items:center; gap:10px;
+    opacity:0; pointer-events:none; transition:opacity .25s ease, transform .25s ease;
+  }
+  .sim-toast.show{ opacity:1; transform:translateX(-50%) translateY(0); }
+  .sim-toast svg{ width:16px; height:16px; color:var(--green); }
+
+  /* ---------- PDF EXPORT DOCUMENT ---------- */
+  .pdf-doc{ display:none; }
+  .pdf-header{ display:flex; align-items:center; justify-content:space-between; border-bottom:2px solid var(--red); padding-bottom:14px; margin-bottom:22px; }
+  .pdf-logo{ display:flex; align-items:center; gap:8px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:20px; color:var(--red); }
+  .pdf-logo .mark{ width:26px; height:26px; border-radius:6px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:14px; font-weight:800; }
+  .pdf-header-meta{ text-align:right; font-size:10.5px; color:var(--gray-text); line-height:1.6; }
+  .pdf-title-block{ text-align:center; margin-bottom:26px; }
+  .pdf-title-block h1{ font-size:22px; font-weight:800; color:var(--navy); margin-bottom:6px; }
+  .pdf-title-block p{ font-size:11px; color:var(--gray-text); }
+  .pdf-section{ margin-bottom:22px; }
+  .pdf-section h2{ font-size:13.5px; font-weight:800; color:var(--red); text-transform:uppercase; letter-spacing:0.4px; margin-bottom:10px; border-bottom:1px solid var(--border); padding-bottom:6px; }
+  .pdf-cols{ display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  table.pdf-table{ width:100%; border-collapse:collapse; font-size:11.5px; }
+  table.pdf-table td{ padding:6px 4px; color:var(--navy); }
+  table.pdf-table td:last-child{ text-align:right; font-weight:600; }
+  table.pdf-table tr.spacer td{ padding:2px; }
+  table.pdf-table tr.strong td{ font-weight:800; border-top:1px solid var(--border); padding-top:9px; }
+  table.pdf-table tr.total td{ font-weight:800; color:#fff; background:var(--navy); border-radius:6px; padding:9px 8px; }
+  table.pdf-table-small{ font-size:10.5px; }
+  table.pdf-table-small td{ padding:4.5px 4px; border-bottom:1px solid var(--border); }
+  .pdf-footer{ margin-top:30px; text-align:center; }
+  .pdf-footer-rule{ height:2px; background:var(--red); margin-bottom:14px; }
+  .pdf-footer p{ font-size:10px; color:var(--gray-text); line-height:1.6; }
+  .pdf-footer-brand{ margin-top:10px; display:flex; align-items:center; justify-content:center; gap:6px; font-family:'Plus Jakarta Sans', sans-serif; font-weight:800; font-size:12px; color:var(--red); }
+  .pdf-footer-brand .mark{ width:18px; height:18px; border-radius:5px; background:var(--red); color:#fff; display:flex; align-items:center; justify-content:center; font-size:10px; font-weight:800; }
+
+  @media print{
+    @page{ size:A4; margin:16mm 14mm; }
+    body.pdf-print-mode > *:not(.pdf-doc){ display:none !important; }
+    body.pdf-print-mode .pdf-doc{ display:block !important; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="topbar">
+    <div class="wrap">
+      <div class="topbar-logo"><span class="mark">F</span>Freelinx</div>
+      <div class="topbar-info">
+        <div class="topbar-item">
+          <svg width="17" height="17" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 24 30"><defs><style>.st0{fill:#e8154f;}</style></defs><path class="st0" d="M19.31,3.56h-1.69v-1.69h-1.12v1.69H7.5v-1.69h-1.12v1.69h-1.69c-1.55,0-2.81,1.26-2.81,2.81v12.94c0,1.55,1.26,2.81,2.81,2.81h14.62c1.55,0,2.81-1.26,2.81-2.81V6.37c0-1.55-1.26-2.81-2.81-2.81ZM21,19.31c0,.93-.76,1.69-1.69,1.69H4.69c-.93,0-1.69-.76-1.69-1.69v-10.12h18v10.12ZM21,8.06H3v-1.69c0-.93.76-1.69,1.69-1.69h1.69v1.12h1.12v-1.12h9v1.12h1.12v-1.12h1.69c.93,0,1.69.76,1.69,1.69v1.69Z"/></svg>
+          <div><div class="label">9:00 - 20:00</div><div class="detail">Lundi à Vendredi</div></div>
+        </div>
+        <div class="topbar-item">
+          <svg width="17" height="17" xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 110 135"><defs><style>.st0{fill:#e8154f;}</style></defs><path class="st0" d="M55,20.14c-17.03,0-31.44,11.17-36.4,26.57-2.05.53-3.6,2.32-3.6,4.53v14.38c0,2.62,2.14,4.76,4.76,4.76s4.76-2.14,4.76-4.76v-14.38c0-1.29-.62-2.37-1.46-3.23,4.39-13.46,16.98-23.2,31.94-23.2s27.55,9.74,31.94,23.2c-.84.86-1.46,1.94-1.46,3.23v14.38c0,1.29.62,2.37,1.46,3.23-4.01,12.31-14.91,21.46-28.17,22.94-.95-1.33-2.46-2.17-4.12-2.17-2.81,0-5.12,2.31-5.12,5.12s2.31,5.12,5.12,5.12c2.19,0,4.04-1.44,4.75-3.46,15.08-1.73,27.49-12.21,32.02-26.27,2.04-.53,3.59-2.32,3.59-4.53v-14.38c0-2.21-1.55-4-3.6-4.53-4.96-15.4-19.38-26.57-36.4-26.57v.02Z"/></svg>
+          <div><div class="label">Contactez-nous</div><div class="detail">+33 6 99 68 43 73</div></div>
+        </div>
+        <div class="topbar-item">
+          <svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          <div><div class="label">231 rue Saint-Honoré</div><div class="detail">Paris, 75001</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticky-nav">
+    <header class="wrap">
+      <nav>
+        <ul>
+          <li><a href="freelinx-hero-mockup.html">Accueil</a></li>
+          <li class="nav-dropdown"><a href="#">Nos Services <svg class="chev" width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></a><div class="nav-dropdown-menu"><a href="portage-salarial.html"><span class="dot"></span>Portage salarial</a><a href="portage-commercial.html"><span class="dot"></span>Portage commercial</a></div></li>
+          <li><a href="tarifs.html">Tarifs</a></li>
+          <li><a href="qui-sommes-nous.html">Qui sommes nous&nbsp;?</a></li>
+          <li><a href="freelinx-hero-mockup.html#faq">FAQ</a></li>
+          <li><a href="freelinx-hero-mockup.html#contact">Contact</a></li>
+        </ul>
+      </nav>
+      <div class="header-actions">
+        <a class="btn-portal" href="#">Prendre rendez-vous</a>
+        <a class="btn-portal btn-portal-outline" href="simulateur.html">Faire une simulation</a>
+      </div>
+      <button class="hamburger" id="hamburgerBtn" style="margin-left:auto;" aria-label="Ouvrir le menu">
+        <span></span><span></span><span></span>
+      </button>
+    </header>
+
+    <div class="mobile-panel" id="mobilePanel">
+      <div class="mobile-panel-inner">
+        <a class="mnav" href="freelinx-hero-mockup.html">Accueil</a>
+        <div class="mnav-group"><a class="mnav" href="#" id="mnavServicesToggle">Nos Services <svg class="mnav-toggle-chev" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg></a><div class="mnav-sub" id="mnavServicesSub"><a href="portage-salarial.html">Portage salarial</a><a href="portage-commercial.html">Portage commercial</a></div></div>
+        <a class="mnav" href="tarifs.html">Tarifs</a>
+        <a class="mnav" href="qui-sommes-nous.html">Qui sommes nous&nbsp;?</a>
+        <a class="mnav" href="freelinx-hero-mockup.html#faq">FAQ</a>
+        <a class="mnav" href="freelinx-hero-mockup.html#contact">Contact</a>
+        <div class="mobile-panel-actions">
+          <a class="btn-portal" href="#">Prendre rendez-vous</a>
+          <a class="btn-portal btn-portal-outline" href="simulateur.html">Faire une simulation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var btn = document.getElementById('hamburgerBtn');
+      var panel = document.getElementById('mobilePanel');
+      if(btn && panel){
+        btn.addEventListener('click', function(){
+          btn.classList.toggle('open');
+          panel.classList.toggle('open');
+        });
+      }
+      var mnavToggle = document.getElementById('mnavServicesToggle');
+      var mnavSub = document.getElementById('mnavServicesSub');
+      if(mnavToggle && mnavSub){
+        mnavToggle.addEventListener('click', function(e){
+          e.preventDefault();
+          mnavSub.classList.toggle('open');
+          var chev = mnavToggle.querySelector('.mnav-toggle-chev');
+          if(chev) chev.classList.toggle('open');
+        });
+      }
+    })();
+  </script>
+
+
+  <!-- ===================== SIM HERO ===================== -->
+  <section class="sim-hero wrap">
+    <div class="about-eyebrow">Simulateur</div>
+    <h1>Calculez votre revenu net en portage salarial, en quelques secondes.</h1>
+    <div class="rule"></div>
+    <p>Renseignez votre TJM, votre chiffre d'affaires ou le net que vous visez : notre simulateur applique le calcul exact des charges, frais de gestion et impôt pour vous donner une estimation fiable.</p>
+    <div class="conformity-pill">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+      Calcul avancé conforme à la législation française 2024-2025
+    </div>
+  </section>
+
+  <!-- ===================== SIMULATEUR APP ===================== -->
+  <section class="sect wrap" style="padding-top:14px;">
+    <div class="sim-app">
+
+      <!-- ---------- PARAMS ---------- -->
+      <div class="sim-card sim-params">
+        <div class="sim-params-head">
+          <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 21v-7M4 10V3M12 21v-11M12 6V3M20 21v-5M20 12V3M1 14h6M9 10h6M17 16h6"/></svg></div>
+          <h2>Paramètres de simulation</h2>
+        </div>
+
+        <div class="sim-field">
+          <label>Mode de calcul</label>
+          <div class="sim-mode" id="simMode">
+            <button type="button" class="active" data-mode="tjm">TJM</button>
+            <button type="button" data-mode="ca">CA</button>
+            <button type="button" data-mode="netTarget">Net cible</button>
+          </div>
+        </div>
+
+        <!-- TJM mode fields -->
+        <div id="fieldsTjm">
+          <div class="sim-field">
+            <label>Taux Journalier Moyen (TJM)</label>
+            <div class="sim-input-wrap">
+              <input type="number" id="inTjm" value="500" step="10" min="0">
+              <span class="unit">€</span>
+            </div>
+            <div class="hint">Tarif journalier facturé au client</div>
+          </div>
+        </div>
+
+        <!-- CA mode field -->
+        <div id="fieldsCa" style="display:none;">
+          <div class="sim-field">
+            <label>Chiffre d'affaires mensuel</label>
+            <div class="sim-input-wrap">
+              <input type="number" id="inCa" value="9500" step="100" min="0">
+              <span class="unit">€</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Net cible mode field -->
+        <div id="fieldsNet" style="display:none;">
+          <div class="sim-field">
+            <label>Salaire net mensuel souhaité</label>
+            <div class="sim-input-wrap">
+              <input type="number" id="inNetCible" value="3500" step="50" min="0">
+              <span class="unit">€</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Jours travaillés (tjm + netTarget modes) -->
+        <div class="sim-field" id="fieldJours">
+          <label>Jours travaillés / mois</label>
+          <div class="sim-input-wrap">
+            <input type="number" id="inJours" value="19" step="1" min="1" max="23">
+            <span class="unit">j</span>
+          </div>
+          <div class="hint">Moyenne : 19-21 jours/mois</div>
+        </div>
+
+        <div class="sim-field">
+          <div class="sim-slider-row">
+            <label>Frais de gestion</label>
+            <span class="val" id="fraisGestionVal">7%</span>
+          </div>
+          <input type="range" class="sim-range" id="inFraisGestion" min="5" max="10" step="0.5" value="7">
+          <div class="sim-range-labels"><span>5%</span><span>10%</span></div>
+        </div>
+
+        <button type="button" class="sim-advanced-toggle" id="advToggle">
+          <span id="advToggleLabel">Paramètres avancés</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M6 9l6 6 6-6"/></svg>
+        </button>
+
+        <div class="sim-advanced-body" id="advBody">
+          <div class="sim-field">
+            <label>Frais professionnels (HT)</label>
+            <div class="sim-input-wrap">
+              <input type="number" id="inFraisPro" value="0" step="10" min="0">
+              <span class="unit">€</span>
+            </div>
+            <div class="hint">Déplacement, restauration, matériel...</div>
+          </div>
+
+          <div class="sim-field">
+            <label>Situation familiale</label>
+            <select class="sim-select" id="inSituation">
+              <option value="celibataire">Célibataire</option>
+              <option value="marie">Marié(e) sans enfant</option>
+              <option value="marie_1enfant">Marié(e) 1 enfant</option>
+              <option value="marie_2enfants">Marié(e) 2 enfants</option>
+            </select>
+          </div>
+
+          <div class="sim-field" style="margin-bottom:0;">
+            <label>Nombre de parts fiscales : <span id="partsLabel">1</span></label>
+            <div class="sim-input-wrap">
+              <input type="number" id="inParts" value="1" step="0.5" min="1" max="6">
+            </div>
+            <div class="sim-parts-note">Calculé automatiquement selon la situation familiale, modifiable manuellement.</div>
+          </div>
+        </div>
+
+        <button type="button" class="btn btn-solid sim-submit" id="simSubmit">
+          Faire une simulation
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+
+      <!-- ---------- RESULTS ---------- -->
+      <div>
+        <div class="sim-tabs" id="simTabs">
+          <button type="button" class="sim-tab active" data-tab="resultats">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19h16M7 15v4M12 10v9M17 5v14"/></svg>
+            Résultats
+          </button>
+          <button type="button" class="sim-tab" data-tab="graphiques">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 3v18h18"/><path d="M7 15l4-5 3 3 5-7"/></svg>
+            Graphiques
+          </button>
+          <button type="button" class="sim-tab" data-tab="comparateur">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M8 21V9M8 9L4 13M8 9l4 4M16 3v12M16 15l4-4M16 15l-4-4"/></svg>
+            Comparateur
+          </button>
+          <button type="button" class="sim-tab" data-tab="details">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 6h16M4 12h16M4 18h10"/></svg>
+            Détails
+          </button>
+        </div>
+
+        <!-- PANEL: RESULTATS -->
+        <div class="sim-panel active" data-panel="resultats">
+          <div class="sim-card sim-block">
+            <div id="tjmNecessaireBanner" class="sim-net-banner" style="display:none;">
+              <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></div>
+              <div>
+                <div class="lbl">TJM nécessaire</div>
+                <div class="amt" id="tjmNecessaireVal">—</div>
+              </div>
+            </div>
+
+            <div class="sim-stats-grid sim-stats-grid-4" id="statsGridMain"></div>
+
+            <div class="sim-detail-list-wrap">
+              <div class="sim-block-title" style="margin-bottom:14px;">Détail des prélèvements</div>
+              <div id="detailPrelevements"></div>
+              <div class="sim-charge-total">
+                <span>Taux de charge global</span>
+                <span id="tauxChargeGlobal" class="v">—</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="sim-card sim-block">
+            <div class="sim-block-title">Projection annuelle</div>
+            <div class="sim-stats-grid sim-stats-grid-4" id="statsGridAnnuel"></div>
+          </div>
+
+          <div class="sim-info-box">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 8h.01M11 12h1v5h1"/></svg>
+            <div>
+              <p class="ttl">Informations importantes :</p>
+              <ul>
+                <li>Les calculs sont basés sur le plafond SS 2024 : 3 864 €/mois</li>
+                <li>Le taux de charges patronales varie selon votre salaire</li>
+                <li>L'impôt est calculé selon le barème progressif 2024</li>
+                <li>Les résultats sont donnés à titre indicatif</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL: GRAPHIQUES -->
+        <div class="sim-panel" data-panel="graphiques">
+          <div class="sim-card sim-block">
+            <div class="sim-block-title">Répartition du chiffre d'affaires</div>
+            <div class="sim-donut-row">
+              <div class="sim-donut-wrap">
+                <svg viewBox="0 0 100 100" width="190" height="190" preserveAspectRatio="xMidYMid meet" id="donutSvg"></svg>
+                <div class="sim-donut-center">
+                  <div class="lbl">CA mensuel</div>
+                  <div class="amt" id="donutCenterAmt">—</div>
+                </div>
+              </div>
+              <div class="sim-legend" id="donutLegend"></div>
+            </div>
+          </div>
+
+          <div class="sim-card sim-block">
+            <div class="sim-block-title">Évolution du CA au salaire net</div>
+            <div class="sim-chart-wrap"><svg id="barEvolSvg" viewBox="0 0 620 280" width="100%"></svg></div>
+          </div>
+
+          <div class="sim-card sim-block">
+            <div class="sim-block-title">Comparaison des charges et prélèvements</div>
+            <div class="sim-chart-wrap"><svg id="barCompareSvg" viewBox="0 0 620 220" width="100%"></svg></div>
+            <div class="sim-chart-legend">
+              <div class="li"><span class="sw" style="background:#E8154F"></span>Patronales</div>
+              <div class="li"><span class="sw" style="background:#C81044"></span>Salariales</div>
+              <div class="li"><span class="sw" style="background:#3A3F5C"></span>Frais gestion</div>
+              <div class="li"><span class="sw" style="background:#0B0F2B"></span>Impôt</div>
+            </div>
+          </div>
+
+          <div class="sim-card sim-block">
+            <div class="sim-block-title">Projection annuelle (constant)</div>
+            <div class="sim-chart-wrap"><svg id="lineProjSvg" viewBox="0 0 620 260" width="100%"></svg></div>
+            <div class="sim-chart-legend">
+              <div class="li"><span class="sw" style="background:var(--red)"></span>CA</div>
+              <div class="li"><span class="sw" style="background:var(--green)"></span>Net</div>
+            </div>
+            <div class="sim-totals-row">
+              <div class="sim-total-card"><div class="lbl">CA cumulé sur 12 mois</div><div class="amt" id="caCumule">—</div></div>
+              <div class="sim-total-card"><div class="lbl">Net cumulé sur 12 mois</div><div class="amt" id="netCumule">—</div></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- PANEL: COMPARATEUR -->
+        <div class="sim-panel" data-panel="comparateur">
+
+          <div class="cmp-head-row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+            <h3>Comparaison Portage vs Salariat classique</h3>
+          </div>
+
+          <div class="cmp-hero-grid">
+            <div class="cmp-hero-card cmp-hero-portage">
+              <h4>Portage salarial</h4>
+              <div class="cmp-hero-row"><span class="k">Salaire brut</span><span class="v" id="cmpPortageBrut">—</span></div>
+              <div class="cmp-hero-row"><span class="k">Salaire net</span><span class="v" id="cmpPortageNet">—</span></div>
+            </div>
+            <div class="cmp-hero-card cmp-hero-salarie">
+              <h4>Salariat classique</h4>
+              <div class="cmp-hero-row"><span class="k">Salaire brut</span><span class="v" id="cmpSalarieBrutHero">—</span></div>
+              <div class="cmp-hero-row"><span class="k">Salaire net</span><span class="v" id="cmpSalarieNetHero">—</span></div>
+            </div>
+          </div>
+
+          <div class="cmp-banner" id="cmpBanner">
+            <div>
+              <div class="lbl" id="cmpBannerLabel">Avantage portage</div>
+              <div class="amt" id="cmpBannerAmt">—</div>
+            </div>
+            <svg class="cmp-banner-ico" id="cmpBannerIcon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/></svg>
+            <div class="cmp-banner-right">
+              <div class="lbl">Différence</div>
+              <div class="amt" id="cmpBannerPct">—</div>
+            </div>
+          </div>
+
+          <div class="sim-card">
+            <div class="sim-compare-grid">
+              <div class="sim-compare-col">
+                <h4><span class="dot" style="background:var(--red)"></span>Portage salarial</h4>
+
+                <div class="cmp-sub cmp-sub-good">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                  Avantages
+                </div>
+                <ul class="cmp-list">
+                  <li>Flexibilité et autonomie</li>
+                  <li>Pas de création d'entreprise</li>
+                  <li>Protection sociale complète</li>
+                  <li>Gestion administrative simplifiée</li>
+                  <li>Assurance chômage</li>
+                  <li>Formation professionnelle</li>
+                  <li>Retraite complémentaire</li>
+                </ul>
+
+                <div class="cmp-sub cmp-sub-bad">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5M14.5 9.5l-5 5"/></svg>
+                  Inconvénients
+                </div>
+                <ul class="cmp-list cmp-list-bad">
+                  <li>Frais de gestion (5-10%)</li>
+                  <li>Intermittence des missions</li>
+                  <li>Pas de congés payés</li>
+                  <li>Responsabilité de trouver des clients</li>
+                </ul>
+              </div>
+
+              <div class="sim-compare-divider"></div>
+
+              <div class="sim-compare-col">
+                <h4><span class="dot" style="background:var(--navy)"></span>Salarié classique</h4>
+
+                <div class="cmp-sub cmp-sub-good">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="9"/></svg>
+                  Avantages
+                </div>
+                <ul class="cmp-list">
+                  <li>Stabilité de l'emploi</li>
+                  <li>Avantages en nature possibles</li>
+                  <li>Intégration en équipe</li>
+                  <li>Plan d'épargne entreprise</li>
+                  <li>Tickets restaurant</li>
+                  <li>Mutuelle collective</li>
+                  <li>Congés payés garantis</li>
+                </ul>
+
+                <div class="cmp-sub cmp-sub-bad">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5l5 5M14.5 9.5l-5 5"/></svg>
+                  Inconvénients
+                </div>
+                <ul class="cmp-list cmp-list-bad">
+                  <li>Moins de flexibilité</li>
+                  <li>Salaire fixe</li>
+                  <li>Hiérarchie</li>
+                  <li>Mobilité limitée</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="cmp-conclusion">
+            <h4>Conclusion</h4>
+            <p id="cmpConclusion">—</p>
+            <p>Cependant, le choix entre portage et salariat dépend aussi de critères non financiers : autonomie, flexibilité, sécurité, avantages sociaux et vos préférences personnelles.</p>
+          </div>
+
+        </div>
+
+        <!-- PANEL: DETAILS -->
+        <div class="sim-panel" data-panel="details">
+          <div class="sim-card sim-block">
+            <div class="sim-block-head-row">
+              <div class="sim-block-title" style="margin-bottom:0;">Détail du calcul</div>
+              <button type="button" class="btn btn-outline-red sim-export-btn" id="exportPdfBtn">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6"/><path d="M9 15h6M9 11h2"/></svg>
+                Exporter en PDF
+              </button>
+            </div>
+            <div class="sim-details-grid">
+              <div class="sim-details-col">
+                <h4>Charges patronales</h4>
+                <table class="sim-table" id="tablePatronales"></table>
+              </div>
+              <div class="sim-details-col">
+                <h4>Charges salariales</h4>
+                <table class="sim-table" id="tableSalariales"></table>
+              </div>
+            </div>
+          </div>
+          <p class="sim-disclaimer">Simulation basée sur la législation française 2024-2025. Résultats à titre indicatif, ne constituant pas un engagement contractuel.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <div class="sim-toast" id="simToast">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M20 6L9 17l-5-5"/></svg>
+    <span>Simulation mise à jour</span>
+  </div>
+
+  <!-- ===================== EXPORT PDF (impression) ===================== -->
+  <div id="pdfExport" class="pdf-doc">
+    <div class="pdf-header">
+      <div class="pdf-logo"><span class="mark">F</span>Freelinx</div>
+      <div class="pdf-header-meta">
+        <div>231 rue Saint-Honoré, Paris 75001</div>
+        <div>contact@freelinx.fr — +33 6 99 68 43 73</div>
+      </div>
+    </div>
+    <div class="pdf-title-block">
+      <h1>Simulation Portage Salarial</h1>
+      <p id="pdfGenDate">Généré le —</p>
+    </div>
+
+    <div class="pdf-section">
+      <h2>Résultats principaux</h2>
+      <table class="pdf-table" id="pdfMainTable"></table>
+    </div>
+
+    <div class="pdf-cols">
+      <div class="pdf-section">
+        <h2>Détail des charges patronales</h2>
+        <table class="pdf-table pdf-table-small" id="pdfPatronalesTable"></table>
+      </div>
+      <div class="pdf-section">
+        <h2>Détail des charges salariales</h2>
+        <table class="pdf-table pdf-table-small" id="pdfSalarialesTable"></table>
+      </div>
+    </div>
+
+    <div class="pdf-section">
+      <h2>Projection annuelle</h2>
+      <table class="pdf-table" id="pdfAnnuelTable"></table>
+    </div>
+
+    <div class="pdf-footer">
+      <div class="pdf-footer-rule"></div>
+      <p>Simulation à titre indicatif, conforme à la législation française 2024-2025 — ne constitue pas un engagement contractuel.</p>
+      <p class="pdf-footer-brand"><span class="mark">F</span>Freelinx — www.freelinx.fr</p>
+    </div>
+  </div>
+
+  <script>
+  (function(){
+    /* ===================== CONSTANTES (conformes à la législation 2024-2025) ===================== */
+    var CN = {
+      PLAFOND_SS_MENSUEL: 3864,
+      FRAIS_GESTION_MIN: 5,
+      FRAIS_GESTION_MAX: 10,
+      FRAIS_GESTION_DEFAULT: 7,
+      CHARGES_PATRONALES: { assuranceMaladie:13, allocFamiliales:3.45, accidentTravail:1, retraiteComplementaire:4.72, chomage:4.05, apec:.06, versementTransport:2, csa:.3, constructionLogement:.45, formationProfessionnelle:1 },
+      CHARGES_SALARIALES: { retraiteComplementaire:3.15, chomage:2.4, apec:.024, csg:9.2, crds:.5 },
+      BAREME_IMPOT: [ {max:11294,taux:0}, {max:28797,taux:11}, {max:82341,taux:30}, {max:177106,taux:41}, {max:Infinity,taux:45} ],
+      DEDUCTION_FORFAITAIRE: 10,
+      DEDUCTION_FORFAITAIRE_MIN: 472,
+      DEDUCTION_FORFAITAIRE_MAX: 13522
+    };
+
+    function chargesPatronales(e){
+      var t = CN.PLAFOND_SS_MENSUEL, n = 0;
+      n += e*(CN.CHARGES_PATRONALES.assuranceMaladie/100);
+      n += e*(CN.CHARGES_PATRONALES.allocFamiliales/100);
+      n += e*.019;
+      n += Math.min(e,t)*.0855;
+      n += e*(CN.CHARGES_PATRONALES.accidentTravail/100);
+      n += Math.min(e,t)*(CN.CHARGES_PATRONALES.retraiteComplementaire/100);
+      n += e*(CN.CHARGES_PATRONALES.chomage/100);
+      n += Math.min(e,t*4)*(CN.CHARGES_PATRONALES.apec/100);
+      n += e*(CN.CHARGES_PATRONALES.versementTransport/100);
+      n += e*(CN.CHARGES_PATRONALES.csa/100);
+      if(e<=t){ n += e*.001; } else { n += e*.005; }
+      n += e*(CN.CHARGES_PATRONALES.constructionLogement/100);
+      n += e*(CN.CHARGES_PATRONALES.formationProfessionnelle/100);
+      return n;
+    }
+    function chargesSalariales(e){
+      var t = CN.PLAFOND_SS_MENSUEL, n = 0;
+      n += e*.004;
+      n += Math.min(e,t)*.069;
+      n += Math.min(e,t)*(CN.CHARGES_SALARIALES.retraiteComplementaire/100);
+      n += e*(CN.CHARGES_SALARIALES.chomage/100);
+      n += Math.min(e,t*4)*(CN.CHARGES_SALARIALES.apec/100);
+      var r = e*.9825;
+      n += r*(CN.CHARGES_SALARIALES.csg/100);
+      n += r*(CN.CHARGES_SALARIALES.crds/100);
+      return n;
+    }
+    function calcImpot(e, t){
+      t = t || 1;
+      var n = e/t, r = 0, i = n;
+      for(var o=0;o<CN.BAREME_IMPOT.length;o++){
+        var u = CN.BAREME_IMPOT[o];
+        var c = o===0 ? 0 : CN.BAREME_IMPOT[o-1].max;
+        var f = u.max;
+        var h = Math.min(i, f-c);
+        if(h<=0){ break; }
+        r += h*(u.taux/100);
+        i -= h;
+        if(i<=0){ break; }
+      }
+      return r*t;
+    }
+    function simuler(opts){
+      var t = opts.chiffreAffaires, n = (opts.fraisGestion!==undefined?opts.fraisGestion:CN.FRAIS_GESTION_DEFAULT),
+          r = opts.fraisProfessionnels||0, i = opts.nbParts||1;
+      var u = t*(n/100), c = t-u, f = c-r;
+      var h = f/1.42;
+      for(var U=0;U<5;U++){ var X = chargesPatronales(h); h = f-X; }
+      var p = chargesPatronales(h), m = chargesSalariales(h), x = h-m;
+      var v = h*.9825*.068, S = (h-v)*12;
+      var A = S*(CN.DEDUCTION_FORFAITAIRE/100);
+      A = Math.max(CN.DEDUCTION_FORFAITAIRE_MIN, Math.min(A, CN.DEDUCTION_FORFAITAIRE_MAX));
+      var N = S-A, E = calcImpot(N, i), D = E/12, T = x-D, k = (t-T)/t*100;
+      return {
+        chiffreAffaires:t, fraisGestion:n, montantFraisGestion:u, fraisProfessionnels:r,
+        caApresFraisGestion:c, caApresFraisPro:f, salaireBrut:h,
+        chargesPatronales:p, chargesSalariales:m, salaireNetAvantImpot:x,
+        impotMensuel:D, salaireNetApresImpot:T, tauxCharge:k, coutTotal:t, coutEmployeur:h+p,
+        annuel:{ chiffreAffaires:t*12, salaireBrut:h*12, salaireNetAvantImpot:x*12, impot:E, salaireNetApresImpot:T*12 }
+      };
+    }
+    function simulerDepuisTJM(tjm, jours, fraisGestion, fraisPro, nbParts){
+      var ca = tjm*jours;
+      return simuler({ chiffreAffaires:ca, fraisGestion:fraisGestion, fraisProfessionnels:fraisPro, nbParts:nbParts });
+    }
+    function comparerSalarie(ca, fraisGestion){
+      var n = simuler({ chiffreAffaires:ca, fraisGestion:fraisGestion });
+      var r = ca/1.42;
+      var i = chargesSalariales(r);
+      var o = r-i;
+      var u = n.salaireNetAvantImpot - o;
+      var c = o!==0 ? (u/o*100) : 0;
+      return { portage:{net:n.salaireNetAvantImpot, brut:n.salaireBrut}, salarie:{net:o, brut:r}, difference:u, pourcentageDifference:c, avantageux: u>0 ? 'portage' : 'salarie' };
+    }
+    function tjmNecessairePourNet(netCible, jours, fraisGestion){
+      var r = netCible*2.2/jours;
+      for(var i=0;i<10;i++){
+        var o = simulerDepuisTJM(r, jours, fraisGestion);
+        var u = netCible - o.salaireNetApresImpot;
+        if(Math.abs(u)<1){ break; }
+        r += u*2.2/jours;
+      }
+      return Math.round(r);
+    }
+    function detailCharges(brut){
+      var t = CN.PLAFOND_SS_MENSUEL;
+      var n = {
+        assuranceMaladie: brut*.13, allocFamiliales: brut*.0345, assuranceVieillesseDepla: brut*.019,
+        assuranceVieillessePlaf: Math.min(brut,t)*.0855, accidentTravail: brut*.01,
+        retraiteComplementaire: Math.min(brut,t)*.0472, chomage: brut*.0405, apec: Math.min(brut,t*4)*.0006,
+        versementTransport: brut*.02, csa: brut*.003, fnal: brut>t ? brut*.005 : brut*.001,
+        logement: brut*.0045, formation: brut*.01
+      };
+      var r = brut*.9825;
+      var i = {
+        assuranceVieillesseDepla: brut*.004, assuranceVieillessePlaf: Math.min(brut,t)*.069,
+        retraiteComplementaire: Math.min(brut,t)*.0315, chomage: brut*.024, apec: Math.min(brut,t*4)*.00024,
+        csg: r*.092, crds: r*.005
+      };
+      function sum(o){ var s=0; for(var k in o){ s+=o[k]; } return s; }
+      return { patronales:n, salariales:i, totalPatronales:sum(n), totalSalariales:sum(i) };
+    }
+
+    var fmtEuro = new Intl.NumberFormat('fr-FR', { style:'currency', currency:'EUR', minimumFractionDigits:0, maximumFractionDigits:0 });
+    function euro(v){ return fmtEuro.format(Math.round(v)); }
+
+    /* ===================== ETAT / DOM ===================== */
+    var els = {
+      mode: document.getElementById('simMode'),
+      fieldsTjm: document.getElementById('fieldsTjm'),
+      fieldsCa: document.getElementById('fieldsCa'),
+      fieldsNet: document.getElementById('fieldsNet'),
+      fieldJours: document.getElementById('fieldJours'),
+      inTjm: document.getElementById('inTjm'),
+      inCa: document.getElementById('inCa'),
+      inNetCible: document.getElementById('inNetCible'),
+      inJours: document.getElementById('inJours'),
+      inFraisGestion: document.getElementById('inFraisGestion'),
+      fraisGestionVal: document.getElementById('fraisGestionVal'),
+      advToggle: document.getElementById('advToggle'),
+      advToggleLabel: document.getElementById('advToggleLabel'),
+      advBody: document.getElementById('advBody'),
+      inFraisPro: document.getElementById('inFraisPro'),
+      inSituation: document.getElementById('inSituation'),
+      inParts: document.getElementById('inParts'),
+      partsLabel: document.getElementById('partsLabel'),
+      simSubmit: document.getElementById('simSubmit'),
+      simTabs: document.getElementById('simTabs'),
+      toast: document.getElementById('simToast'),
+      exportPdfBtn: document.getElementById('exportPdfBtn')
+    };
+
+    var state = { mode:'tjm', lastRes:null, lastDetails:null };
+
+    var partsMap = { celibataire:1, marie:2, marie_1enfant:2.5, marie_2enfants:3 };
+    els.inSituation.addEventListener('change', function(){
+      var p = partsMap[els.inSituation.value];
+      if(p !== undefined){ els.inParts.value = p; els.partsLabel.textContent = p; }
+      compute();
+    });
+    els.inParts.addEventListener('input', function(){ els.partsLabel.textContent = els.inParts.value; compute(); });
+
+    /* mode switch */
+    els.mode.querySelectorAll('button').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        els.mode.querySelectorAll('button').forEach(function(b){ b.classList.remove('active'); });
+        btn.classList.add('active');
+        state.mode = btn.dataset.mode;
+        els.fieldsTjm.style.display = state.mode === 'tjm' ? '' : 'none';
+        els.fieldsCa.style.display = state.mode === 'ca' ? '' : 'none';
+        els.fieldsNet.style.display = state.mode === 'netTarget' ? '' : 'none';
+        els.fieldJours.style.display = state.mode === 'ca' ? 'none' : '';
+        compute();
+      });
+    });
+
+    /* advanced toggle */
+    els.advToggle.addEventListener('click', function(){
+      var open = els.advBody.classList.toggle('open');
+      els.advToggle.classList.toggle('open', open);
+    });
+
+    /* frais gestion slider fill + label */
+    function refreshSliderFill(){
+      var min = parseFloat(els.inFraisGestion.min), max = parseFloat(els.inFraisGestion.max), val = parseFloat(els.inFraisGestion.value);
+      var pct = (val-min)/(max-min)*100;
+      els.inFraisGestion.style.setProperty('--fill', pct+'%');
+      els.fraisGestionVal.textContent = val+'%';
+    }
+    els.inFraisGestion.addEventListener('input', function(){ refreshSliderFill(); compute(); });
+
+    /* tabs */
+    els.simTabs.querySelectorAll('.sim-tab').forEach(function(tab){
+      tab.addEventListener('click', function(){
+        els.simTabs.querySelectorAll('.sim-tab').forEach(function(t){ t.classList.remove('active'); });
+        tab.classList.add('active');
+        document.querySelectorAll('.sim-panel').forEach(function(p){ p.classList.remove('active'); });
+        document.querySelector('.sim-panel[data-panel="'+tab.dataset.tab+'"]').classList.add('active');
+      });
+    });
+
+    /* live recompute on every relevant input */
+    [els.inTjm, els.inCa, els.inNetCible, els.inJours, els.inFraisPro].forEach(function(inp){
+      inp.addEventListener('input', compute);
+    });
+
+    /* explicit "Faire une simulation" button */
+    els.simSubmit.addEventListener('click', function(){
+      compute();
+      document.querySelector('.sim-tabs').scrollIntoView({ behavior:'smooth', block:'start' });
+      showToast();
+    });
+
+    var toastTimer = null;
+    function showToast(){
+      els.toast.classList.add('show');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(function(){ els.toast.classList.remove('show'); }, 2200);
+    }
+
+    /* ===================== RENDER : DONUT / PIE (Graphiques) ===================== */
+    function donutArc(cx, cy, r, startPct, endPct, color){
+      var C = 2*Math.PI*r;
+      var startLen = (startPct/100)*C;
+      var arcLen = ((endPct-startPct)/100)*C;
+      var circle = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      circle.setAttribute('cx', cx); circle.setAttribute('cy', cy); circle.setAttribute('r', r);
+      circle.setAttribute('fill', 'none');
+      circle.setAttribute('stroke', color);
+      circle.setAttribute('stroke-width', 13);
+      circle.setAttribute('stroke-dasharray', arcLen+' '+(C-arcLen));
+      circle.setAttribute('stroke-dashoffset', -startLen);
+      return circle;
+    }
+
+    function renderDonut(res){
+      var svg = document.getElementById('donutSvg');
+      svg.innerHTML = '';
+      svg.setAttribute('viewBox', '0 0 100 100');
+      svg.setAttribute('width', '190');
+      svg.setAttribute('height', '190');
+      var segments = [
+        { name:'Frais de gestion', val:res.montantFraisGestion, hex:'#3A3F5C' },
+        { name:'Charges patronales', val:res.chargesPatronales, hex:'#E8154F' },
+        { name:'Charges salariales', val:res.chargesSalariales, hex:'#C81044' },
+        { name:'Impôt', val:res.impotMensuel, hex:'#0B0F2B' },
+        { name:'Salaire net', val:res.salaireNetApresImpot, hex:'#1F9D63' }
+      ];
+      var total = res.chiffreAffaires;
+      var cursor = 0;
+      segments.forEach(function(seg){
+        seg.pct = Math.max(0, seg.val/total*100);
+        var arc = donutArc(50, 50, 38, cursor, cursor+seg.pct, seg.hex);
+        svg.appendChild(arc);
+        cursor += seg.pct;
+      });
+      document.getElementById('donutCenterAmt').textContent = euro(total);
+      var legend = document.getElementById('donutLegend');
+      legend.innerHTML = '';
+      segments.forEach(function(seg){
+        var row = document.createElement('div');
+        row.className = 'sim-legend-item';
+        row.innerHTML = '<span class="sim-legend-dot" style="background:'+seg.hex+'"></span>'+
+          '<span class="sim-legend-name">'+seg.name+'</span>'+
+          '<span style="font-weight:800;color:var(--navy);margin-right:8px;">'+euro(seg.val)+'</span>'+
+          '<span class="sim-legend-pct">'+seg.pct.toFixed(1)+'%</span>';
+        legend.appendChild(row);
+      });
+      return segments;
+    }
+
+    /* ===================== RENDER : RESULTATS TAB ===================== */
+    function renderStatsMain(res){
+      var grid = document.getElementById('statsGridMain');
+      grid.innerHTML = '';
+      var items = [
+        { name:"Chiffre d'affaires", amt:res.chiffreAffaires, tone:'ca' },
+        { name:'Salaire brut', amt:res.salaireBrut, tone:'brut' },
+        { name:'Salaire net avant impôt', amt:res.salaireNetAvantImpot, tone:'avant' },
+        { name:'Impôt sur le revenu', amt:res.impotMensuel, tone:'impot' },
+        { name:'Salaire net après impôt', amt:res.salaireNetApresImpot, tone:'net', big:true }
+      ];
+      items.forEach(function(it){
+        var card = document.createElement('div');
+        card.className = 'sim-stat sim-stat-' + it.tone + (it.big ? ' is-net' : '');
+        card.innerHTML = '<div class="name">'+it.name+'</div>'+
+          '<div class="amount'+(it.big?' big':'')+'">'+euro(it.amt)+'</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    function renderStatsAnnuel(res){
+      var grid = document.getElementById('statsGridAnnuel');
+      grid.innerHTML = '';
+      var items = [
+        { name:'CA annuel', amt:res.annuel.chiffreAffaires, tone:'ca' },
+        { name:'Brut annuel', amt:res.annuel.salaireBrut, tone:'brut' },
+        { name:'Net avant impôt', amt:res.annuel.salaireNetAvantImpot, tone:'avant' },
+        { name:'Impôt annuel', amt:res.annuel.impot, tone:'impot' },
+        { name:'Net annuel', amt:res.annuel.salaireNetApresImpot, tone:'net', big:true }
+      ];
+      items.forEach(function(it){
+        var card = document.createElement('div');
+        card.className = 'sim-stat sim-stat-' + it.tone + (it.big ? ' is-net' : '');
+        card.innerHTML = '<div class="name">'+it.name+'</div>'+
+          '<div class="amount'+(it.big?' big':'')+'">'+euro(it.amt)+'</div>';
+        grid.appendChild(card);
+      });
+    }
+
+    function renderDetailPrelevements(res){
+      var wrap = document.getElementById('detailPrelevements');
+      var rows = [
+        { name:'Frais de gestion ('+res.fraisGestion+'%)', amt:res.montantFraisGestion }
+      ];
+      if(res.fraisProfessionnels > 0){
+        rows.push({ name:'Frais professionnels', amt:res.fraisProfessionnels });
+      }
+      rows.push({ name:'Charges patronales', amt:res.chargesPatronales });
+      rows.push({ name:'Charges salariales', amt:res.chargesSalariales });
+      rows.push({ name:'Impôt sur le revenu', amt:res.impotMensuel });
+      wrap.innerHTML = rows.map(function(r){
+        return '<div class="sim-prelevement-row"><span class="k">'+r.name+'</span><span class="v">- '+euro(r.amt)+'</span></div>';
+      }).join('');
+      document.getElementById('tauxChargeGlobal').textContent = res.tauxCharge.toFixed(1)+'%';
+    }
+
+    /* ===================== RENDER : GRAPHIQUES ===================== */
+    function linePath(points, w, h, padL, padR, padT, padB, maxY){
+      var innerW = w-padL-padR, innerH = h-padT-padB;
+      return points.map(function(p, idx){
+        var x = padL + (idx/(points.length-1))*innerW;
+        var y = padT + innerH - (p/maxY)*innerH;
+        return (idx===0?'M':'L')+x.toFixed(1)+','+y.toFixed(1);
+      }).join(' ');
+    }
+
+    function renderBarEvolution(res){
+      var svg = document.getElementById('barEvolSvg');
+      svg.innerHTML = '';
+      var w=620, h=280, padL=44, padR=16, padT=16, padB=64;
+      var items = [
+        { name:'CA', val:res.chiffreAffaires },
+        { name:'Après frais gestion', val:res.caApresFraisGestion },
+        { name:'Salaire brut', val:res.salaireBrut },
+        { name:'Net avant impôt', val:res.salaireNetAvantImpot },
+        { name:'Net après impôt', val:res.salaireNetApresImpot }
+      ];
+      var maxY = Math.max.apply(null, items.map(function(i){ return i.val; }))*1.12;
+      for(var g=0; g<=4; g++){
+        var gy = padT + (h-padT-padB)*(g/4);
+        var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1', padL); line.setAttribute('x2', w-padR); line.setAttribute('y1', gy); line.setAttribute('y2', gy);
+        line.setAttribute('stroke', '#F0DCE2'); line.setAttribute('stroke-width', 1);
+        svg.appendChild(line);
+        var lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        lbl.setAttribute('x', 4); lbl.setAttribute('y', gy+4); lbl.setAttribute('font-size', '10'); lbl.setAttribute('fill', '#5B6072');
+        lbl.textContent = Math.round(maxY*(1-g/4)/500)*500;
+        svg.appendChild(lbl);
+      }
+      var innerW = w-padL-padR;
+      var bandW = innerW/items.length;
+      var barW = bandW*0.52;
+      items.forEach(function(it, idx){
+        var barH = (it.val/maxY)*(h-padT-padB);
+        var x = padL + idx*bandW + (bandW-barW)/2;
+        var y = h-padB-barH;
+        var rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        rect.setAttribute('x', x); rect.setAttribute('y', y); rect.setAttribute('width', barW); rect.setAttribute('height', Math.max(barH,2));
+        rect.setAttribute('rx', 7); rect.setAttribute('fill', '#E8154F');
+        svg.appendChild(rect);
+        var val = document.createElementNS('http://www.w3.org/2000/svg','text');
+        val.setAttribute('x', x+barW/2); val.setAttribute('y', y-8); val.setAttribute('font-size','11'); val.setAttribute('fill','#0B0F2B'); val.setAttribute('font-weight','700'); val.setAttribute('text-anchor','middle');
+        val.textContent = euro(it.val);
+        svg.appendChild(val);
+        var lines = it.name.split(' ');
+        var lbl2 = document.createElementNS('http://www.w3.org/2000/svg','text');
+        lbl2.setAttribute('x', x+barW/2); lbl2.setAttribute('y', h-padB+18); lbl2.setAttribute('font-size','10.5'); lbl2.setAttribute('fill','#5B6072'); lbl2.setAttribute('font-weight','600'); lbl2.setAttribute('text-anchor','middle');
+        lbl2.textContent = it.name;
+        svg.appendChild(lbl2);
+      });
+      svg.setAttribute('viewBox', '0 0 '+w+' '+h);
+    }
+
+    function renderBarCompare(res){
+      var svg = document.getElementById('barCompareSvg');
+      svg.innerHTML = '';
+      var w=620, h=220, padL=110, padR=60, padT=14, padB=14;
+      var rows = [
+        { name:'Patronales', val:res.chargesPatronales, color:'#E8154F' },
+        { name:'Salariales', val:res.chargesSalariales, color:'#C81044' },
+        { name:'Frais gestion', val:res.montantFraisGestion, color:'#3A3F5C' },
+        { name:'Impôt', val:res.impotMensuel, color:'#0B0F2B' }
+      ];
+      var maxVal = Math.max.apply(null, rows.map(function(r){ return r.val; }))*1.15;
+      var rowH = (h-padT-padB)/rows.length;
+      rows.forEach(function(r, idx){
+        var y = padT + idx*rowH + rowH*0.22;
+        var barH = rowH*0.56;
+        var barW = (r.val/maxVal)*(w-padL-padR);
+        var label = document.createElementNS('http://www.w3.org/2000/svg','text');
+        label.setAttribute('x', padL-10); label.setAttribute('y', y+barH*0.72); label.setAttribute('text-anchor','end');
+        label.setAttribute('font-size','12'); label.setAttribute('fill','#0B0F2B'); label.setAttribute('font-weight','600');
+        label.textContent = r.name;
+        svg.appendChild(label);
+        var rect = document.createElementNS('http://www.w3.org/2000/svg','rect');
+        rect.setAttribute('x', padL); rect.setAttribute('y', y); rect.setAttribute('width', Math.max(barW,2)); rect.setAttribute('height', barH);
+        rect.setAttribute('rx', 6); rect.setAttribute('fill', r.color);
+        svg.appendChild(rect);
+        var val = document.createElementNS('http://www.w3.org/2000/svg','text');
+        val.setAttribute('x', padL+barW+8); val.setAttribute('y', y+barH*0.72); val.setAttribute('font-size','11.5'); val.setAttribute('fill','#5B6072'); val.setAttribute('font-weight','700');
+        val.textContent = euro(r.val);
+        svg.appendChild(val);
+      });
+      svg.setAttribute('viewBox', '0 0 '+w+' '+h);
+    }
+
+    function renderLineProjection(res){
+      var svg = document.getElementById('lineProjSvg');
+      svg.innerHTML = '';
+      var w=620, h=260, padL=44, padR=16, padT=16, padB=30;
+      var months = ['Jan','Fév','Mar','Avr','Mai','Jun','Jul','Aoû','Sep','Oct','Nov','Déc'];
+      var caSeries = months.map(function(){ return res.chiffreAffaires; });
+      var netSeries = months.map(function(){ return res.salaireNetApresImpot; });
+      var maxY = res.chiffreAffaires*1.15;
+
+      for(var g=0; g<=4; g++){
+        var gy = padT + (h-padT-padB)*(g/4);
+        var line = document.createElementNS('http://www.w3.org/2000/svg','line');
+        line.setAttribute('x1', padL); line.setAttribute('x2', w-padR); line.setAttribute('y1', gy); line.setAttribute('y2', gy);
+        line.setAttribute('stroke', '#F0DCE2'); line.setAttribute('stroke-width', 1);
+        svg.appendChild(line);
+        var lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        lbl.setAttribute('x', 4); lbl.setAttribute('y', gy+4); lbl.setAttribute('font-size', '10'); lbl.setAttribute('fill', '#5B6072');
+        lbl.textContent = Math.round(maxY*(1-g/4)/500)*500;
+        svg.appendChild(lbl);
+      }
+      months.forEach(function(m, idx){
+        var x = padL + (idx/(months.length-1))*(w-padL-padR);
+        var lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+        lbl.setAttribute('x', x); lbl.setAttribute('y', h-8); lbl.setAttribute('font-size', '10'); lbl.setAttribute('fill', '#5B6072'); lbl.setAttribute('text-anchor','middle');
+        lbl.textContent = m;
+        svg.appendChild(lbl);
+      });
+      [ {data:caSeries, color:'#E8154F'}, {data:netSeries, color:'#1F9D63'} ].forEach(function(s){
+        var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+        path.setAttribute('d', linePath(s.data, w, h, padL, padR, padT, padB, maxY));
+        path.setAttribute('fill', 'none'); path.setAttribute('stroke', s.color); path.setAttribute('stroke-width', 2.5);
+        svg.appendChild(path);
+      });
+      svg.setAttribute('viewBox', '0 0 '+w+' '+h);
+
+      document.getElementById('caCumule').textContent = euro(res.annuel.chiffreAffaires);
+      document.getElementById('netCumule').textContent = euro(res.annuel.salaireNetApresImpot);
+    }
+
+    function renderComparateur(res){
+      var cmp = comparerSalarie(res.chiffreAffaires, res.fraisGestion);
+      document.getElementById('cmpPortageBrut').textContent = euro(cmp.portage.brut);
+      document.getElementById('cmpPortageNet').textContent = euro(cmp.portage.net);
+      document.getElementById('cmpSalarieBrutHero').textContent = euro(cmp.salarie.brut);
+      document.getElementById('cmpSalarieNetHero').textContent = euro(cmp.salarie.net);
+
+      var banner = document.getElementById('cmpBanner');
+      var label = document.getElementById('cmpBannerLabel');
+      var amt = document.getElementById('cmpBannerAmt');
+      var pct = document.getElementById('cmpBannerPct');
+      var icon = document.getElementById('cmpBannerIcon');
+      var conclusion = document.getElementById('cmpConclusion');
+      var absDiff = Math.abs(cmp.difference);
+      var absPct = Math.abs(cmp.pourcentageDifference);
+
+      if(cmp.avantageux === 'portage'){
+        banner.classList.remove('cmp-banner-bad'); banner.classList.add('cmp-banner-good');
+        label.textContent = 'Avantage portage';
+        icon.innerHTML = '<path d="M22 7l-8.5 8.5-5-5L2 17"/><path d="M16 7h6v6"/>';
+        conclusion.innerHTML = 'Le <strong>portage salarial</strong> est plus avantageux financièrement avec un gain de <strong>'+euro(absDiff)+'</strong> par mois.';
+      } else {
+        banner.classList.remove('cmp-banner-good'); banner.classList.add('cmp-banner-bad');
+        label.textContent = 'Avantage salariat';
+        icon.innerHTML = '<path d="M22 17l-8.5-8.5-5 5L2 7"/><path d="M16 17h6v-6"/>';
+        conclusion.innerHTML = 'Le <strong>salariat classique</strong> est plus avantageux financièrement avec un gain de <strong>'+euro(absDiff)+'</strong> par mois.';
+      }
+      amt.textContent = euro(absDiff);
+      pct.textContent = (cmp.avantageux === 'portage' ? '+' : '-') + absPct.toFixed(1) + '%';
+    }
+
+    function renderDetailsTable(tableId, data, total){
+      var labels = {
+        assuranceMaladie:'Assurance maladie', allocFamiliales:'Allocations familiales',
+        assuranceVieillesseDepla:'Assurance vieillesse déplafonnée', assuranceVieillessePlaf:'Assurance vieillesse plafonnée',
+        accidentTravail:'Accident du travail', retraiteComplementaire:'Retraite complémentaire', chomage:'Chômage',
+        apec:'APEC', versementTransport:'Versement transport', csa:'CSA', fnal:'FNAL',
+        logement:'Construction / logement', formation:'Formation professionnelle', csg:'CSG', crds:'CRDS'
+      };
+      var table = document.getElementById(tableId);
+      var rows = '<thead><tr><th>Poste de charge</th><th>Montant</th></tr></thead><tbody>';
+      for(var k in data){
+        rows += '<tr><td>'+(labels[k]||k)+'</td><td>'+euro(data[k])+'</td></tr>';
+      }
+      rows += '<tr class="total"><td>TOTAL</td><td>'+euro(total)+'</td></tr></tbody>';
+      table.innerHTML = rows;
+    }
+
+    function compute(){
+      var jours = parseFloat(els.inJours.value) || 19;
+      var fraisGestion = parseFloat(els.inFraisGestion.value);
+      var fraisPro = parseFloat(els.inFraisPro.value) || 0;
+      var nbParts = parseFloat(els.inParts.value) || 1;
+      var situation = els.inSituation.value;
+
+      var res, tjmNecessaire = null;
+      if(state.mode === 'tjm'){
+        var tjm = parseFloat(els.inTjm.value) || 0;
+        res = simulerDepuisTJM(tjm, jours, fraisGestion, fraisPro, nbParts);
+      } else if(state.mode === 'ca'){
+        var ca = parseFloat(els.inCa.value) || 0;
+        res = simuler({ chiffreAffaires:ca, fraisGestion:fraisGestion, fraisProfessionnels:fraisPro, nbParts:nbParts, situationFamiliale:situation });
+      } else {
+        var netCible = parseFloat(els.inNetCible.value) || 0;
+        var tjmNec = tjmNecessairePourNet(netCible, jours, fraisGestion);
+        res = simulerDepuisTJM(tjmNec, jours, fraisGestion, fraisPro, nbParts);
+        tjmNecessaire = tjmNec;
+      }
+
+      var banner = document.getElementById('tjmNecessaireBanner');
+      if(tjmNecessaire !== null){
+        banner.style.display = 'flex';
+        document.getElementById('tjmNecessaireVal').textContent = euro(tjmNecessaire);
+      } else {
+        banner.style.display = 'none';
+      }
+
+      renderStatsMain(res);
+      renderDetailPrelevements(res);
+      renderStatsAnnuel(res);
+      renderDonut(res);
+      renderBarEvolution(res);
+      renderBarCompare(res);
+      renderLineProjection(res);
+      renderComparateur(res);
+      var details = detailCharges(res.salaireBrut);
+      renderDetailsTable('tablePatronales', details.patronales, details.totalPatronales);
+      renderDetailsTable('tableSalariales', details.salariales, details.totalSalariales);
+
+      state.lastRes = res;
+      state.lastDetails = details;
+    }
+
+    /* ===================== EXPORT PDF ===================== */
+    var labelsCharges = {
+      assuranceMaladie:'Assurance maladie', allocFamiliales:'Allocations familiales',
+      assuranceVieillesseDepla:'Assurance vieillesse déplafonnée', assuranceVieillessePlaf:'Assurance vieillesse plafonnée',
+      accidentTravail:'Accident du travail', retraiteComplementaire:'Retraite complémentaire', chomage:'Chômage',
+      apec:'APEC', versementTransport:'Versement transport', csa:'CSA', fnal:'FNAL',
+      logement:'Construction / logement', formation:'Formation professionnelle', csg:'CSG', crds:'CRDS'
+    };
+
+    function pdfRow(name, val, opts){
+      opts = opts || {};
+      return '<tr class="'+(opts.cls||'')+'"><td>'+name+'</td><td>'+euro(val)+'</td></tr>';
+    }
+    function pdfSpacerRow(){ return '<tr class="spacer"><td colspan="2"></td></tr>'; }
+
+    function buildPdfDoc(){
+      var res = state.lastRes, det = state.lastDetails;
+      if(!res) return;
+
+      var d = new Date();
+      var dd = String(d.getDate()).padStart(2,'0'), mm = String(d.getMonth()+1).padStart(2,'0'), yyyy = d.getFullYear();
+      document.getElementById('pdfGenDate').textContent = 'Généré le '+dd+'/'+mm+'/'+yyyy;
+
+      var main = '';
+      main += pdfRow('Chiffre d\'affaires mensuel', res.chiffreAffaires);
+      main += pdfRow('Frais de gestion ('+res.fraisGestion+'%)', res.montantFraisGestion);
+      main += pdfRow('Frais professionnels', res.fraisProfessionnels);
+      main += pdfSpacerRow();
+      main += pdfRow('Salaire brut', res.salaireBrut, {cls:'strong'});
+      main += pdfRow('Charges patronales', res.chargesPatronales);
+      main += pdfRow('Charges salariales', res.chargesSalariales);
+      main += pdfSpacerRow();
+      main += pdfRow('Salaire net avant impôt', res.salaireNetAvantImpot, {cls:'strong'});
+      main += pdfRow('Impôt sur le revenu', res.impotMensuel);
+      main += pdfRow('Salaire net après impôt', res.salaireNetApresImpot, {cls:'total'});
+      document.getElementById('pdfMainTable').innerHTML = '<tbody>'+main+'</tbody>';
+
+      var patRows = '';
+      for(var k in det.patronales){ patRows += pdfRow(labelsCharges[k]||k, det.patronales[k]); }
+      patRows += pdfRow('TOTAL', det.totalPatronales, {cls:'total'});
+      document.getElementById('pdfPatronalesTable').innerHTML = '<tbody>'+patRows+'</tbody>';
+
+      var salRows = '';
+      for(var k2 in det.salariales){ salRows += pdfRow(labelsCharges[k2]||k2, det.salariales[k2]); }
+      salRows += pdfRow('TOTAL', det.totalSalariales, {cls:'total'});
+      document.getElementById('pdfSalarialesTable').innerHTML = '<tbody>'+salRows+'</tbody>';
+
+      var ann = '';
+      ann += pdfRow('Chiffre d\'affaires annuel', res.annuel.chiffreAffaires);
+      ann += pdfRow('Salaire brut annuel', res.annuel.salaireBrut);
+      ann += pdfRow('Salaire net avant impôt', res.annuel.salaireNetAvantImpot);
+      ann += pdfRow('Impôt annuel', res.annuel.impot);
+      ann += pdfRow('Salaire net après impôt', res.annuel.salaireNetApresImpot, {cls:'total'});
+      document.getElementById('pdfAnnuelTable').innerHTML = '<tbody>'+ann+'</tbody>';
+    }
+
+    els.exportPdfBtn.addEventListener('click', function(){
+      buildPdfDoc();
+      document.body.classList.add('pdf-print-mode');
+      setTimeout(function(){
+        window.print();
+        setTimeout(function(){ document.body.classList.remove('pdf-print-mode'); }, 300);
+      }, 60);
+    });
+
+    refreshSliderFill();
+    compute();
+  })();
+  </script>
+
+
+<footer class="site-footer">
+    <div class="wrap">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <div class="flogo"><span class="mark">F</span>Freelinx</div>
+          <p>Freelinx accompagne les consultants indépendants avec une gestion administrative simple, transparente et sans surprise.</p>
+          <div class="footer-social">
+            <a href="#" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M7.5 10.5v6M7.5 7.5v.01M12 16.5v-4a2 2 0 014 0v4M12 12.5v4"/></svg></a>
+            <a href="#" aria-label="X"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 4l16 16M20 4L4 20"/></svg></a>
+            <a href="#" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 9h2.5V6H14c-1.7 0-3 1.3-3 3v2H9v3h2v7h3v-7h2.3l.7-3H14V9z"/></svg></a>
+          </div>
+        </div>
+
+        <div class="footer-col">
+          <h5>Nos services</h5>
+          <ul>
+            <li><a href="portage-salarial.html">Portage salarial</a></li>
+            <li><a href="portage-commercial.html">Portage commercial</a></li>
+            <li><a href="tarifs.html">Tarifs</a></li>
+            <li><a href="simulateur.html">Faire une simulation</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>L'entreprise</h5>
+          <ul>
+            <li><a href="qui-sommes-nous.html">Qui sommes nous&nbsp;?</a></li>
+            <li><a href="freelinx-hero-mockup.html#faq">FAQ</a></li>
+            <li><a href="freelinx-hero-mockup.html#contact">Contact</a></li>
+            <li><a href="#">Prendre rendez-vous</a></li>
+          </ul>
+        </div>
+
+        <div class="footer-col">
+          <h5>Contact</h5>
+          <ul class="footer-contact">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>231 rue Saint-Honoré, Paris, 75001</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M22 16.9v3a2 2 0 01-2.2 2 19.8 19.8 0 01-8.6-3.1 19.5 19.5 0 01-6-6A19.8 19.8 0 012.1 4.2 2 2 0 014.1 2h3a2 2 0 012 1.7c.1.9.3 1.8.6 2.7a2 2 0 01-.4 2.1L8 9.9a16 16 0 006 6l1.4-1.4a2 2 0 012.1-.4c.9.3 1.8.5 2.7.6a2 2 0 011.7 2z"/></svg><a href="tel:+33699684373" style="color:inherit;text-decoration:none;">+33 6 99 68 43 73</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 7l10 6 10-6"/></svg><a href="mailto:contact@freelinx.fr" style="color:inherit;text-decoration:none;">contact@freelinx.fr</a></li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>9:00 - 20:00, Lundi à Vendredi</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="footer-bottom">
+        <p>&copy; 2026 Freelinx. Tous droits réservés.</p>
+        <ul class="footer-legal">
+          <li><a href="#">Mentions légales</a></li>
+          <li><a href="#">CGU</a></li>
+          <li><a href="#">Politique de confidentialité</a></li>
+          <li><a href="#">Cookies</a></li>
+        </ul>
+      </div>
+    </div>
+  </footer>
+
+<!-- ===================== RDV MODAL ===================== -->
+  <div class="rdv-overlay" id="rdvOverlay">
+    <div class="rdv-modal" role="dialog" aria-modal="true" aria-label="Prendre rendez-vous">
+      <div class="rdv-photo">
+        <div class="rdv-photo-brand"><span class="mark">F</span>Freelinx</div>
+      </div>
+      <div class="rdv-content">
+        <button class="rdv-close" id="rdvClose" aria-label="Fermer"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 6l12 12M18 6L6 18"/></svg></button>
+
+        <!-- STEP 1 : choix du créneau -->
+        <div class="rdv-step" data-step="1">
+          <div class="rdv-eyebrow">Prendre rendez-vous</div>
+          <h2>Parlons de votre projet<span class="dot">.</span></h2>
+          <p class="rdv-sub">Choisissez le créneau qui vous convient le mieux. Notre équipe vous recontactera à l'heure choisie.</p>
+          <div class="rdv-progress"><div class="rdv-progress-bar" style="width:50%"></div></div>
+          <div class="rdv-days" id="rdvDays"></div>
+          <div class="rdv-footer">
+            <span></span>
+            <button class="btn btn-solid rdv-continue" id="rdvContinue" disabled>Continuer <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+          </div>
+        </div>
+
+        <!-- STEP 2 : informations -->
+        <div class="rdv-step" data-step="2" hidden>
+          <div class="rdv-eyebrow">Prendre rendez-vous</div>
+          <h2>Vos informations<span class="dot">.</span></h2>
+          <p class="rdv-sub">Quelques informations pour préparer notre échange.</p>
+          <form id="rdvForm" style="display:flex; flex-direction:column; min-height:0; flex:1;">
+            <div style="overflow-y:auto; flex:1 1 auto; min-height:0; padding-right:4px;">
+              <div class="rdv-row">
+                <div class="rdv-field"><label>Nom*</label><input type="text" required></div>
+                <div class="rdv-field"><label>Prénom*</label><input type="text" required></div>
+              </div>
+              <div class="rdv-field">
+                <label>Téléphone*</label>
+                <div class="rdv-phone">
+                  <div class="rdv-phone-code" aria-label="Indicatif France fixe">+33</div>
+                  <input type="tel" placeholder="6 12 34 56 78" required>
+                </div>
+              </div>
+              <div class="rdv-field"><label>Email*</label><input type="email" required></div>
+              <label class="rdv-check">
+                <input type="checkbox" required>
+                <span>J'ai lu et j'accepte les conditions décrites dans la <a href="#">politique de confidentialité</a>.</span>
+              </label>
+            </div>
+            <div class="rdv-footer">
+              <button type="button" class="rdv-back" id="rdvBack"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M15 6l-6 6 6 6"/></svg> Retour</button>
+              <button type="submit" class="btn btn-solid">Planifier mon appel <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4"><path d="M9 6l6 6-6 6"/></svg></button>
+            </div>
+          </form>
+        </div>
+
+        <!-- STEP 3 : confirmation -->
+        <div class="rdv-step" data-step="3" hidden style="flex:1; display:flex; flex-direction:column;">
+          <div class="rdv-success">
+            <div class="rdv-success-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 6L9 17l-5-5"/></svg></div>
+            <h2>Rendez-vous confirmé<span class="dot">.</span></h2>
+            <p>Merci&nbsp;! Notre équipe vous appellera le <strong id="rdvSummaryDate"></strong> à <strong id="rdvSummaryTime"></strong>.</p>
+            <button class="btn btn-solid" id="rdvDone">Fermer</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    (function(){
+      var overlay = document.getElementById('rdvOverlay');
+      if(!overlay) return;
+      var steps = overlay.querySelectorAll('.rdv-step');
+      var daysWrap = document.getElementById('rdvDays');
+      var continueBtn = document.getElementById('rdvContinue');
+      var backBtn = document.getElementById('rdvBack');
+      var closeBtn = document.getElementById('rdvClose');
+      var doneBtn = document.getElementById('rdvDone');
+      var form = document.getElementById('rdvForm');
+      var selectedSlot = null;
+
+      var joursSemaine = ['dim.','lun.','mar.','mer.','jeu.','ven.','sam.'];
+      var mois = ['jan.','fév.','mars','avr.','mai','juin','juil.','août','sep.','oct.','nov.','déc.'];
+      var heures = ['9:00','9:30','10:00','10:30','11:00','11:30','12:00','12:30','13:00','13:30','14:00','14:30','15:00','15:30','16:00','16:30','17:00','17:30'];
+
+      function fmtHeure(h){
+        var parts = h.split(':');
+        return parts[0] + 'h' + parts[1];
+      }
+
+      function buildDays(){
+        daysWrap.innerHTML = '';
+        var today = new Date();
+        for(var i = 1; i <= 21; i++){
+          var d = new Date(today);
+          d.setDate(d.getDate() + i);
+          var label = joursSemaine[d.getDay()] + ' ' + d.getDate() + ' ' + mois[d.getMonth()];
+          var dayEl = document.createElement('div');
+          dayEl.className = 'rdv-day';
+          var labelEl = document.createElement('div');
+          labelEl.className = 'rdv-day-label';
+          labelEl.textContent = label.charAt(0).toUpperCase() + label.slice(1);
+          dayEl.appendChild(labelEl);
+          var slotsEl = document.createElement('div');
+          slotsEl.className = 'rdv-slots';
+          heures.forEach(function(h){
+            var btn = document.createElement('button');
+            btn.type = 'button';
+            btn.className = 'rdv-slot';
+            btn.textContent = fmtHeure(h);
+            btn.dataset.date = label;
+            btn.dataset.time = fmtHeure(h);
+            btn.addEventListener('click', function(){
+              var prev = daysWrap.querySelector('.rdv-slot.selected');
+              if(prev) prev.classList.remove('selected');
+              this.classList.add('selected');
+              selectedSlot = { date: this.dataset.date, time: this.dataset.time };
+              continueBtn.disabled = false;
+            });
+            slotsEl.appendChild(btn);
+          });
+          dayEl.appendChild(slotsEl);
+          daysWrap.appendChild(dayEl);
+        }
+      }
+
+      function showStep(n){
+        steps.forEach(function(s){
+          s.hidden = (s.getAttribute('data-step') != String(n));
+        });
+      }
+
+      function openModal(){
+        overlay.classList.add('open');
+        document.body.style.overflow = 'hidden';
+        if(!daysWrap.children.length){ buildDays(); }
+        showStep(1);
+      }
+      function closeModal(){
+        overlay.classList.remove('open');
+        document.body.style.overflow = '';
+      }
+      function resetModal(){
+        selectedSlot = null;
+        continueBtn.disabled = true;
+        var prev = daysWrap.querySelector('.rdv-slot.selected');
+        if(prev) prev.classList.remove('selected');
+        if(form) form.reset();
+        showStep(1);
+      }
+
+      document.querySelectorAll('a,button').forEach(function(el){
+        if(el.id === 'rdvClose' || el.id === 'rdvDone') return;
+        var _rdvTxt = el.textContent ? el.textContent.trim().toLowerCase() : '';
+        if(_rdvTxt.indexOf('rendez-vous') !== -1 || _rdvTxt.indexOf('rappel') !== -1){
+          el.addEventListener('click', function(e){
+            e.preventDefault();
+            openModal();
+          });
+        }
+      });
+
+      closeBtn.addEventListener('click', function(){ closeModal(); setTimeout(resetModal, 300); });
+      overlay.addEventListener('click', function(e){
+        if(e.target === overlay){ closeModal(); setTimeout(resetModal, 300); }
+      });
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && overlay.classList.contains('open')){ closeModal(); setTimeout(resetModal, 300); }
+      });
+
+      continueBtn.addEventListener('click', function(){
+        if(!selectedSlot) return;
+        showStep(2);
+      });
+      backBtn.addEventListener('click', function(){ showStep(1); });
+
+      form.addEventListener('submit', function(e){
+        e.preventDefault();
+        if(selectedSlot){
+          document.getElementById('rdvSummaryDate').textContent = selectedSlot.date;
+          document.getElementById('rdvSummaryTime').textContent = selectedSlot.time;
+        }
+        showStep(3);
+      });
+      doneBtn.addEventListener('click', function(){ closeModal(); setTimeout(resetModal, 300); });
+    })();
+  </script>
+
+</body>
+</html>
