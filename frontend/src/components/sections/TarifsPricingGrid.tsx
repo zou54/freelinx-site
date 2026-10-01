@@ -40,7 +40,7 @@ export default function TarifsPricingGrid({ data }: { data: PricingSectionData }
         )}
       </div>
 
-      <div className="grid grid-cols-1 items-stretch gap-5 sm:grid-cols-2 lg:grid-cols-4">
+      <div className="grid grid-cols-1 items-stretch gap-5 min-[620px]:grid-cols-2 min-[980px]:grid-cols-4">
         {plans.map((plan) => {
           const styles = VARIANT_STYLES[plan.variant];
           const featureItems = plan.featureItems ?? [];

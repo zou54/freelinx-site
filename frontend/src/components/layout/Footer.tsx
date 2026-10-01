@@ -26,10 +26,10 @@ export default function Footer({ data }: { data: FooterData }) {
   const legalLinks = data.legalLinks ?? [];
 
   return (
-    <footer className="relative mt-[60px] overflow-hidden bg-navy text-[#C7C9DA]">
+    <footer className="relative mt-5 overflow-hidden bg-navy text-white">
       <div className="h-1 bg-gradient-to-r from-red via-[#FF7A9C] to-red" />
-      <div className="mx-auto max-w-[1120px] px-6 pt-[50px] sm:px-14">
-        <div className="grid grid-cols-1 gap-10 border-b border-white/8 pb-[46px] sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
+      <div className="mx-auto max-w-[1120px] px-6 pt-16 sm:px-14">
+        <div className="grid grid-cols-1 gap-10 border-b border-white/8 pb-[46px] sm:grid-cols-2 lg:grid-cols-[1.4fr_1fr_1fr_1.2fr]">
           <div>
             <div className="mb-4 flex items-center gap-2 font-heading text-[23px] font-extrabold tracking-[-0.5px] text-white">
               <span className="flex h-7 w-7 items-center justify-center rounded-md bg-red text-[15px] font-extrabold text-white">
@@ -38,7 +38,7 @@ export default function Footer({ data }: { data: FooterData }) {
               {data.logoLabel ?? "Freelinx"}
             </div>
             {data.description && (
-              <p className="max-w-[280px] text-[13.5px] leading-[1.7] text-[#9A9DB8]">{data.description}</p>
+              <p className="max-w-[280px] text-[13px] leading-[1.75] text-white/60">{data.description}</p>
             )}
             <div className="mt-5 flex gap-2.5">
               {socialLinks.map((link) => (
@@ -46,7 +46,7 @@ export default function Footer({ data }: { data: FooterData }) {
                   key={link.label}
                   href={link.href}
                   aria-label={link.label}
-                  className="flex h-[38px] w-[38px] items-center justify-center rounded-full bg-white/6 text-white transition-all duration-150 hover:-translate-y-0.5 hover:bg-red"
+                  className="flex h-9 w-9 items-center justify-center rounded-full bg-white/8 text-white transition-all duration-150 hover:bg-red"
                 >
                   {SOCIAL_SVGS[link.label] ?? null}
                 </a>
@@ -55,13 +55,13 @@ export default function Footer({ data }: { data: FooterData }) {
           </div>
 
           <div>
-            <h5 className="relative mb-2.5 pb-3.5 font-heading text-[14.5px] font-bold text-white after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-7 after:rounded-full after:bg-red">
-              {data.navTitle ?? "Navigation"}
+            <h5 className="mb-5 font-heading text-[13px] font-extrabold uppercase tracking-[0.5px] text-white">
+              {data.navTitle ?? "Nos services"}
             </h5>
             <ul className="mt-2 flex flex-col gap-3">
               {navLinks.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-[13.5px] text-[#9A9DB8] transition-colors duration-150 hover:text-[#FF7A9C]">
+                  <a href={link.href} className="text-[13.5px] text-white/65 transition-colors duration-150 hover:text-white">
                     {link.label}
                   </a>
                 </li>
@@ -70,13 +70,13 @@ export default function Footer({ data }: { data: FooterData }) {
           </div>
 
           <div>
-            <h5 className="relative mb-2.5 pb-3.5 font-heading text-[14.5px] font-bold text-white after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-7 after:rounded-full after:bg-red">
-              {data.resourcesTitle ?? "Ressources"}
+            <h5 className="mb-5 font-heading text-[13px] font-extrabold uppercase tracking-[0.5px] text-white">
+              {data.resourcesTitle ?? "L'entreprise"}
             </h5>
             <ul className="mt-2 flex flex-col gap-3">
               {resourceLinks.map((link) => (
                 <li key={link.label}>
-                  <a href={link.href} className="text-[13.5px] text-[#9A9DB8] transition-colors duration-150 hover:text-[#FF7A9C]">
+                  <a href={link.href} className="text-[13.5px] text-white/65 transition-colors duration-150 hover:text-white">
                     {link.label}
                   </a>
                 </li>
@@ -85,12 +85,12 @@ export default function Footer({ data }: { data: FooterData }) {
           </div>
 
           <div>
-            <h5 className="relative mb-2.5 pb-3.5 font-heading text-[14.5px] font-bold text-white after:absolute after:bottom-0 after:left-0 after:h-[3px] after:w-7 after:rounded-full after:bg-red">
+            <h5 className="mb-5 font-heading text-[13px] font-extrabold uppercase tracking-[0.5px] text-white">
               {data.contactTitle ?? "Contact"}
             </h5>
             <ul className="mt-2 flex flex-col gap-2.5">
               {data.address && (
-                <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
+                <li className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-white/65">
                   <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z" />
                     <circle cx="12" cy="10" r="3" />
@@ -99,7 +99,7 @@ export default function Footer({ data }: { data: FooterData }) {
                 </li>
               )}
               {data.phone && (
-                <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
+                <li className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-white/65">
                   <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <path d="M22 16.92v3a2 2 0 01-2.18 2 19.8 19.8 0 01-8.63-3.07 19.5 19.5 0 01-6-6A19.8 19.8 0 012 4.18 2 2 0 014.11 2h3" />
                   </svg>
@@ -107,7 +107,7 @@ export default function Footer({ data }: { data: FooterData }) {
                 </li>
               )}
               {data.email && (
-                <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
+                <li className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-white/65">
                   <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <rect x="3" y="5" width="18" height="14" rx="2" />
                     <path d="M3 7l9 6 9-6" />
@@ -116,7 +116,7 @@ export default function Footer({ data }: { data: FooterData }) {
                 </li>
               )}
               {data.hours && (
-                <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
+                <li className="flex items-start gap-2.5 text-[13px] leading-[1.5] text-white/65">
                   <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
                     <circle cx="12" cy="12" r="9" />
                     <path d="M12 7v5l3.5 2" />
@@ -128,11 +128,11 @@ export default function Footer({ data }: { data: FooterData }) {
           </div>
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-3 py-[22px] text-[12.5px] text-[#7C7F9C]">
+        <div className="flex flex-wrap items-center justify-between gap-3 border-t border-white/12 py-[22px] text-[12.5px] text-white/50">
           {data.copyrightText && <span>{data.copyrightText}</span>}
-          <div className="flex gap-[22px]">
+          <div className="flex flex-wrap gap-[22px]">
             {legalLinks.map((link) => (
-              <a key={link.label} href={link.href} className="transition-colors duration-150 hover:text-[#FF7A9C]">
+              <a key={link.label} href={link.href} className="transition-colors duration-150 hover:text-white">
                 {link.label}
               </a>
             ))}
