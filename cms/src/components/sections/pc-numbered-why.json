@@ -1,0 +1,21 @@
+{
+  "collectionName": "components_sections_pc_numbered_whies",
+  "info": {
+    "displayName": "Portage Commercial - Numbered Why",
+    "icon": "target"
+  },
+  "options": {},
+  "attributes": {
+    "index": { "type": "integer" },
+    "icon": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "paragraph1": { "type": "text" },
+    "paragraph2": { "type": "text" },
+    "resultLabel": { "type": "string" },
+    "resultItems": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
+    }
+  }
+}

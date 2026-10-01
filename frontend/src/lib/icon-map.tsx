@@ -1,11 +1,23 @@
 import { createElement, type SVGProps } from "react";
 import * as Icons from "@/components/icons";
+import * as PortageCommercialIcons from "@/components/icons/portage-commercial";
+import * as PortageSalarialIcons from "@/components/icons/portage-salarial";
+import * as QuiSommesNousIcons from "@/components/icons/qui-sommes-nous";
+import * as TarifsIcons from "@/components/icons/tarifs";
 
-export type IconName = keyof typeof Icons;
+const ALL_ICONS = {
+  ...Icons,
+  ...PortageCommercialIcons,
+  ...PortageSalarialIcons,
+  ...QuiSommesNousIcons,
+  ...TarifsIcons,
+};
+
+export type IconName = keyof typeof ALL_ICONS;
 
 export function resolveIcon(name: string | null | undefined) {
-  if (name && name in Icons) {
-    return Icons[name as IconName];
+  if (name && name in ALL_ICONS) {
+    return ALL_ICONS[name as IconName];
   }
   return Icons.DocumentIcon;
 }

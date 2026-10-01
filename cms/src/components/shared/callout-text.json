@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_shared_callout_texts",
+  "info": {
+    "displayName": "Callout Text",
+    "icon": "feather"
+  },
+  "options": {},
+  "attributes": {
+    "text": { "type": "text", "required": true },
+    "tone": {
+      "type": "enumeration",
+      "enum": ["pink", "blue"],
+      "default": "pink"
+    }
+  }
+}

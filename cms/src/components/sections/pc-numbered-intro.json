@@ -1,0 +1,25 @@
+{
+  "collectionName": "components_sections_pc_numbered_intros",
+  "info": {
+    "displayName": "Portage Commercial - Numbered Intro",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "index": { "type": "integer", "required": true },
+    "icon": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "intro": { "type": "text" },
+    "checklistItems": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
+    },
+    "paragraph2": { "type": "text" },
+    "callout": {
+      "type": "component",
+      "component": "shared.callout-text",
+      "repeatable": false
+    }
+  }
+}

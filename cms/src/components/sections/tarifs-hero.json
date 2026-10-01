@@ -1,0 +1,20 @@
+{
+  "collectionName": "components_sections_tarifs_heroes",
+  "info": {
+    "displayName": "Tarifs Hero",
+    "icon": "price-tag"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "highlight": { "type": "text" },
+    "paragraph1": { "type": "text" },
+    "paragraph2": { "type": "text" },
+    "features": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    }
+  }
+}

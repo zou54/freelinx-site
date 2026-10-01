@@ -1,0 +1,16 @@
+{
+  "collectionName": "components_sections_why_chooses",
+  "info": {
+    "displayName": "Why Choose Section",
+    "icon": "star"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "reasons": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    }
+  }
+}

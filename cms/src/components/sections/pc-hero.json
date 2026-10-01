@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_pc_heroes",
+  "info": {
+    "displayName": "Portage Commercial Hero",
+    "icon": "rocket"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "highlightLine": { "type": "string" },
+    "paragraph1": { "type": "text" },
+    "paragraph2": { "type": "text" },
+    "primaryCtaLabel": { "type": "string" },
+    "primaryCtaHref": { "type": "string", "default": "#" },
+    "secondaryCtaLabel": { "type": "string" },
+    "secondaryCtaHref": { "type": "string", "default": "#" },
+    "checklist": {
+      "type": "component",
+      "component": "shared.icon-stat-text",
+      "repeatable": true
+    }
+  }
+}

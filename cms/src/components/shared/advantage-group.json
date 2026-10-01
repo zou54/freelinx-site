@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_shared_advantage_groups",
+  "info": {
+    "displayName": "Advantage Group",
+    "icon": "layer"
+  },
+  "options": {},
+  "attributes": {
+    "pillLabel": { "type": "string", "required": true },
+    "pillColor": {
+      "type": "enumeration",
+      "enum": ["red", "navy"],
+      "default": "red"
+    },
+    "items": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
+    },
+    "calloutText": { "type": "text" },
+    "calloutTone": {
+      "type": "enumeration",
+      "enum": ["pink", "blue"],
+      "default": "pink"
+    }
+  }
+}

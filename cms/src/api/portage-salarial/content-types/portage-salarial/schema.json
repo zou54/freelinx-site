@@ -1,0 +1,51 @@
+{
+  "kind": "singleType",
+  "collectionName": "portage_salarials",
+  "info": {
+    "singularName": "portage-salarial",
+    "pluralName": "portage-salarials",
+    "displayName": "Portage Salarial",
+    "description": "Contenu de la page portage salarial"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "sections.ps-hero",
+      "repeatable": false
+    },
+    "tripartiteSection": {
+      "type": "component",
+      "component": "sections.tripartite",
+      "repeatable": false
+    },
+    "advantagesSection": {
+      "type": "component",
+      "component": "sections.benefits",
+      "repeatable": false
+    },
+    "stepsSection": {
+      "type": "component",
+      "component": "sections.steps",
+      "repeatable": false
+    },
+    "pourQuiSection": {
+      "type": "component",
+      "component": "sections.pour-qui",
+      "repeatable": false
+    },
+    "whyChooseSection": {
+      "type": "component",
+      "component": "sections.why-choose",
+      "repeatable": false
+    },
+    "finalCtaSection": {
+      "type": "component",
+      "component": "sections.final-cta",
+      "repeatable": false
+    }
+  }
+}

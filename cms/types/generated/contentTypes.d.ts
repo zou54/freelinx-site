@@ -568,6 +568,279 @@ export interface ApiHomepageHomepage extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiPortageCommercialPortageCommercial
+  extends Struct.SingleTypeSchema {
+  collectionName: 'portage_commercials';
+  info: {
+    description: 'Contenu de la page portage commercial';
+    displayName: 'Portage Commercial';
+    pluralName: 'portage-commercials';
+    singularName: 'portage-commercial';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    finalCtaSection: Schema.Attribute.Component<'sections.final-cta', false>;
+    heroSection: Schema.Attribute.Component<'sections.pc-hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::portage-commercial.portage-commercial'
+    > &
+      Schema.Attribute.Private;
+    numberedBenefits: Schema.Attribute.Component<
+      'sections.pc-numbered-benefits',
+      false
+    >;
+    numberedHow: Schema.Attribute.Component<'sections.pc-numbered-how', false>;
+    numberedIntro: Schema.Attribute.Component<
+      'sections.pc-numbered-intro',
+      false
+    >;
+    numberedWhy: Schema.Attribute.Component<'sections.pc-numbered-why', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiPortageSalarialPortageSalarial
+  extends Struct.SingleTypeSchema {
+  collectionName: 'portage_salarials';
+  info: {
+    description: 'Contenu de la page portage salarial';
+    displayName: 'Portage Salarial';
+    pluralName: 'portage-salarials';
+    singularName: 'portage-salarial';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    advantagesSection: Schema.Attribute.Component<'sections.benefits', false>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    finalCtaSection: Schema.Attribute.Component<'sections.final-cta', false>;
+    heroSection: Schema.Attribute.Component<'sections.ps-hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::portage-salarial.portage-salarial'
+    > &
+      Schema.Attribute.Private;
+    pourQuiSection: Schema.Attribute.Component<'sections.pour-qui', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    stepsSection: Schema.Attribute.Component<'sections.steps', false>;
+    tripartiteSection: Schema.Attribute.Component<'sections.tripartite', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    whyChooseSection: Schema.Attribute.Component<'sections.why-choose', false>;
+  };
+}
+
+export interface ApiQuiSommesNousQuiSommesNous extends Struct.SingleTypeSchema {
+  collectionName: 'qui_sommes_nous_pages';
+  info: {
+    description: 'Contenu de la page Qui sommes-nous';
+    displayName: 'Qui Sommes Nous';
+    pluralName: 'qui-sommes-nous-pages';
+    singularName: 'qui-sommes-nous';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    convictionSection: Schema.Attribute.Component<
+      'sections.qsn-statement',
+      false
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    heroSection: Schema.Attribute.Component<'sections.qsn-hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::qui-sommes-nous.qui-sommes-nous'
+    > &
+      Schema.Attribute.Private;
+    missionSection: Schema.Attribute.Component<'sections.qsn-statement', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    quoteSection: Schema.Attribute.Component<'shared.statement-quote', false>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    valuesSection: Schema.Attribute.Component<'sections.qsn-values', false>;
+  };
+}
+
+export interface ApiSimulateurSimulateur extends Struct.SingleTypeSchema {
+  collectionName: 'simulateurs';
+  info: {
+    description: 'Textes statiques de la page simulateur (la logique de calcul reste cod\u00E9e en dur)';
+    displayName: 'Simulateur';
+    pluralName: 'simulateurs';
+    singularName: 'simulateur';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    advancedToggleLabel: Schema.Attribute.String;
+    annuelBrutLabel: Schema.Attribute.String;
+    annuelCaLabel: Schema.Attribute.String;
+    annuelImpotLabel: Schema.Attribute.String;
+    annuelNetApresLabel: Schema.Attribute.String;
+    annuelNetAvantLabel: Schema.Attribute.String;
+    avantagePortageLabel: Schema.Attribute.String;
+    avantageSalariatLabel: Schema.Attribute.String;
+    avantagesLabel: Schema.Attribute.String;
+    caFieldLabel: Schema.Attribute.String;
+    chargesPatronalesLabel: Schema.Attribute.String;
+    chargesSalarialesLabel: Schema.Attribute.String;
+    comparateurTitle: Schema.Attribute.String;
+    compareFraisGestionLabel: Schema.Attribute.String;
+    compareImpotLabel: Schema.Attribute.String;
+    comparePatronalesLabel: Schema.Attribute.String;
+    compareSalarialesLabel: Schema.Attribute.String;
+    complianceBadge: Schema.Attribute.String;
+    conclusionMiddleText: Schema.Attribute.String;
+    conclusionPortageLabel: Schema.Attribute.String;
+    conclusionSalariatLabel: Schema.Attribute.String;
+    conclusionSecondParagraph: Schema.Attribute.Text;
+    conclusionSuffixText: Schema.Attribute.String;
+    conclusionTitle: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    detailPrelevementsTitle: Schema.Attribute.String;
+    detailsDisclaimer: Schema.Attribute.Text;
+    detailsTableHeaderMontant: Schema.Attribute.String;
+    detailsTableHeaderPoste: Schema.Attribute.String;
+    detailsTableTotalLabel: Schema.Attribute.String;
+    detailsTitle: Schema.Attribute.String;
+    differenceLabel: Schema.Attribute.String;
+    donutCenterLabel: Schema.Attribute.String;
+    donutSalaireNetLabel: Schema.Attribute.String;
+    evoApresFraisLabel: Schema.Attribute.String;
+    evoCaLabel: Schema.Attribute.String;
+    evoNetApresLabel: Schema.Attribute.String;
+    evoNetAvantLabel: Schema.Attribute.String;
+    formTitle: Schema.Attribute.String;
+    fraisGestionLabel: Schema.Attribute.String;
+    fraisProFieldLabel: Schema.Attribute.String;
+    fraisProHelper: Schema.Attribute.String;
+    fraisProRowLabel: Schema.Attribute.String;
+    graphComparaisonTitle: Schema.Attribute.String;
+    graphEvolutionTitle: Schema.Attribute.String;
+    graphProjectionTitle: Schema.Attribute.String;
+    graphRepartitionTitle: Schema.Attribute.String;
+    heroDescription: Schema.Attribute.Text;
+    heroPill: Schema.Attribute.String;
+    heroTitle: Schema.Attribute.Text & Schema.Attribute.Required;
+    inconvenientsLabel: Schema.Attribute.String;
+    infosImportantesBullets: Schema.Attribute.Component<
+      'shared.checklist-item',
+      true
+    >;
+    infosImportantesTitle: Schema.Attribute.String;
+    joursFieldLabel: Schema.Attribute.String;
+    joursHelper: Schema.Attribute.String;
+    lineCaCumuleLabel: Schema.Attribute.String;
+    lineCaLegend: Schema.Attribute.String;
+    lineNetCumuleLabel: Schema.Attribute.String;
+    lineNetLegend: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::simulateur.simulateur'
+    > &
+      Schema.Attribute.Private;
+    modeCaLabel: Schema.Attribute.String;
+    modeLabel: Schema.Attribute.String;
+    modeNetLabel: Schema.Attribute.String;
+    modeTjmLabel: Schema.Attribute.String;
+    netFieldLabel: Schema.Attribute.String;
+    partsHelper: Schema.Attribute.String;
+    partsLabel: Schema.Attribute.String;
+    portageAvantages: Schema.Attribute.Component<'shared.checklist-item', true>;
+    portageCardTitle: Schema.Attribute.String;
+    portageInconvenients: Schema.Attribute.Component<
+      'shared.checklist-item',
+      true
+    >;
+    projectionAnnuelleTitle: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    salarieAvantages: Schema.Attribute.Component<'shared.checklist-item', true>;
+    salarieCardTitle: Schema.Attribute.String;
+    salarieColumnTitle: Schema.Attribute.String;
+    salarieInconvenients: Schema.Attribute.Component<
+      'shared.checklist-item',
+      true
+    >;
+    situationFieldLabel: Schema.Attribute.String;
+    statBrutLabel: Schema.Attribute.String;
+    statCaLabel: Schema.Attribute.String;
+    statImpotLabel: Schema.Attribute.String;
+    statNetApresLabel: Schema.Attribute.String;
+    statNetAvantLabel: Schema.Attribute.String;
+    submitLabel: Schema.Attribute.String;
+    tabComparateurLabel: Schema.Attribute.String;
+    tabDetailsLabel: Schema.Attribute.String;
+    tabGraphiquesLabel: Schema.Attribute.String;
+    tabResultatsLabel: Schema.Attribute.String;
+    tauxChargeGlobalLabel: Schema.Attribute.String;
+    tjmFieldLabel: Schema.Attribute.String;
+    tjmHelper: Schema.Attribute.String;
+    tjmNecessaireLabel: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTarifsTarifs extends Struct.SingleTypeSchema {
+  collectionName: 'tarifs_pages';
+  info: {
+    description: 'Contenu de la page tarifs';
+    displayName: 'Tarifs';
+    pluralName: 'tarifs-pages';
+    singularName: 'tarifs';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    heroSection: Schema.Attribute.Component<'sections.tarifs-hero', false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::tarifs.tarifs'
+    > &
+      Schema.Attribute.Private;
+    pricingSection: Schema.Attribute.Component<'sections.pricing', false>;
+    publishedAt: Schema.Attribute.DateTime;
+    simulateBar: Schema.Attribute.Component<'shared.cta-banner', false>;
+    transparencySection: Schema.Attribute.Component<
+      'sections.transparency',
+      false
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -1082,6 +1355,11 @@ declare module '@strapi/strapi' {
       'api::footer.footer': ApiFooterFooter;
       'api::header.header': ApiHeaderHeader;
       'api::homepage.homepage': ApiHomepageHomepage;
+      'api::portage-commercial.portage-commercial': ApiPortageCommercialPortageCommercial;
+      'api::portage-salarial.portage-salarial': ApiPortageSalarialPortageSalarial;
+      'api::qui-sommes-nous.qui-sommes-nous': ApiQuiSommesNousQuiSommesNous;
+      'api::simulateur.simulateur': ApiSimulateurSimulateur;
+      'api::tarifs.tarifs': ApiTarifsTarifs;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -1,0 +1,24 @@
+{
+  "collectionName": "components_sections_tripartites",
+  "info": {
+    "displayName": "Tripartite Diagram",
+    "icon": "shuffle"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "paragraph1": { "type": "text" },
+    "paragraph2": { "type": "text" },
+    "vousLabel": { "type": "string" },
+    "vousSublabel": { "type": "string" },
+    "vousIcon": { "type": "string" },
+    "clientsLabel": { "type": "string" },
+    "clientsSublabel": { "type": "string" },
+    "clientsIcon": { "type": "string" },
+    "freelinxLabel": { "type": "string", "default": "FREELINX" },
+    "link1From": { "type": "string" },
+    "link1To": { "type": "string" },
+    "link2From": { "type": "string" },
+    "link2To": { "type": "string" }
+  }
+}

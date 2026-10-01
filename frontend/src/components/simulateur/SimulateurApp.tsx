@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import SimulateurForm, { type SimFormState } from "@/components/simulateur/SimulateurForm";
 import SimulateurResults from "@/components/simulateur/SimulateurResults";
 import { simuler, simulerDepuisTJM, tjmNecessairePourNet } from "@/lib/simulateur/calc";
+import type { SimulateurCopyData } from "@/lib/content/simulateur";
 
 const INITIAL_STATE: SimFormState = {
   mode: "tjm",
@@ -17,7 +18,7 @@ const INITIAL_STATE: SimFormState = {
   parts: 1,
 };
 
-export default function SimulateurApp() {
+export default function SimulateurApp({ copy }: { copy: SimulateurCopyData }) {
   const [form, setForm] = useState<SimFormState>(INITIAL_STATE);
   const [advancedOpen, setAdvancedOpen] = useState(false);
 
@@ -60,9 +61,10 @@ export default function SimulateurApp() {
         onSubmit={() => {
           document.getElementById("simulateur-tabs")?.scrollIntoView({ behavior: "smooth", block: "start" });
         }}
+        copy={copy}
       />
       <div id="simulateur-tabs">
-        <SimulateurResults res={res} tjmNecessaire={tjmNecessaire} />
+        <SimulateurResults res={res} tjmNecessaire={tjmNecessaire} copy={copy} />
       </div>
     </div>
   );

@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_pricings",
+  "info": {
+    "displayName": "Pricing Section",
+    "icon": "price-tag"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "rateCaption": { "type": "string" },
+    "plans": {
+      "type": "component",
+      "component": "shared.pricing-plan",
+      "repeatable": true
+    }
+  }
+}

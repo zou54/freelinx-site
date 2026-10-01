@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_shared_team_members",
+  "info": {
+    "displayName": "Team Member",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "name": { "type": "string", "required": true },
+    "role": { "type": "string", "required": true },
+    "initials": { "type": "string" },
+    "photo": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "variant": {
+      "type": "enumeration",
+      "enum": ["mono", "color"],
+      "default": "mono"
+    }
+  }
+}

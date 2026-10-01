@@ -1,0 +1,27 @@
+{
+  "collectionName": "components_shared_pricing_plans",
+  "info": {
+    "displayName": "Pricing Plan",
+    "icon": "price-tag"
+  },
+  "options": {},
+  "attributes": {
+    "variant": {
+      "type": "enumeration",
+      "enum": ["red", "blue", "green"],
+      "default": "red"
+    },
+    "badge": { "type": "string" },
+    "icon": { "type": "string", "required": true },
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "string" },
+    "rate": { "type": "string", "required": true },
+    "featureItems": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
+    },
+    "ctaLabel": { "type": "string" },
+    "ctaHref": { "type": "string", "default": "#" }
+  }
+}

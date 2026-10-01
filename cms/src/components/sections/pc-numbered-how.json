@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_pc_numbered_hows",
+  "info": {
+    "displayName": "Portage Commercial - Numbered How",
+    "icon": "gear"
+  },
+  "options": {},
+  "attributes": {
+    "index": { "type": "integer" },
+    "icon": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "steps": {
+      "type": "component",
+      "component": "shared.icon-text-item",
+      "repeatable": true
+    },
+    "calloutText": { "type": "text" }
+  }
+}

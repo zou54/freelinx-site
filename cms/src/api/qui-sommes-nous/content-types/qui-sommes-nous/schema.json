@@ -1,0 +1,41 @@
+{
+  "kind": "singleType",
+  "collectionName": "qui_sommes_nous_pages",
+  "info": {
+    "singularName": "qui-sommes-nous",
+    "pluralName": "qui-sommes-nous-pages",
+    "displayName": "Qui Sommes Nous",
+    "description": "Contenu de la page Qui sommes-nous"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "sections.qsn-hero",
+      "repeatable": false
+    },
+    "missionSection": {
+      "type": "component",
+      "component": "sections.qsn-statement",
+      "repeatable": false
+    },
+    "convictionSection": {
+      "type": "component",
+      "component": "sections.qsn-statement",
+      "repeatable": false
+    },
+    "valuesSection": {
+      "type": "component",
+      "component": "sections.qsn-values",
+      "repeatable": false
+    },
+    "quoteSection": {
+      "type": "component",
+      "component": "shared.statement-quote",
+      "repeatable": false
+    }
+  }
+}

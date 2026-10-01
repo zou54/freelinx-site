@@ -71,6 +71,7 @@ export interface SectionsFinalCta extends Struct.ComponentSchema {
   };
   attributes: {
     badge: Schema.Attribute.String;
+    checklistItems: Schema.Attribute.Component<'shared.checklist-item', true>;
     iconItems: Schema.Attribute.Component<'shared.icon-text-item', true>;
     paragraph: Schema.Attribute.Text;
     primaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
@@ -105,6 +106,177 @@ export interface SectionsHero extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsPcHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pc_heroes';
+  info: {
+    displayName: 'Portage Commercial Hero';
+    icon: 'rocket';
+  };
+  attributes: {
+    checklist: Schema.Attribute.Component<'shared.icon-stat-text', true>;
+    highlightLine: Schema.Attribute.String;
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    primaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    primaryCtaLabel: Schema.Attribute.String;
+    secondaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    secondaryCtaLabel: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPcNumberedBenefits extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pc_numbered_benefits';
+  info: {
+    displayName: 'Portage Commercial - Numbered Benefits';
+    icon: 'briefcase';
+  };
+  attributes: {
+    group1: Schema.Attribute.Component<'shared.advantage-group', false>;
+    group2: Schema.Attribute.Component<'shared.advantage-group', false>;
+    icon: Schema.Attribute.String;
+    index: Schema.Attribute.Integer;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPcNumberedHow extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pc_numbered_hows';
+  info: {
+    displayName: 'Portage Commercial - Numbered How';
+    icon: 'gear';
+  };
+  attributes: {
+    calloutText: Schema.Attribute.Text;
+    icon: Schema.Attribute.String;
+    index: Schema.Attribute.Integer;
+    steps: Schema.Attribute.Component<'shared.icon-text-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPcNumberedIntro extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pc_numbered_intros';
+  info: {
+    displayName: 'Portage Commercial - Numbered Intro';
+    icon: 'question';
+  };
+  attributes: {
+    callout: Schema.Attribute.Component<'shared.callout-text', false>;
+    checklistItems: Schema.Attribute.Component<'shared.checklist-item', true>;
+    icon: Schema.Attribute.String & Schema.Attribute.Required;
+    index: Schema.Attribute.Integer & Schema.Attribute.Required;
+    intro: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPcNumberedWhy extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pc_numbered_whies';
+  info: {
+    displayName: 'Portage Commercial - Numbered Why';
+    icon: 'target';
+  };
+  attributes: {
+    icon: Schema.Attribute.String;
+    index: Schema.Attribute.Integer;
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    resultItems: Schema.Attribute.Component<'shared.checklist-item', true>;
+    resultLabel: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPourQui extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pour_quis';
+  info: {
+    displayName: 'Pour Qui Section';
+    icon: 'user';
+  };
+  attributes: {
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    profiles: Schema.Attribute.Component<'shared.checklist-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPricing extends Struct.ComponentSchema {
+  collectionName: 'components_sections_pricings';
+  info: {
+    displayName: 'Pricing Section';
+    icon: 'price-tag';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    plans: Schema.Attribute.Component<'shared.pricing-plan', true>;
+    rateCaption: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsPsHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_ps_heroes';
+  info: {
+    displayName: 'Portage Salarial Hero';
+    icon: 'rocket';
+  };
+  attributes: {
+    checklist: Schema.Attribute.Component<'shared.icon-stat-text', true>;
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    primaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    primaryCtaLabel: Schema.Attribute.String;
+    secondaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    secondaryCtaLabel: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsQsnHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_qsn_heroes';
+  info: {
+    displayName: 'Qui Sommes Nous Hero';
+    icon: 'rocket';
+  };
+  attributes: {
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    pill: Schema.Attribute.String;
+    team: Schema.Attribute.Component<'shared.team-member', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsQsnStatement extends Struct.ComponentSchema {
+  collectionName: 'components_sections_qsn_statements';
+  info: {
+    displayName: 'Qui Sommes Nous Statement';
+    icon: 'bulb';
+  };
+  attributes: {
+    highlight: Schema.Attribute.Text;
+    icon: Schema.Attribute.String;
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsQsnValues extends Struct.ComponentSchema {
+  collectionName: 'components_sections_qsn_values';
+  info: {
+    displayName: 'Qui Sommes Nous Values';
+    icon: 'star';
+  };
+  attributes: {
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    values: Schema.Attribute.Component<'shared.icon-text-item', true>;
+  };
+}
+
 export interface SectionsSectors extends Struct.ComponentSchema {
   collectionName: 'components_sections_sectors';
   info: {
@@ -135,6 +307,22 @@ export interface SectionsSteps extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsTarifsHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_tarifs_heroes';
+  info: {
+    displayName: 'Tarifs Hero';
+    icon: 'price-tag';
+  };
+  attributes: {
+    features: Schema.Attribute.Component<'shared.icon-text-item', true>;
+    highlight: Schema.Attribute.Text;
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    pill: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsTestimonials extends Struct.ComponentSchema {
   collectionName: 'components_sections_testimonials';
   info: {
@@ -146,6 +334,45 @@ export interface SectionsTestimonials extends Struct.ComponentSchema {
     pill: Schema.Attribute.String;
     testimonials: Schema.Attribute.Component<'shared.testimonial-item', true>;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsTransparency extends Struct.ComponentSchema {
+  collectionName: 'components_sections_transparencies';
+  info: {
+    displayName: 'Transparency Section';
+    icon: 'shield';
+  };
+  attributes: {
+    checklistItems: Schema.Attribute.Component<'shared.checklist-item', true>;
+    description: Schema.Attribute.Text;
+    quote: Schema.Attribute.Component<'shared.statement-quote', false>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsTripartite extends Struct.ComponentSchema {
+  collectionName: 'components_sections_tripartites';
+  info: {
+    displayName: 'Tripartite Diagram';
+    icon: 'shuffle';
+  };
+  attributes: {
+    clientsIcon: Schema.Attribute.String;
+    clientsLabel: Schema.Attribute.String;
+    clientsSublabel: Schema.Attribute.String;
+    freelinxLabel: Schema.Attribute.String &
+      Schema.Attribute.DefaultTo<'FREELINX'>;
+    link1From: Schema.Attribute.String;
+    link1To: Schema.Attribute.String;
+    link2From: Schema.Attribute.String;
+    link2To: Schema.Attribute.String;
+    paragraph1: Schema.Attribute.Text;
+    paragraph2: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    vousIcon: Schema.Attribute.String;
+    vousLabel: Schema.Attribute.String;
+    vousSublabel: Schema.Attribute.String;
   };
 }
 
@@ -161,6 +388,59 @@ export interface SectionsWhy extends Struct.ComponentSchema {
     intro2: Schema.Attribute.Text;
     intro3: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SectionsWhyChoose extends Struct.ComponentSchema {
+  collectionName: 'components_sections_why_chooses';
+  info: {
+    displayName: 'Why Choose Section';
+    icon: 'star';
+  };
+  attributes: {
+    reasons: Schema.Attribute.Component<'shared.icon-text-item', true>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SharedAdvantageGroup extends Struct.ComponentSchema {
+  collectionName: 'components_shared_advantage_groups';
+  info: {
+    displayName: 'Advantage Group';
+    icon: 'layer';
+  };
+  attributes: {
+    calloutText: Schema.Attribute.Text;
+    calloutTone: Schema.Attribute.Enumeration<['pink', 'blue']> &
+      Schema.Attribute.DefaultTo<'pink'>;
+    items: Schema.Attribute.Component<'shared.checklist-item', true>;
+    pillColor: Schema.Attribute.Enumeration<['red', 'navy']> &
+      Schema.Attribute.DefaultTo<'red'>;
+    pillLabel: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SharedCalloutText extends Struct.ComponentSchema {
+  collectionName: 'components_shared_callout_texts';
+  info: {
+    displayName: 'Callout Text';
+    icon: 'feather';
+  };
+  attributes: {
+    text: Schema.Attribute.Text & Schema.Attribute.Required;
+    tone: Schema.Attribute.Enumeration<['pink', 'blue']> &
+      Schema.Attribute.DefaultTo<'pink'>;
+  };
+}
+
+export interface SharedChecklistItem extends Struct.ComponentSchema {
+  collectionName: 'components_shared_checklist_items';
+  info: {
+    displayName: 'Checklist Item';
+    icon: 'check';
+  };
+  attributes: {
+    label: Schema.Attribute.String & Schema.Attribute.Required;
   };
 }
 
@@ -284,6 +564,54 @@ export interface SharedNavLink extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedPricingPlan extends Struct.ComponentSchema {
+  collectionName: 'components_shared_pricing_plans';
+  info: {
+    displayName: 'Pricing Plan';
+    icon: 'price-tag';
+  };
+  attributes: {
+    badge: Schema.Attribute.String;
+    ctaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    ctaLabel: Schema.Attribute.String;
+    featureItems: Schema.Attribute.Component<'shared.checklist-item', true>;
+    icon: Schema.Attribute.String & Schema.Attribute.Required;
+    rate: Schema.Attribute.String & Schema.Attribute.Required;
+    subtitle: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    variant: Schema.Attribute.Enumeration<['red', 'blue', 'green']> &
+      Schema.Attribute.DefaultTo<'red'>;
+  };
+}
+
+export interface SharedStatementQuote extends Struct.ComponentSchema {
+  collectionName: 'components_shared_statement_quotes';
+  info: {
+    displayName: 'Statement Quote';
+    icon: 'quote';
+  };
+  attributes: {
+    line1: Schema.Attribute.Text & Schema.Attribute.Required;
+    line2: Schema.Attribute.Text & Schema.Attribute.Required;
+  };
+}
+
+export interface SharedTeamMember extends Struct.ComponentSchema {
+  collectionName: 'components_shared_team_members';
+  info: {
+    displayName: 'Team Member';
+    icon: 'user';
+  };
+  attributes: {
+    initials: Schema.Attribute.String;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
+    photo: Schema.Attribute.Media<'images'>;
+    role: Schema.Attribute.String & Schema.Attribute.Required;
+    variant: Schema.Attribute.Enumeration<['mono', 'color']> &
+      Schema.Attribute.DefaultTo<'mono'>;
+  };
+}
+
 export interface SharedTestimonialItem extends Struct.ComponentSchema {
   collectionName: 'components_shared_testimonial_items';
   info: {
@@ -315,10 +643,28 @@ declare module '@strapi/strapi' {
       'sections.figures': SectionsFigures;
       'sections.final-cta': SectionsFinalCta;
       'sections.hero': SectionsHero;
+      'sections.pc-hero': SectionsPcHero;
+      'sections.pc-numbered-benefits': SectionsPcNumberedBenefits;
+      'sections.pc-numbered-how': SectionsPcNumberedHow;
+      'sections.pc-numbered-intro': SectionsPcNumberedIntro;
+      'sections.pc-numbered-why': SectionsPcNumberedWhy;
+      'sections.pour-qui': SectionsPourQui;
+      'sections.pricing': SectionsPricing;
+      'sections.ps-hero': SectionsPsHero;
+      'sections.qsn-hero': SectionsQsnHero;
+      'sections.qsn-statement': SectionsQsnStatement;
+      'sections.qsn-values': SectionsQsnValues;
       'sections.sectors': SectionsSectors;
       'sections.steps': SectionsSteps;
+      'sections.tarifs-hero': SectionsTarifsHero;
       'sections.testimonials': SectionsTestimonials;
+      'sections.transparency': SectionsTransparency;
+      'sections.tripartite': SectionsTripartite;
       'sections.why': SectionsWhy;
+      'sections.why-choose': SectionsWhyChoose;
+      'shared.advantage-group': SharedAdvantageGroup;
+      'shared.callout-text': SharedCalloutText;
+      'shared.checklist-item': SharedChecklistItem;
       'shared.cta-banner': SharedCtaBanner;
       'shared.faq-item': SharedFaqItem;
       'shared.feature-item': SharedFeatureItem;
@@ -328,6 +674,9 @@ declare module '@strapi/strapi' {
       'shared.icon-text-item': SharedIconTextItem;
       'shared.label-detail': SharedLabelDetail;
       'shared.nav-link': SharedNavLink;
+      'shared.pricing-plan': SharedPricingPlan;
+      'shared.statement-quote': SharedStatementQuote;
+      'shared.team-member': SharedTeamMember;
       'shared.testimonial-item': SharedTestimonialItem;
     }
   }

@@ -8,15 +8,10 @@ import {
   euro,
   type SimulationResult,
 } from "@/lib/simulateur/calc";
+import type { SimulateurCopyData } from "@/lib/content/simulateur";
 
 type TabKey = "resultats" | "graphiques" | "comparateur" | "details";
-
-const TABS: { key: TabKey; label: string }[] = [
-  { key: "resultats", label: "Résultats" },
-  { key: "graphiques", label: "Graphiques" },
-  { key: "comparateur", label: "Comparateur" },
-  { key: "details", label: "Détails" },
-];
+const TAB_KEYS: TabKey[] = ["resultats", "graphiques", "comparateur", "details"];
 
 function StatCard({
   name,
@@ -50,13 +45,13 @@ function StatCard({
   );
 }
 
-function Donut({ res }: { res: SimulationResult }) {
+function Donut({ res, copy }: { res: SimulationResult; copy: SimulateurCopyData }) {
   const segments = [
-    { name: "Frais de gestion", val: res.montantFraisGestion, hex: "#3A3F5C" },
-    { name: "Charges patronales", val: res.chargesPatronales, hex: "#E8154F" },
-    { name: "Charges salariales", val: res.chargesSalariales, hex: "#C81044" },
-    { name: "Impôt", val: res.impotMensuel, hex: "#0B0F2B" },
-    { name: "Salaire net", val: res.salaireNetApresImpot, hex: "#1F9D63" },
+    { name: copy.fraisGestionLabel, val: res.montantFraisGestion, hex: "#3A3F5C" },
+    { name: copy.chargesPatronalesLabel, val: res.chargesPatronales, hex: "#E8154F" },
+    { name: copy.chargesSalarialesLabel, val: res.chargesSalariales, hex: "#C81044" },
+    { name: copy.compareImpotLabel, val: res.impotMensuel, hex: "#0B0F2B" },
+    { name: copy.donutSalaireNetLabel, val: res.salaireNetApresImpot, hex: "#1F9D63" },
   ];
   const total = res.chiffreAffaires;
   const r = 38;
@@ -88,7 +83,7 @@ function Donut({ res }: { res: SimulationResult }) {
           })}
         </svg>
         <div className="absolute inset-0 flex flex-col items-center justify-center text-center">
-          <div className="text-[10.5px] font-bold uppercase tracking-[0.4px] text-gray-text">CA mensuel</div>
+          <div className="text-[10.5px] font-bold uppercase tracking-[0.4px] text-gray-text">{copy.donutCenterLabel}</div>
           <div className="font-heading text-[19px] font-extrabold text-navy">{euro(total)}</div>
         </div>
       </div>
@@ -109,7 +104,7 @@ function Donut({ res }: { res: SimulationResult }) {
   );
 }
 
-function BarEvolution({ res }: { res: SimulationResult }) {
+function BarEvolution({ res, copy }: { res: SimulationResult; copy: SimulateurCopyData }) {
   const w = 620,
     h = 280,
     padL = 44,
@@ -117,11 +112,11 @@ function BarEvolution({ res }: { res: SimulationResult }) {
     padT = 16,
     padB = 64;
   const items = [
-    { name: "CA", val: res.chiffreAffaires },
-    { name: "Après frais gestion", val: res.caApresFraisGestion },
-    { name: "Salaire brut", val: res.salaireBrut },
-    { name: "Net avant impôt", val: res.salaireNetAvantImpot },
-    { name: "Net après impôt", val: res.salaireNetApresImpot },
+    { name: copy.evoCaLabel, val: res.chiffreAffaires },
+    { name: copy.evoApresFraisLabel, val: res.caApresFraisGestion },
+    { name: copy.statBrutLabel, val: res.salaireBrut },
+    { name: copy.evoNetAvantLabel, val: res.salaireNetAvantImpot },
+    { name: copy.evoNetApresLabel, val: res.salaireNetApresImpot },
   ];
   const maxY = Math.max(...items.map((i) => i.val)) * 1.12;
   const innerW = w - padL - padR;
@@ -163,7 +158,7 @@ function BarEvolution({ res }: { res: SimulationResult }) {
   );
 }
 
-function BarCompare({ res }: { res: SimulationResult }) {
+function BarCompare({ res, copy }: { res: SimulationResult; copy: SimulateurCopyData }) {
   const w = 620,
     h = 220,
     padL = 110,
@@ -171,10 +166,10 @@ function BarCompare({ res }: { res: SimulationResult }) {
     padT = 14,
     padB = 14;
   const rows = [
-    { name: "Patronales", val: res.chargesPatronales, color: "#E8154F" },
-    { name: "Salariales", val: res.chargesSalariales, color: "#C81044" },
-    { name: "Frais gestion", val: res.montantFraisGestion, color: "#3A3F5C" },
-    { name: "Impôt", val: res.impotMensuel, color: "#0B0F2B" },
+    { name: copy.comparePatronalesLabel, val: res.chargesPatronales, color: "#E8154F" },
+    { name: copy.compareSalarialesLabel, val: res.chargesSalariales, color: "#C81044" },
+    { name: copy.compareFraisGestionLabel, val: res.montantFraisGestion, color: "#3A3F5C" },
+    { name: copy.compareImpotLabel, val: res.impotMensuel, color: "#0B0F2B" },
   ];
   const maxVal = Math.max(...rows.map((r) => r.val)) * 1.15;
   const rowH = (h - padT - padB) / rows.length;
@@ -203,7 +198,7 @@ function BarCompare({ res }: { res: SimulationResult }) {
   );
 }
 
-function LineProjection({ res }: { res: SimulationResult }) {
+function LineProjection({ res, copy }: { res: SimulationResult; copy: SimulateurCopyData }) {
   const w = 620,
     h = 260,
     padL = 44,
@@ -255,19 +250,19 @@ function LineProjection({ res }: { res: SimulationResult }) {
       </div>
       <div className="mt-3.5 flex flex-wrap gap-4.5">
         <div className="flex items-center gap-1.5 text-[12px] font-semibold text-navy-soft">
-          <span className="h-2.5 w-2.5 rounded-[3px] bg-red" /> CA
+          <span className="h-2.5 w-2.5 rounded-[3px] bg-red" /> {copy.lineCaLegend}
         </div>
         <div className="flex items-center gap-1.5 text-[12px] font-semibold text-navy-soft">
-          <span className="h-2.5 w-2.5 rounded-[3px] bg-[#1F9D63]" /> Net
+          <span className="h-2.5 w-2.5 rounded-[3px] bg-[#1F9D63]" /> {copy.lineNetLegend}
         </div>
       </div>
       <div className="mt-[18px] grid grid-cols-1 gap-3.5 sm:grid-cols-2">
         <div className="rounded-[14px] bg-navy px-5 py-4.5 text-white">
-          <div className="mb-1.5 text-[12px] opacity-70">CA cumulé sur 12 mois</div>
+          <div className="mb-1.5 text-[12px] opacity-70">{copy.lineCaCumuleLabel}</div>
           <div className="font-heading text-[21px] font-extrabold">{euro(res.annuel.chiffreAffaires)}</div>
         </div>
         <div className="rounded-[14px] bg-navy px-5 py-4.5 text-white">
-          <div className="mb-1.5 text-[12px] opacity-70">Net cumulé sur 12 mois</div>
+          <div className="mb-1.5 text-[12px] opacity-70">{copy.lineNetCumuleLabel}</div>
           <div className="font-heading text-[21px] font-extrabold">{euro(res.annuel.salaireNetApresImpot)}</div>
         </div>
       </div>
@@ -275,7 +270,7 @@ function LineProjection({ res }: { res: SimulationResult }) {
   );
 }
 
-function Comparateur({ res }: { res: SimulationResult }) {
+function Comparateur({ res, copy }: { res: SimulationResult; copy: SimulateurCopyData }) {
   const cmp = comparerSalarie(res.chiffreAffaires, res.fraisGestion);
   const absDiff = Math.abs(cmp.difference);
   const absPct = Math.abs(cmp.pourcentageDifference);
@@ -290,29 +285,29 @@ function Comparateur({ res }: { res: SimulationResult }) {
           <path d="M23 21v-2a4 4 0 00-3-3.87" />
           <path d="M16 3.13a4 4 0 010 7.75" />
         </svg>
-        <h3 className="text-[19px] font-extrabold text-navy">Comparaison Portage vs Salariat classique</h3>
+        <h3 className="text-[19px] font-extrabold text-navy">{copy.comparateurTitle}</h3>
       </div>
 
       <div className="mb-5 grid grid-cols-1 gap-4.5 sm:grid-cols-2">
         <div className="rounded-[18px] bg-gradient-to-br from-red to-red-dark p-6 text-white shadow-[0_20px_44px_-22px_rgba(11,15,43,0.35)]">
-          <h4 className="mb-4 text-[15px] font-extrabold opacity-95">Portage salarial</h4>
+          <h4 className="mb-4 text-[15px] font-extrabold opacity-95">{copy.portageCardTitle}</h4>
           <div className="mb-2.5 flex items-baseline justify-between">
-            <span className="text-[12.5px] font-semibold opacity-85">Salaire brut</span>
+            <span className="text-[12.5px] font-semibold opacity-85">{copy.statBrutLabel}</span>
             <span className="font-heading text-[22px] font-extrabold">{euro(cmp.portage.brut)}</span>
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-[12.5px] font-semibold opacity-85">Salaire net</span>
+            <span className="text-[12.5px] font-semibold opacity-85">{copy.donutSalaireNetLabel}</span>
             <span className="font-heading text-[22px] font-extrabold">{euro(cmp.portage.net)}</span>
           </div>
         </div>
         <div className="rounded-[18px] bg-gradient-to-br from-navy-soft to-navy p-6 text-white shadow-[0_20px_44px_-22px_rgba(11,15,43,0.35)]">
-          <h4 className="mb-4 text-[15px] font-extrabold opacity-95">Salariat classique</h4>
+          <h4 className="mb-4 text-[15px] font-extrabold opacity-95">{copy.salarieCardTitle}</h4>
           <div className="mb-2.5 flex items-baseline justify-between">
-            <span className="text-[12.5px] font-semibold opacity-85">Salaire brut</span>
+            <span className="text-[12.5px] font-semibold opacity-85">{copy.statBrutLabel}</span>
             <span className="font-heading text-[22px] font-extrabold">{euro(cmp.salarie.brut)}</span>
           </div>
           <div className="flex items-baseline justify-between">
-            <span className="text-[12.5px] font-semibold opacity-85">Salaire net</span>
+            <span className="text-[12.5px] font-semibold opacity-85">{copy.donutSalaireNetLabel}</span>
             <span className="font-heading text-[22px] font-extrabold">{euro(cmp.salarie.net)}</span>
           </div>
         </div>
@@ -324,14 +319,14 @@ function Comparateur({ res }: { res: SimulationResult }) {
         }`}
       >
         <div>
-          <div className="mb-1 text-[12.5px] font-bold opacity-85">{good ? "Avantage portage" : "Avantage salariat"}</div>
+          <div className="mb-1 text-[12.5px] font-bold opacity-85">{good ? copy.avantagePortageLabel : copy.avantageSalariatLabel}</div>
           <div className="font-heading text-[27px] font-extrabold">{euro(absDiff)}</div>
         </div>
         <svg width={34} height={34} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2.4} className="opacity-90">
           {good ? <path d="M22 7l-8.5 8.5-5-5L2 17M16 7h6v6" /> : <path d="M22 17l-8.5-8.5-5 5L2 7M16 17h6v-6" />}
         </svg>
         <div className="text-right">
-          <div className="mb-1 text-[12.5px] font-bold opacity-85">Différence</div>
+          <div className="mb-1 text-[12.5px] font-bold opacity-85">{copy.differenceLabel}</div>
           <div className="font-heading text-[27px] font-extrabold">
             {good ? "+" : "-"}
             {absPct.toFixed(1)}%
@@ -343,27 +338,19 @@ function Comparateur({ res }: { res: SimulationResult }) {
         <div className="grid grid-cols-1 sm:grid-cols-[1fr_1px_1fr]">
           <div className="p-6">
             <h4 className="mb-4 flex items-center gap-2 text-[15px] font-extrabold text-navy">
-              <span className="h-2 w-2 rounded-full bg-red" /> Portage salarial
+              <span className="h-2 w-2 rounded-full bg-red" /> {copy.portageCardTitle}
             </h4>
             <div className="mb-3 flex items-center gap-1.5 text-[13px] font-extrabold text-[#167A4D]">
               <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2.4}>
                 <path d="M9 12l2 2 4-4" />
                 <circle cx="12" cy="12" r="9" />
               </svg>
-              Avantages
+              {copy.avantagesLabel}
             </div>
             <ul className="mb-4 flex flex-col gap-2">
-              {[
-                "Flexibilité et autonomie",
-                "Pas de création d'entreprise",
-                "Protection sociale complète",
-                "Gestion administrative simplifiée",
-                "Assurance chômage",
-                "Formation professionnelle",
-                "Retraite complémentaire",
-              ].map((li) => (
-                <li key={li} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F9D63]">
-                  {li}
+              {copy.portageAvantages.map((item) => (
+                <li key={item.label} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F9D63]">
+                  {item.label}
                 </li>
               ))}
             </ul>
@@ -372,16 +359,14 @@ function Comparateur({ res }: { res: SimulationResult }) {
                 <circle cx="12" cy="12" r="9" />
                 <path d="M9.5 9.5l5 5M14.5 9.5l-5 5" />
               </svg>
-              Inconvénients
+              {copy.inconvenientsLabel}
             </div>
             <ul className="flex flex-col gap-2">
-              {["Frais de gestion (5-10%)", "Intermittence des missions", "Pas de congés payés", "Responsabilité de trouver des clients"].map(
-                (li) => (
-                  <li key={li} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-red">
-                    {li}
-                  </li>
-                )
-              )}
+              {copy.portageInconvenients.map((item) => (
+                <li key={item.label} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-red">
+                  {item.label}
+                </li>
+              ))}
             </ul>
           </div>
 
@@ -389,27 +374,19 @@ function Comparateur({ res }: { res: SimulationResult }) {
 
           <div className="p-6">
             <h4 className="mb-4 flex items-center gap-2 text-[15px] font-extrabold text-navy">
-              <span className="h-2 w-2 rounded-full bg-navy" /> Salarié classique
+              <span className="h-2 w-2 rounded-full bg-navy" /> {copy.salarieColumnTitle}
             </h4>
             <div className="mb-3 flex items-center gap-1.5 text-[13px] font-extrabold text-[#167A4D]">
               <svg viewBox="0 0 24 24" width={16} height={16} fill="none" stroke="currentColor" strokeWidth={2.4}>
                 <path d="M9 12l2 2 4-4" />
                 <circle cx="12" cy="12" r="9" />
               </svg>
-              Avantages
+              {copy.avantagesLabel}
             </div>
             <ul className="mb-4 flex flex-col gap-2">
-              {[
-                "Stabilité de l'emploi",
-                "Avantages en nature possibles",
-                "Intégration en équipe",
-                "Plan d'épargne entreprise",
-                "Tickets restaurant",
-                "Mutuelle collective",
-                "Congés payés garantis",
-              ].map((li) => (
-                <li key={li} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F9D63]">
-                  {li}
+              {copy.salarieAvantages.map((item) => (
+                <li key={item.label} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-[#1F9D63]">
+                  {item.label}
                 </li>
               ))}
             </ul>
@@ -418,12 +395,12 @@ function Comparateur({ res }: { res: SimulationResult }) {
                 <circle cx="12" cy="12" r="9" />
                 <path d="M9.5 9.5l5 5M14.5 9.5l-5 5" />
               </svg>
-              Inconvénients
+              {copy.inconvenientsLabel}
             </div>
             <ul className="flex flex-col gap-2">
-              {["Moins de flexibilité", "Salaire fixe", "Hiérarchie", "Mobilité limitée"].map((li) => (
-                <li key={li} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-red">
-                  {li}
+              {copy.salarieInconvenients.map((item) => (
+                <li key={item.label} className="relative pl-4 text-[13px] leading-[1.4] text-navy-soft before:absolute before:left-0 before:top-[6px] before:h-1.5 before:w-1.5 before:rounded-full before:bg-red">
+                  {item.label}
                 </li>
               ))}
             </ul>
@@ -432,38 +409,38 @@ function Comparateur({ res }: { res: SimulationResult }) {
       </div>
 
       <div className="mt-5 rounded-[18px] border border-[#F0DCE2] bg-gradient-to-br from-pink-pale-2 to-[#EEF0F7] p-[26px_30px]">
-        <h4 className="mb-3 text-[16px] font-extrabold text-navy">Conclusion</h4>
+        <h4 className="mb-3 text-[16px] font-extrabold text-navy">{copy.conclusionTitle}</h4>
         <p className="mb-2.5 text-[13.5px] leading-[1.7] text-navy-soft">
-          {good ? (
-            <>
-              Le <strong className="font-extrabold text-red">portage salarial</strong> est plus avantageux financièrement avec un gain de{" "}
-              <strong className="font-extrabold text-red">{euro(absDiff)}</strong> par mois.
-            </>
-          ) : (
-            <>
-              Le <strong className="font-extrabold text-red">salariat classique</strong> est plus avantageux financièrement avec un gain de{" "}
-              <strong className="font-extrabold text-red">{euro(absDiff)}</strong> par mois.
-            </>
-          )}
+          Le <strong className="font-extrabold text-red">{good ? copy.conclusionPortageLabel : copy.conclusionSalariatLabel}</strong>
+          {copy.conclusionMiddleText}
+          <strong className="font-extrabold text-red">{euro(absDiff)}</strong>
+          {copy.conclusionSuffixText}
         </p>
-        <p className="text-[13.5px] leading-[1.7] text-navy-soft">
-          Cependant, le choix entre portage et salariat dépend aussi de critères non financiers : autonomie, flexibilité, sécurité,
-          avantages sociaux et vos préférences personnelles.
-        </p>
+        <p className="text-[13.5px] leading-[1.7] text-navy-soft">{copy.conclusionSecondParagraph}</p>
       </div>
     </div>
   );
 }
 
-function DetailsTable({ title, data, total }: { title: string; data: Record<string, number>; total: number }) {
+function DetailsTable({
+  title,
+  data,
+  total,
+  copy,
+}: {
+  title: string;
+  data: Record<string, number>;
+  total: number;
+  copy: SimulateurCopyData;
+}) {
   return (
     <div>
       <h4 className="mb-3 text-[13.5px] font-extrabold text-navy">{title}</h4>
       <table className="w-full border-collapse text-[12.5px]">
         <thead>
           <tr>
-            <th className="border-b-[1.5px] border-[#F0DCE2] px-1 py-2.5 text-left font-bold text-navy-soft">Poste de charge</th>
-            <th className="border-b-[1.5px] border-[#F0DCE2] px-1 py-2.5 text-right font-bold text-navy-soft">Montant</th>
+            <th className="border-b-[1.5px] border-[#F0DCE2] px-1 py-2.5 text-left font-bold text-navy-soft">{copy.detailsTableHeaderPoste}</th>
+            <th className="border-b-[1.5px] border-[#F0DCE2] px-1 py-2.5 text-right font-bold text-navy-soft">{copy.detailsTableHeaderMontant}</th>
           </tr>
         </thead>
         <tbody>
@@ -474,7 +451,7 @@ function DetailsTable({ title, data, total }: { title: string; data: Record<stri
             </tr>
           ))}
           <tr className="bg-pink-pale-2 font-extrabold">
-            <td className="px-1 py-2.5">TOTAL</td>
+            <td className="px-1 py-2.5">{copy.detailsTableTotalLabel}</td>
             <td className="px-1 py-2.5 text-right">{euro(total)}</td>
           </tr>
         </tbody>
@@ -483,46 +460,61 @@ function DetailsTable({ title, data, total }: { title: string; data: Record<stri
   );
 }
 
-export default function SimulateurResults({ res, tjmNecessaire }: { res: SimulationResult; tjmNecessaire: number | null }) {
+export default function SimulateurResults({
+  res,
+  tjmNecessaire,
+  copy,
+}: {
+  res: SimulationResult;
+  tjmNecessaire: number | null;
+  copy: SimulateurCopyData;
+}) {
   const [tab, setTab] = useState<TabKey>("resultats");
   const details = detailCharges(res.salaireBrut);
 
+  const tabLabels: Record<TabKey, string> = {
+    resultats: copy.tabResultatsLabel,
+    graphiques: copy.tabGraphiquesLabel,
+    comparateur: copy.tabComparateurLabel,
+    details: copy.tabDetailsLabel,
+  };
+
   const mainStats: { name: string; amount: number; tone: "ca" | "brut" | "avant" | "impot" | "net"; big?: boolean }[] = [
-    { name: "Chiffre d'affaires", amount: res.chiffreAffaires, tone: "ca" },
-    { name: "Salaire brut", amount: res.salaireBrut, tone: "brut" },
-    { name: "Salaire net avant impôt", amount: res.salaireNetAvantImpot, tone: "avant" },
-    { name: "Impôt sur le revenu", amount: res.impotMensuel, tone: "impot" },
-    { name: "Salaire net après impôt", amount: res.salaireNetApresImpot, tone: "net", big: true },
+    { name: copy.statCaLabel, amount: res.chiffreAffaires, tone: "ca" },
+    { name: copy.statBrutLabel, amount: res.salaireBrut, tone: "brut" },
+    { name: copy.statNetAvantLabel, amount: res.salaireNetAvantImpot, tone: "avant" },
+    { name: copy.statImpotLabel, amount: res.impotMensuel, tone: "impot" },
+    { name: copy.statNetApresLabel, amount: res.salaireNetApresImpot, tone: "net", big: true },
   ];
   const annuelStats: { name: string; amount: number; tone: "ca" | "brut" | "avant" | "impot" | "net"; big?: boolean }[] = [
-    { name: "CA annuel", amount: res.annuel.chiffreAffaires, tone: "ca" },
-    { name: "Brut annuel", amount: res.annuel.salaireBrut, tone: "brut" },
-    { name: "Net avant impôt", amount: res.annuel.salaireNetAvantImpot, tone: "avant" },
-    { name: "Impôt annuel", amount: res.annuel.impot, tone: "impot" },
-    { name: "Net annuel", amount: res.annuel.salaireNetApresImpot, tone: "net", big: true },
+    { name: copy.annuelCaLabel, amount: res.annuel.chiffreAffaires, tone: "ca" },
+    { name: copy.annuelBrutLabel, amount: res.annuel.salaireBrut, tone: "brut" },
+    { name: copy.annuelNetAvantLabel, amount: res.annuel.salaireNetAvantImpot, tone: "avant" },
+    { name: copy.annuelImpotLabel, amount: res.annuel.impot, tone: "impot" },
+    { name: copy.annuelNetApresLabel, amount: res.annuel.salaireNetApresImpot, tone: "net", big: true },
   ];
 
   const prelevementRows = [
-    { name: `Frais de gestion (${res.fraisGestion}%)`, amt: res.montantFraisGestion },
-    ...(res.fraisProfessionnels > 0 ? [{ name: "Frais professionnels", amt: res.fraisProfessionnels }] : []),
-    { name: "Charges patronales", amt: res.chargesPatronales },
-    { name: "Charges salariales", amt: res.chargesSalariales },
-    { name: "Impôt sur le revenu", amt: res.impotMensuel },
+    { name: `${copy.fraisGestionLabel} (${res.fraisGestion}%)`, amt: res.montantFraisGestion },
+    ...(res.fraisProfessionnels > 0 ? [{ name: copy.fraisProRowLabel, amt: res.fraisProfessionnels }] : []),
+    { name: copy.chargesPatronalesLabel, amt: res.chargesPatronales },
+    { name: copy.chargesSalarialesLabel, amt: res.chargesSalariales },
+    { name: copy.statImpotLabel, amt: res.impotMensuel },
   ];
 
   return (
     <div>
       <div className="mb-5 flex gap-1.5 overflow-x-auto rounded-[20px] border border-[#F0DCE2] bg-white p-2 shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-        {TABS.map((t) => (
+        {TAB_KEYS.map((key) => (
           <button
-            key={t.key}
+            key={key}
             type="button"
-            onClick={() => setTab(t.key)}
+            onClick={() => setTab(key)}
             className={`flex flex-shrink-0 items-center gap-1.5 whitespace-nowrap rounded-[10px] px-[18px] py-2.5 text-[13px] font-bold transition-all duration-150 ${
-              tab === t.key ? "bg-red text-white" : "text-gray-text hover:bg-pink-pale-2 hover:text-navy"
+              tab === key ? "bg-red text-white" : "text-gray-text hover:bg-pink-pale-2 hover:text-navy"
             }`}
           >
-            {t.label}
+            {tabLabels[key]}
           </button>
         ))}
       </div>
@@ -539,7 +531,7 @@ export default function SimulateurResults({ res, tjmNecessaire }: { res: Simulat
                   </svg>
                 </div>
                 <div>
-                  <div className="mb-0.5 text-[12px] font-bold opacity-85">TJM nécessaire</div>
+                  <div className="mb-0.5 text-[12px] font-bold opacity-85">{copy.tjmNecessaireLabel}</div>
                   <div className="font-heading text-[26px] font-extrabold">{euro(tjmNecessaire)}</div>
                 </div>
               </div>
@@ -552,7 +544,7 @@ export default function SimulateurResults({ res, tjmNecessaire }: { res: Simulat
             </div>
 
             <div className="mt-[26px] border-t border-[#F0DCE2] pt-6">
-              <div className="mb-3.5 text-[16px] font-extrabold text-navy">Détail des prélèvements</div>
+              <div className="mb-3.5 text-[16px] font-extrabold text-navy">{copy.detailPrelevementsTitle}</div>
               {prelevementRows.map((r) => (
                 <div key={r.name} className="flex items-center justify-between py-2.5 text-[13.5px]">
                   <span className="text-gray-text">{r.name}</span>
@@ -560,14 +552,14 @@ export default function SimulateurResults({ res, tjmNecessaire }: { res: Simulat
                 </div>
               ))}
               <div className="mt-2.5 flex items-center justify-between border-t-2 border-[#F0DCE2] pt-3.5 text-[14px] font-extrabold text-navy">
-                <span>Taux de charge global</span>
+                <span>{copy.tauxChargeGlobalLabel}</span>
                 <span className="text-[19px] text-[#C97A17]">{res.tauxCharge.toFixed(1)}%</span>
               </div>
             </div>
           </div>
 
           <div className="mb-5 rounded-[20px] border border-[#F0DCE2] bg-white p-[28px_26px] shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-            <div className="mb-5 text-[16px] font-extrabold text-navy">Projection annuelle</div>
+            <div className="mb-5 text-[16px] font-extrabold text-navy">{copy.projectionAnnuelleTitle}</div>
             <div className="grid grid-cols-2 gap-3.5">
               {annuelStats.map((s) => (
                 <StatCard key={s.name} {...s} />
@@ -581,12 +573,12 @@ export default function SimulateurResults({ res, tjmNecessaire }: { res: Simulat
               <path d="M12 8h.01M11 12h1v5h1" />
             </svg>
             <div>
-              <p className="mb-2 text-[13px] font-extrabold text-navy">Informations importantes :</p>
+              <p className="mb-2 text-[13px] font-extrabold text-navy">{copy.infosImportantesTitle}</p>
               <ul className="ml-[18px] flex list-disc flex-col gap-1.5 text-[12.5px] leading-[1.5] text-gray-text">
                 <li>Les calculs sont basés sur le plafond SS 2024 : 3 864 €/mois</li>
-                <li>Le taux de charges patronales varie selon votre salaire</li>
-                <li>L&apos;impôt est calculé selon le barème progressif 2024</li>
-                <li>Les résultats sont donnés à titre indicatif</li>
+                {copy.infosImportantesBullets.map((item) => (
+                  <li key={item.label}>{item.label}</li>
+                ))}
               </ul>
             </div>
           </div>
@@ -596,53 +588,50 @@ export default function SimulateurResults({ res, tjmNecessaire }: { res: Simulat
       {tab === "graphiques" && (
         <div className="flex flex-col gap-5">
           <div className="rounded-[20px] border border-[#F0DCE2] bg-white p-[28px_26px] shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-            <div className="mb-5 text-[16px] font-extrabold text-navy">Répartition du chiffre d&apos;affaires</div>
-            <Donut res={res} />
+            <div className="mb-5 text-[16px] font-extrabold text-navy">{copy.graphRepartitionTitle}</div>
+            <Donut res={res} copy={copy} />
           </div>
           <div className="rounded-[20px] border border-[#F0DCE2] bg-white p-[28px_26px] shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-            <div className="mb-5 text-[16px] font-extrabold text-navy">Évolution du CA au salaire net</div>
-            <BarEvolution res={res} />
+            <div className="mb-5 text-[16px] font-extrabold text-navy">{copy.graphEvolutionTitle}</div>
+            <BarEvolution res={res} copy={copy} />
           </div>
           <div className="rounded-[20px] border border-[#F0DCE2] bg-white p-[28px_26px] shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-            <div className="mb-5 text-[16px] font-extrabold text-navy">Comparaison des charges et prélèvements</div>
-            <BarCompare res={res} />
+            <div className="mb-5 text-[16px] font-extrabold text-navy">{copy.graphComparaisonTitle}</div>
+            <BarCompare res={res} copy={copy} />
             <div className="mt-3.5 flex flex-wrap gap-4.5 text-[12px] font-semibold text-navy-soft">
               <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#E8154F" }} /> Patronales
+                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#E8154F" }} /> {copy.comparePatronalesLabel}
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#C81044" }} /> Salariales
+                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#C81044" }} /> {copy.compareSalarialesLabel}
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#3A3F5C" }} /> Frais gestion
+                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#3A3F5C" }} /> {copy.compareFraisGestionLabel}
               </div>
               <div className="flex items-center gap-1.5">
-                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#0B0F2B" }} /> Impôt
+                <span className="h-2.5 w-2.5 rounded-[3px]" style={{ background: "#0B0F2B" }} /> {copy.compareImpotLabel}
               </div>
             </div>
           </div>
           <div className="rounded-[20px] border border-[#F0DCE2] bg-white p-[28px_26px] shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-            <div className="mb-5 text-[16px] font-extrabold text-navy">Projection annuelle (constant)</div>
-            <LineProjection res={res} />
+            <div className="mb-5 text-[16px] font-extrabold text-navy">{copy.graphProjectionTitle}</div>
+            <LineProjection res={res} copy={copy} />
           </div>
         </div>
       )}
 
-      {tab === "comparateur" && <Comparateur res={res} />}
+      {tab === "comparateur" && <Comparateur res={res} copy={copy} />}
 
       {tab === "details" && (
         <div>
           <div className="rounded-[20px] border border-[#F0DCE2] bg-white p-[28px_26px] shadow-[0_20px_48px_-32px_rgba(11,15,43,0.18)]">
-            <div className="mb-5 text-[16px] font-extrabold text-navy">Détail du calcul</div>
+            <div className="mb-5 text-[16px] font-extrabold text-navy">{copy.detailsTitle}</div>
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2">
-              <DetailsTable title="Charges patronales" data={details.patronales} total={details.totalPatronales} />
-              <DetailsTable title="Charges salariales" data={details.salariales} total={details.totalSalariales} />
+              <DetailsTable title={copy.chargesPatronalesLabel} data={details.patronales} total={details.totalPatronales} copy={copy} />
+              <DetailsTable title={copy.chargesSalarialesLabel} data={details.salariales} total={details.totalSalariales} copy={copy} />
             </div>
           </div>
-          <p className="mt-2.5 text-center text-[11.5px] leading-[1.6] text-gray-text">
-            Simulation basée sur la législation française 2024-2025. Résultats à titre indicatif, ne constituant pas un engagement
-            contractuel.
-          </p>
+          <p className="mt-2.5 text-center text-[11.5px] leading-[1.6] text-gray-text">{copy.detailsDisclaimer}</p>
         </div>
       )}
     </div>

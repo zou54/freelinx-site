@@ -1,0 +1,18 @@
+{
+  "collectionName": "components_sections_pour_quis",
+  "info": {
+    "displayName": "Pour Qui Section",
+    "icon": "user"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "paragraph1": { "type": "text" },
+    "paragraph2": { "type": "text" },
+    "profiles": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
+    }
+  }
+}

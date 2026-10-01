@@ -1,0 +1,36 @@
+{
+  "kind": "singleType",
+  "collectionName": "tarifs_pages",
+  "info": {
+    "singularName": "tarifs",
+    "pluralName": "tarifs-pages",
+    "displayName": "Tarifs",
+    "description": "Contenu de la page tarifs"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "sections.tarifs-hero",
+      "repeatable": false
+    },
+    "pricingSection": {
+      "type": "component",
+      "component": "sections.pricing",
+      "repeatable": false
+    },
+    "transparencySection": {
+      "type": "component",
+      "component": "sections.transparency",
+      "repeatable": false
+    },
+    "simulateBar": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

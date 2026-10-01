@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_shared_statement_quotes",
+  "info": {
+    "displayName": "Statement Quote",
+    "icon": "quote"
+  },
+  "options": {},
+  "attributes": {
+    "line1": { "type": "text", "required": true },
+    "line2": { "type": "text", "required": true }
+  }
+}

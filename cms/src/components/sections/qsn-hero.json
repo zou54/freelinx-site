@@ -1,0 +1,19 @@
+{
+  "collectionName": "components_sections_qsn_heroes",
+  "info": {
+    "displayName": "Qui Sommes Nous Hero",
+    "icon": "rocket"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "paragraph1": { "type": "text" },
+    "paragraph2": { "type": "text" },
+    "team": {
+      "type": "component",
+      "component": "shared.team-member",
+      "repeatable": true
+    }
+  }
+}

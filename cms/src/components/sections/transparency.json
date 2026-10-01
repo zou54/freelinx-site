@@ -1,0 +1,22 @@
+{
+  "collectionName": "components_sections_transparencies",
+  "info": {
+    "displayName": "Transparency Section",
+    "icon": "shield"
+  },
+  "options": {},
+  "attributes": {
+    "title": { "type": "string", "required": true },
+    "description": { "type": "text" },
+    "checklistItems": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
+    },
+    "quote": {
+      "type": "component",
+      "component": "shared.statement-quote",
+      "repeatable": false
+    }
+  }
+}

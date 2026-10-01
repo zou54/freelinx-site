@@ -6,7 +6,9 @@ const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
 // How long a page can serve cached Strapi content before revalidating, in seconds.
 const REVALIDATE_SECONDS = 60;
 
-async function fetchStrapi<T>(
+// Exported so page-specific content modules (frontend/src/lib/content/*.ts)
+// can fetch their own single type without this file needing a getter per page.
+export async function fetchStrapi<T>(
   path: string,
   populate: Record<string, unknown> | "*"
 ): Promise<T | null> {

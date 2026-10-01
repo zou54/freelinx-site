@@ -1,0 +1,23 @@
+{
+  "collectionName": "components_sections_pc_numbered_benefits",
+  "info": {
+    "displayName": "Portage Commercial - Numbered Benefits",
+    "icon": "briefcase"
+  },
+  "options": {},
+  "attributes": {
+    "index": { "type": "integer" },
+    "icon": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "group1": {
+      "type": "component",
+      "component": "shared.advantage-group",
+      "repeatable": false
+    },
+    "group2": {
+      "type": "component",
+      "component": "shared.advantage-group",
+      "repeatable": false
+    }
+  }
+}

@@ -1,0 +1,46 @@
+{
+  "kind": "singleType",
+  "collectionName": "portage_commercials",
+  "info": {
+    "singularName": "portage-commercial",
+    "pluralName": "portage-commercials",
+    "displayName": "Portage Commercial",
+    "description": "Contenu de la page portage commercial"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "sections.pc-hero",
+      "repeatable": false
+    },
+    "numberedIntro": {
+      "type": "component",
+      "component": "sections.pc-numbered-intro",
+      "repeatable": false
+    },
+    "numberedWhy": {
+      "type": "component",
+      "component": "sections.pc-numbered-why",
+      "repeatable": false
+    },
+    "numberedHow": {
+      "type": "component",
+      "component": "sections.pc-numbered-how",
+      "repeatable": false
+    },
+    "numberedBenefits": {
+      "type": "component",
+      "component": "sections.pc-numbered-benefits",
+      "repeatable": false
+    },
+    "finalCtaSection": {
+      "type": "component",
+      "component": "sections.final-cta",
+      "repeatable": false
+    }
+  }
+}

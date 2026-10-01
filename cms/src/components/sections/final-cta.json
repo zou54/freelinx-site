@@ -23,6 +23,11 @@
       "type": "component",
       "component": "shared.icon-stat-text",
       "repeatable": true
+    },
+    "checklistItems": {
+      "type": "component",
+      "component": "shared.checklist-item",
+      "repeatable": true
     }
   }
 }

@@ -6,6 +6,7 @@ import PortageSalarialSteps from "@/components/sections/PortageSalarialSteps";
 import PortageSalarialPourQui from "@/components/sections/PortageSalarialPourQui";
 import PortageSalarialWhy from "@/components/sections/PortageSalarialWhy";
 import PortageSalarialFinalCta from "@/components/sections/PortageSalarialFinalCta";
+import { getPortageSalarial, DEFAULT_PORTAGE_SALARIAL } from "@/lib/content/portage-salarial";
 
 export const metadata: Metadata = {
   title: "Le portage salarial — Freelinx",
@@ -13,16 +14,18 @@ export const metadata: Metadata = {
     "Le portage salarial est une solution qui permet aux professionnels indépendants de développer leur activité librement tout en bénéficiant du statut de salarié.",
 };
 
-export default function PortageSalarialPage() {
+export default async function PortageSalarialPage() {
+  const data = (await getPortageSalarial()) ?? DEFAULT_PORTAGE_SALARIAL;
+
   return (
     <main>
-      <PortageSalarialHero />
-      <PortageSalarialTripartite />
-      <PortageSalarialAdvantages />
-      <PortageSalarialSteps />
-      <PortageSalarialPourQui />
-      <PortageSalarialWhy />
-      <PortageSalarialFinalCta />
+      <PortageSalarialHero data={data.heroSection} />
+      <PortageSalarialTripartite data={data.tripartiteSection} />
+      <PortageSalarialAdvantages data={data.advantagesSection} />
+      <PortageSalarialSteps data={data.stepsSection} />
+      <PortageSalarialPourQui data={data.pourQuiSection} />
+      <PortageSalarialWhy data={data.whyChooseSection} />
+      <PortageSalarialFinalCta data={data.finalCtaSection} />
     </main>
   );
 }
