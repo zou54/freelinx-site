@@ -7,11 +7,9 @@ const SOCIAL_SVGS: Record<string, React.ReactNode> = {
       <path d="M7 10v7M7 7v.01M12 17v-4.5a2.5 2.5 0 015 0V17M12 10v7" />
     </svg>
   ),
-  Instagram: (
+  X: (
     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" strokeWidth="1.8">
-      <rect x="3" y="3" width="18" height="18" rx="5" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="17.5" cy="6.5" r="1" />
+      <path d="M4 4l16 16M20 4L4 20" />
     </svg>
   ),
   Facebook: (
@@ -33,8 +31,11 @@ export default function Footer({ data }: { data: FooterData }) {
       <div className="mx-auto max-w-[1120px] px-6 pt-[50px] sm:px-14">
         <div className="grid grid-cols-1 gap-10 border-b border-white/8 pb-[46px] sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1.2fr]">
           <div>
-            <div className="mb-4 flex items-center gap-0.5 font-heading text-[23px] font-extrabold tracking-[-0.5px] text-white">
-              {data.logoLabel ?? "freelinx"}
+            <div className="mb-4 flex items-center gap-2 font-heading text-[23px] font-extrabold tracking-[-0.5px] text-white">
+              <span className="flex h-7 w-7 items-center justify-center rounded-md bg-red text-[15px] font-extrabold text-white">
+                F
+              </span>
+              {data.logoLabel ?? "Freelinx"}
             </div>
             {data.description && (
               <p className="max-w-[280px] text-[13.5px] leading-[1.7] text-[#9A9DB8]">{data.description}</p>
@@ -88,13 +89,13 @@ export default function Footer({ data }: { data: FooterData }) {
               {data.contactTitle ?? "Contact"}
             </h5>
             <ul className="mt-2 flex flex-col gap-2.5">
-              {data.email && (
+              {data.address && (
                 <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
                   <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <rect x="3" y="5" width="18" height="14" rx="2" />
-                    <path d="M3 7l9 6 9-6" />
+                    <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z" />
+                    <circle cx="12" cy="10" r="3" />
                   </svg>
-                  {data.email}
+                  {data.address}
                 </li>
               )}
               {data.phone && (
@@ -105,13 +106,22 @@ export default function Footer({ data }: { data: FooterData }) {
                   {data.phone}
                 </li>
               )}
-              {data.city && (
+              {data.email && (
                 <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
                   <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M21 10c0 6-9 12-9 12s-9-6-9-12a9 9 0 0118 0z" />
-                    <circle cx="12" cy="10" r="3" />
+                    <rect x="3" y="5" width="18" height="14" rx="2" />
+                    <path d="M3 7l9 6 9-6" />
                   </svg>
-                  {data.city}
+                  {data.email}
+                </li>
+              )}
+              {data.hours && (
+                <li className="flex items-start gap-2.5 text-[13.5px] leading-[1.5] text-[#9A9DB8]">
+                  <svg className="mt-0.5 flex-shrink-0 text-red" viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" strokeWidth="1.8">
+                    <circle cx="12" cy="12" r="9" />
+                    <path d="M12 7v5l3.5 2" />
+                  </svg>
+                  {data.hours}
                 </li>
               )}
             </ul>

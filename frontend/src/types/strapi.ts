@@ -189,9 +189,10 @@ export interface FooterData {
   resourcesTitle?: string;
   resourceLinks?: NavLinkItem[];
   contactTitle?: string;
-  email?: string;
+  address?: string;
   phone?: string;
-  city?: string;
+  email?: string;
+  hours?: string;
   copyrightText?: string;
   legalLinks?: NavLinkItem[];
 }

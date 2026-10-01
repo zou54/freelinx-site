@@ -4,8 +4,17 @@ import { useState } from "react";
 import { ChevronDownIcon, ClockIcon, PhoneIcon, PinIcon } from "@/components/icons";
 import type { HeaderData } from "@/types/strapi";
 
+// Structural, not content: the only dropdown on the site, always these two
+// service pages. Kept out of the CMS rather than adding self-referencing
+// nav-link sub-items for a single, never-changing case.
+const SERVICES_DROPDOWN = [
+  { label: "Portage salarial", href: "/portage-salarial" },
+  { label: "Portage commercial", href: "/portage-commercial" },
+];
+
 export default function Header({ data }: { data: HeaderData }) {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const navLinks = data.navLinks ?? [];
 
   return (
@@ -54,19 +63,42 @@ export default function Header({ data }: { data: HeaderData }) {
         <header className="mx-auto flex min-h-[65px] max-w-[1120px] items-center justify-between gap-6 px-14">
           <nav className="hidden lg:block">
             <ul className="flex flex-shrink-0 items-center gap-7">
-              {navLinks.map((link, i) => (
-                <li key={link.label} className="flex-shrink-0">
-                  <a
-                    href={link.href}
-                    className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] font-semibold transition-colors duration-150 ${
-                      i === 0 ? "text-white" : "text-white/92 hover:text-white/85"
-                    }`}
-                  >
-                    {link.label}
-                    {link.hasChevron && <ChevronDownIcon className="opacity-80" />}
-                  </a>
-                </li>
-              ))}
+              {navLinks.map((link, i) =>
+                link.hasChevron ? (
+                  <li key={link.label} className="group relative flex-shrink-0">
+                    <a
+                      href={link.href}
+                      className="flex items-center gap-1.5 whitespace-nowrap text-[15px] font-semibold text-white/92 transition-colors duration-150 hover:text-white/85"
+                    >
+                      {link.label}
+                      <ChevronDownIcon className="opacity-80" />
+                    </a>
+                    <div className="invisible absolute left-0 top-full mt-3.5 min-w-[222px] -translate-y-1.5 rounded-[14px] bg-white p-2.5 opacity-0 shadow-[0_24px_48px_-20px_rgba(11,15,43,0.35)] transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                      {SERVICES_DROPDOWN.map((sub) => (
+                        <a
+                          key={sub.label}
+                          href={sub.href}
+                          className="flex items-center gap-2.5 whitespace-nowrap rounded-[9px] px-3.5 py-2.5 text-[14px] font-semibold text-navy transition-colors duration-150 hover:bg-pink-pale-2 hover:text-red"
+                        >
+                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red" />
+                          {sub.label}
+                        </a>
+                      ))}
+                    </div>
+                  </li>
+                ) : (
+                  <li key={link.label} className="flex-shrink-0">
+                    <a
+                      href={link.href}
+                      className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] font-semibold transition-colors duration-150 ${
+                        i === 0 ? "text-white" : "text-white/92 hover:text-white/85"
+                      }`}
+                    >
+                      {link.label}
+                    </a>
+                  </li>
+                )
+              )}
             </ul>
           </nav>
           <div className="hidden flex-shrink-0 items-center gap-3.5 lg:flex">
@@ -114,16 +146,45 @@ export default function Header({ data }: { data: HeaderData }) {
         {mobileOpen && (
           <div className="absolute inset-x-0 top-full max-h-[calc(100vh-65px)] overflow-y-auto border-t border-white/15 bg-red shadow-[0_20px_30px_-10px_rgba(11,15,43,0.3)]">
             <div className="flex flex-col px-6 pb-7 pt-2.5">
-              {navLinks.map((link) => (
-                <a
-                  key={link.label}
-                  href={link.href}
-                  className="flex items-center justify-between border-b border-white/15 py-4 text-[16px] font-semibold text-white"
-                >
-                  {link.label}
-                  {link.hasChevron && <ChevronDownIcon width={13} height={13} />}
-                </a>
-              ))}
+              {navLinks.map((link) =>
+                link.hasChevron ? (
+                  <div key={link.label} className="border-b border-white/15">
+                    <button
+                      type="button"
+                      onClick={() => setMobileServicesOpen((v) => !v)}
+                      className="flex w-full items-center justify-between py-4 text-[16px] font-semibold text-white"
+                    >
+                      {link.label}
+                      <ChevronDownIcon
+                        width={13}
+                        height={13}
+                        className={`transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
+                      />
+                    </button>
+                    {mobileServicesOpen && (
+                      <div className="flex flex-col gap-1 pb-4 pl-3">
+                        {SERVICES_DROPDOWN.map((sub) => (
+                          <a
+                            key={sub.label}
+                            href={sub.href}
+                            className="py-2 text-[14.5px] font-semibold text-white/85"
+                          >
+                            {sub.label}
+                          </a>
+                        ))}
+                      </div>
+                    )}
+                  </div>
+                ) : (
+                  <a
+                    key={link.label}
+                    href={link.href}
+                    className="flex items-center justify-between border-b border-white/15 py-4 text-[16px] font-semibold text-white"
+                  >
+                    {link.label}
+                  </a>
+                )
+              )}
               <div className="mt-5 flex flex-col gap-3">
                 {data.primaryCtaLabel && (
                   <a

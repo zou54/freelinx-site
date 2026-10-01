@@ -32,9 +32,10 @@
       "repeatable": true
     },
     "contactTitle": { "type": "string", "default": "Contact" },
-    "email": { "type": "string" },
+    "address": { "type": "string" },
     "phone": { "type": "string" },
-    "city": { "type": "string" },
+    "email": { "type": "string" },
+    "hours": { "type": "string" },
     "copyrightText": { "type": "string" },
     "legalLinks": {
       "type": "component",

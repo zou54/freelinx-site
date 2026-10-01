@@ -455,7 +455,7 @@ export interface ApiFooterFooter extends Struct.SingleTypeSchema {
     draftAndPublish: false;
   };
   attributes: {
-    city: Schema.Attribute.String;
+    address: Schema.Attribute.String;
     contactTitle: Schema.Attribute.String &
       Schema.Attribute.DefaultTo<'Contact'>;
     copyrightText: Schema.Attribute.String;
@@ -464,6 +464,7 @@ export interface ApiFooterFooter extends Struct.SingleTypeSchema {
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
     email: Schema.Attribute.String;
+    hours: Schema.Attribute.String;
     legalLinks: Schema.Attribute.Component<'shared.nav-link', true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

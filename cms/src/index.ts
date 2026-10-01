@@ -70,15 +70,12 @@ export default {
   register() {},
 
   async bootstrap({ strapi }: { strapi: Core.Strapi }) {
-    const pluginStore = strapi.store({
-      environment: strapi.config.environment,
-      type: 'type',
-      name: 'freelinx-setup',
-    });
-
-    const alreadySetup = await pluginStore.get({ key: 'initHasRun' });
-    if (alreadySetup) return;
-
+    // No global "already ran" gate here on purpose: setPublicPermissions and
+    // seedSingleType are each independently idempotent (they check for an
+    // existing permission/document before creating one), so it's safe and
+    // cheap to re-run this on every boot. A global gate previously caused
+    // newly-added single types to silently never get seeded/permissioned
+    // once the flag had been set by an earlier deploy.
     await setPublicPermissions(strapi);
 
     await seedSingleType(strapi, 'api::homepage.homepage', homepageSeed, { published: true });
@@ -103,7 +100,5 @@ export default {
     await seedSingleType(strapi, 'api::simulateur.simulateur', simulateurSeed, {
       published: true,
     });
-
-    await pluginStore.set({ key: 'initHasRun', value: true });
   },
 };
