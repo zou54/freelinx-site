@@ -17,7 +17,7 @@ export const footerSeed = {
   resourcesTitle: "L'entreprise",
   resourceLinks: [
     { label: 'Qui sommes nous ?', href: '/qui-sommes-nous', hasChevron: false },
-    { label: 'FAQ', href: '/#faq', hasChevron: false },
+    { label: 'FAQ', href: '/faq', hasChevron: false },
     { label: 'Contact', href: '/#contact', hasChevron: false },
     { label: 'Prendre rendez-vous', href: '#', hasChevron: false },
   ],

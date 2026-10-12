@@ -370,7 +370,7 @@ export const DEFAULT_HEADER: HeaderData = {
     { label: "Nos Services", href: "#", hasChevron: true },
     { label: "Tarifs", href: "/tarifs", hasChevron: false },
     { label: "Qui sommes nous ?", href: "/qui-sommes-nous", hasChevron: false },
-    { label: "FAQ", href: "/#faq", hasChevron: false },
+    { label: "FAQ", href: "/faq", hasChevron: false },
     { label: "Contact", href: "/#contact", hasChevron: false },
   ],
   primaryCtaLabel: "Prendre rendez-vous",
@@ -397,7 +397,7 @@ export const DEFAULT_FOOTER: FooterData = {
   resourcesTitle: "L'entreprise",
   resourceLinks: [
     { label: "Qui sommes nous ?", href: "/qui-sommes-nous" },
-    { label: "FAQ", href: "/#faq" },
+    { label: "FAQ", href: "/faq" },
     { label: "Contact", href: "/#contact" },
     { label: "Prendre rendez-vous", href: "#" },
   ],

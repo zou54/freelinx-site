@@ -8,7 +8,7 @@ export const headerSeed = {
     { label: 'Nos Services', href: '#', hasChevron: true },
     { label: 'Tarifs', href: '/tarifs', hasChevron: false },
     { label: 'Qui sommes nous ?', href: '/qui-sommes-nous', hasChevron: false },
-    { label: 'FAQ', href: '/#faq', hasChevron: false },
+    { label: 'FAQ', href: '/faq', hasChevron: false },
     { label: 'Contact', href: '/#contact', hasChevron: false },
   ],
   primaryCtaLabel: 'Prendre rendez-vous',

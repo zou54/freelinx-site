@@ -48,6 +48,19 @@ export interface SectionsFaq extends Struct.ComponentSchema {
   };
 }
 
+export interface SectionsFaqHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_faq_heroes';
+  info: {
+    displayName: 'FAQ Hero';
+    icon: 'question';
+  };
+  attributes: {
+    pill: Schema.Attribute.String;
+    subtitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsFigures extends Struct.ComponentSchema {
   collectionName: 'components_sections_figures';
   info: {
@@ -474,6 +487,20 @@ export interface SharedFaqItem extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedFaqQuestion extends Struct.ComponentSchema {
+  collectionName: 'components_shared_faq_questions';
+  info: {
+    displayName: 'FAQ Question';
+    icon: 'question';
+  };
+  attributes: {
+    intro: Schema.Attribute.Text & Schema.Attribute.Required;
+    items: Schema.Attribute.Component<'shared.checklist-item', true>;
+    outro: Schema.Attribute.Text;
+    question: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedFeatureItem extends Struct.ComponentSchema {
   collectionName: 'components_shared_feature_items';
   info: {
@@ -640,6 +667,7 @@ declare module '@strapi/strapi' {
       'sections.benefits': SectionsBenefits;
       'sections.commitments': SectionsCommitments;
       'sections.faq': SectionsFaq;
+      'sections.faq-hero': SectionsFaqHero;
       'sections.figures': SectionsFigures;
       'sections.final-cta': SectionsFinalCta;
       'sections.hero': SectionsHero;
@@ -667,6 +695,7 @@ declare module '@strapi/strapi' {
       'shared.checklist-item': SharedChecklistItem;
       'shared.cta-banner': SharedCtaBanner;
       'shared.faq-item': SharedFaqItem;
+      'shared.faq-question': SharedFaqQuestion;
       'shared.feature-item': SharedFeatureItem;
       'shared.figure-item': SharedFigureItem;
       'shared.icon-stat': SharedIconStat;

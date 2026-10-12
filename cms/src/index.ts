@@ -7,6 +7,7 @@ import { portageSalarialSeed } from './seed/portage-salarial';
 import { quiSommesNousSeed } from './seed/qui-sommes-nous';
 import { tarifsSeed } from './seed/tarifs';
 import { simulateurSeed } from './seed/simulateur';
+import { faqSeed } from './seed/faq';
 
 const PUBLIC_READ_PERMISSIONS: Record<string, string[]> = {
   homepage: ['find'],
@@ -17,6 +18,7 @@ const PUBLIC_READ_PERMISSIONS: Record<string, string[]> = {
   'qui-sommes-nous': ['find'],
   tarifs: ['find'],
   simulateur: ['find'],
+  faq: ['find'],
 };
 
 async function setPublicPermissions(strapi: Core.Strapi) {
@@ -49,7 +51,8 @@ type SingleTypeUid =
   | 'api::portage-salarial.portage-salarial'
   | 'api::qui-sommes-nous.qui-sommes-nous'
   | 'api::tarifs.tarifs'
-  | 'api::simulateur.simulateur';
+  | 'api::simulateur.simulateur'
+  | 'api::faq.faq';
 
 async function seedSingleType(
   strapi: Core.Strapi,
@@ -100,5 +103,6 @@ export default {
     await seedSingleType(strapi, 'api::simulateur.simulateur', simulateurSeed, {
       published: true,
     });
+    await seedSingleType(strapi, 'api::faq.faq', faqSeed, { published: true });
   },
 };

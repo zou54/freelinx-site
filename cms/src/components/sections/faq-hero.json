@@ -1,0 +1,13 @@
+{
+  "collectionName": "components_sections_faq_heroes",
+  "info": {
+    "displayName": "FAQ Hero",
+    "icon": "question"
+  },
+  "options": {},
+  "attributes": {
+    "pill": { "type": "string" },
+    "title": { "type": "string", "required": true },
+    "subtitle": { "type": "text" }
+  }
+}

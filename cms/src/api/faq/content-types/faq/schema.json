@@ -1,0 +1,31 @@
+{
+  "kind": "singleType",
+  "collectionName": "faq_pages",
+  "info": {
+    "singularName": "faq",
+    "pluralName": "faq-pages",
+    "displayName": "FAQ",
+    "description": "Contenu de la page FAQ"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "sections.faq-hero",
+      "repeatable": false
+    },
+    "questions": {
+      "type": "component",
+      "component": "shared.faq-question",
+      "repeatable": true
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}
