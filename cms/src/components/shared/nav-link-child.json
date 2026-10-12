@@ -1,0 +1,12 @@
+{
+  "collectionName": "components_shared_nav_link_children",
+  "info": {
+    "displayName": "Nav Link Child",
+    "icon": "link"
+  },
+  "options": {},
+  "attributes": {
+    "label": { "type": "string", "required": true },
+    "href": { "type": "string", "default": "#" }
+  }
+}

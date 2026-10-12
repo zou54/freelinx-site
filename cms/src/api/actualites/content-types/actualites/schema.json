@@ -1,0 +1,26 @@
+{
+  "kind": "singleType",
+  "collectionName": "actualites_pages",
+  "info": {
+    "singularName": "actualites",
+    "pluralName": "actualites-pages",
+    "displayName": "Actualités",
+    "description": "Contenu de la page listing Actualités"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "heroSection": {
+      "type": "component",
+      "component": "sections.actualites-hero",
+      "repeatable": false
+    },
+    "cta": {
+      "type": "component",
+      "component": "shared.cta-banner",
+      "repeatable": false
+    }
+  }
+}

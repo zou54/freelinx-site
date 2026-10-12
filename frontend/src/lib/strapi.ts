@@ -39,6 +39,39 @@ export async function fetchStrapi<T>(
   }
 }
 
+export interface StrapiPagination {
+  page: number;
+  pageSize: number;
+  pageCount: number;
+  total: number;
+}
+
+// Collection types (articles, categories) return an array under `data` plus
+// pagination metadata, unlike the single-type shape `fetchStrapi` handles.
+export async function fetchStrapiCollection<T>(
+  path: string,
+  query: Record<string, unknown>
+): Promise<{ data: T[]; pagination: StrapiPagination | null }> {
+  const qsString = qs.stringify(query, { encodeValuesOnly: true });
+
+  try {
+    const res = await fetch(`${STRAPI_URL}/api/${path}?${qsString}`, {
+      headers: STRAPI_API_TOKEN ? { Authorization: `Bearer ${STRAPI_API_TOKEN}` } : {},
+      next: { revalidate: REVALIDATE_SECONDS },
+    });
+
+    if (!res.ok) return { data: [], pagination: null };
+
+    const json = await res.json();
+    return {
+      data: (json?.data as T[]) ?? [],
+      pagination: json?.meta?.pagination ?? null,
+    };
+  } catch {
+    return { data: [], pagination: null };
+  }
+}
+
 const HOMEPAGE_POPULATE = {
   hero: { populate: { stats: true, heroImage: true } },
   whySection: { populate: { features: true } },
@@ -56,7 +89,7 @@ const HEADER_POPULATE = {
   hours: true,
   phone: true,
   address: true,
-  navLinks: true,
+  navLinks: { populate: { children: true } },
 };
 
 const FOOTER_POPULATE = {

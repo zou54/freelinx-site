@@ -53,10 +53,15 @@ export interface CtaBannerData {
   secondaryHref?: string;
 }
 
+export interface NavLinkChild {
+  label: string;
+  href: string;
+}
+
 export interface NavLinkItem {
   label: string;
   href: string;
-  hasChevron?: boolean;
+  children?: NavLinkChild[];
 }
 
 export interface LabelDetail {

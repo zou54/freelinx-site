@@ -6,22 +6,19 @@ import { ChevronDownIcon, ClockIcon, PhoneIcon, PinIcon } from "@/components/ico
 import { resolveCtaHref } from "@/lib/cta-href";
 import type { HeaderData } from "@/types/strapi";
 
-// Structural, not content: the only dropdown on the site, always these two
-// service pages. Kept out of the CMS rather than adding self-referencing
-// nav-link sub-items for a single, never-changing case.
-const SERVICES_DROPDOWN = [
-  { label: "Portage salarial", href: "/portage-salarial" },
-  { label: "Portage commercial", href: "/portage-commercial" },
-];
-
-const SERVICES_PATHS = SERVICES_DROPDOWN.map((s) => s.href);
-
 // "/" only matches the homepage exactly; every other link matches by exact
-// pathname (no nested routes besides the services dropdown, handled by the
-// caller instead since it covers two paths at once).
+// pathname.
 function isLinkActive(href: string, pathname: string) {
   if (href === "/") return pathname === "/";
   return pathname === href;
+}
+
+function isDropdownActive(
+  link: { href: string; children?: { href: string }[] },
+  pathname: string
+) {
+  if (isLinkActive(link.href, pathname)) return true;
+  return (link.children ?? []).some((child) => isLinkActive(child.href, pathname));
 }
 
 const ACTIVE_LINK_CLASS = "text-white font-bold underline decoration-2 underline-offset-[7px]";
@@ -30,10 +27,9 @@ const INACTIVE_LINK_CLASS =
 
 export default function Header({ data }: { data: HeaderData }) {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const [openDropdown, setOpenDropdown] = useState<string | null>(null);
   const pathname = usePathname();
   const navLinks = data.navLinks ?? [];
-  const isServicesActive = SERVICES_PATHS.includes(pathname);
 
   return (
     <>
@@ -81,39 +77,45 @@ export default function Header({ data }: { data: HeaderData }) {
         <header className="mx-auto flex min-h-[65px] max-w-[1120px] items-center justify-between gap-6 px-14">
           <nav className="hidden lg:block">
             <ul className="flex flex-shrink-0 items-center gap-7">
-              {navLinks.map((link) =>
-                link.hasChevron ? (
-                  <li key={link.label} className="group relative flex-shrink-0">
-                    <a
-                      href={link.href}
-                      aria-current={isServicesActive ? "page" : undefined}
-                      className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] transition-colors duration-150 ${
-                        isServicesActive ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
-                      }`}
-                    >
-                      {link.label}
-                      <ChevronDownIcon className="opacity-80" />
-                    </a>
-                    <div className="invisible absolute left-0 top-full mt-3.5 min-w-[222px] -translate-y-1.5 rounded-[14px] bg-white p-2.5 opacity-0 shadow-[0_24px_48px_-20px_rgba(11,15,43,0.35)] transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                      {SERVICES_DROPDOWN.map((sub) => {
-                        const subActive = isLinkActive(sub.href, pathname);
-                        return (
-                          <a
-                            key={sub.label}
-                            href={sub.href}
-                            aria-current={subActive ? "page" : undefined}
-                            className={`flex items-center gap-2.5 whitespace-nowrap rounded-[9px] px-3.5 py-2.5 text-[14px] transition-colors duration-150 hover:bg-pink-pale-2 hover:text-red ${
-                              subActive ? "font-bold text-red" : "font-semibold text-navy"
-                            }`}
-                          >
-                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red" />
-                            {sub.label}
-                          </a>
-                        );
-                      })}
-                    </div>
-                  </li>
-                ) : (
+              {navLinks.map((link) => {
+                const children = link.children ?? [];
+                if (children.length > 0) {
+                  const active = isDropdownActive(link, pathname);
+                  return (
+                    <li key={link.label} className="group relative flex-shrink-0">
+                      <a
+                        href={link.href}
+                        aria-current={active ? "page" : undefined}
+                        className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] transition-colors duration-150 ${
+                          active ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
+                        }`}
+                      >
+                        {link.label}
+                        <ChevronDownIcon className="opacity-80" />
+                      </a>
+                      <div className="invisible absolute left-0 top-full mt-3.5 min-w-[222px] -translate-y-1.5 rounded-[14px] bg-white p-2.5 opacity-0 shadow-[0_24px_48px_-20px_rgba(11,15,43,0.35)] transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
+                        {children.map((sub) => {
+                          const subActive = isLinkActive(sub.href, pathname);
+                          return (
+                            <a
+                              key={sub.label}
+                              href={sub.href}
+                              aria-current={subActive ? "page" : undefined}
+                              className={`flex items-center gap-2.5 whitespace-nowrap rounded-[9px] px-3.5 py-2.5 text-[14px] transition-colors duration-150 hover:bg-pink-pale-2 hover:text-red ${
+                                subActive ? "font-bold text-red" : "font-semibold text-navy"
+                              }`}
+                            >
+                              <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red" />
+                              {sub.label}
+                            </a>
+                          );
+                        })}
+                      </div>
+                    </li>
+                  );
+                }
+
+                return (
                   <li key={link.label} className="flex-shrink-0">
                     <a
                       href={link.href}
@@ -125,8 +127,8 @@ export default function Header({ data }: { data: HeaderData }) {
                       {link.label}
                     </a>
                   </li>
-                )
-              )}
+                );
+              })}
             </ul>
           </nav>
           <div className="hidden flex-shrink-0 items-center gap-3.5 lg:flex">
@@ -174,45 +176,52 @@ export default function Header({ data }: { data: HeaderData }) {
         {mobileOpen && (
           <div className="absolute inset-x-0 top-full max-h-[calc(100vh-65px)] overflow-y-auto border-t border-white/15 bg-red shadow-[0_20px_30px_-10px_rgba(11,15,43,0.3)]">
             <div className="flex flex-col px-6 pb-7 pt-2.5">
-              {navLinks.map((link) =>
-                link.hasChevron ? (
-                  <div key={link.label} className="border-b border-white/15">
-                    <button
-                      type="button"
-                      aria-current={isServicesActive ? "page" : undefined}
-                      onClick={() => setMobileServicesOpen((v) => !v)}
-                      className={`flex w-full items-center justify-between py-4 text-[16px] ${
-                        isServicesActive ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
-                      }`}
-                    >
-                      {link.label}
-                      <ChevronDownIcon
-                        width={13}
-                        height={13}
-                        className={`transition-transform duration-200 ${mobileServicesOpen ? "rotate-180" : ""}`}
-                      />
-                    </button>
-                    {mobileServicesOpen && (
-                      <div className="flex flex-col gap-1 pb-4 pl-3">
-                        {SERVICES_DROPDOWN.map((sub) => {
-                          const subActive = isLinkActive(sub.href, pathname);
-                          return (
-                            <a
-                              key={sub.label}
-                              href={sub.href}
-                              aria-current={subActive ? "page" : undefined}
-                              className={`py-2 text-[14.5px] ${
-                                subActive ? "font-bold text-white" : "font-semibold text-white/85"
-                              }`}
-                            >
-                              {sub.label}
-                            </a>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                ) : (
+              {navLinks.map((link) => {
+                const children = link.children ?? [];
+                if (children.length > 0) {
+                  const active = isDropdownActive(link, pathname);
+                  const isOpen = openDropdown === link.label;
+                  return (
+                    <div key={link.label} className="border-b border-white/15">
+                      <button
+                        type="button"
+                        aria-current={active ? "page" : undefined}
+                        onClick={() => setOpenDropdown((current) => (current === link.label ? null : link.label))}
+                        className={`flex w-full items-center justify-between py-4 text-[16px] ${
+                          active ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
+                        }`}
+                      >
+                        {link.label}
+                        <ChevronDownIcon
+                          width={13}
+                          height={13}
+                          className={`transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+                        />
+                      </button>
+                      {isOpen && (
+                        <div className="flex flex-col gap-1 pb-4 pl-3">
+                          {children.map((sub) => {
+                            const subActive = isLinkActive(sub.href, pathname);
+                            return (
+                              <a
+                                key={sub.label}
+                                href={sub.href}
+                                aria-current={subActive ? "page" : undefined}
+                                className={`py-2 text-[14.5px] ${
+                                  subActive ? "font-bold text-white" : "font-semibold text-white/85"
+                                }`}
+                              >
+                                {sub.label}
+                              </a>
+                            );
+                          })}
+                        </div>
+                      )}
+                    </div>
+                  );
+                }
+
+                return (
                   <a
                     key={link.label}
                     href={link.href}
@@ -223,8 +232,8 @@ export default function Header({ data }: { data: HeaderData }) {
                   >
                     {link.label}
                   </a>
-                )
-              )}
+                );
+              })}
               <div className="mt-5 flex flex-col gap-3">
                 {data.primaryCtaLabel && (
                   <a

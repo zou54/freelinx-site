@@ -8,6 +8,9 @@ import { quiSommesNousSeed } from './seed/qui-sommes-nous';
 import { tarifsSeed } from './seed/tarifs';
 import { simulateurSeed } from './seed/simulateur';
 import { faqSeed } from './seed/faq';
+import { actualitesSeed } from './seed/actualites';
+import { articleCategoriesSeed } from './seed/article-categories';
+import { articlesSeed } from './seed/articles';
 
 const PUBLIC_READ_PERMISSIONS: Record<string, string[]> = {
   homepage: ['find'],
@@ -19,6 +22,9 @@ const PUBLIC_READ_PERMISSIONS: Record<string, string[]> = {
   tarifs: ['find'],
   simulateur: ['find'],
   faq: ['find'],
+  actualites: ['find'],
+  article: ['find', 'findOne'],
+  'article-category': ['find', 'findOne'],
 };
 
 async function setPublicPermissions(strapi: Core.Strapi) {
@@ -127,6 +133,70 @@ async function fixHomepageCtaLinks(strapi: Core.Strapi) {
   });
 }
 
+// The header's navLinks before this feature existed: 6 flat items, "Nos
+// Services" with no children. If the live document's navLinks still match
+// this exact shape (labels + hrefs), nothing has been customized since the
+// original seed, so it's safe to replace them with the new structure
+// (Tarifs moved under "Nos Services", "Actualités" added). Any deviation —
+// a renamed link, a different href, an extra item — means an editor already
+// touched this, so the migration backs off entirely rather than guessing.
+const OLD_HEADER_NAV_SHAPE = [
+  { label: 'Accueil', href: '/' },
+  { label: 'Nos Services', href: '#' },
+  { label: 'Tarifs', href: '/tarifs' },
+  { label: 'Qui sommes nous ?', href: '/qui-sommes-nous' },
+  { label: 'FAQ', href: '/faq' },
+  { label: 'Contact', href: '/#contact' },
+];
+
+async function migrateHeaderNavStructure(strapi: Core.Strapi) {
+  const doc = await strapi.documents('api::header.header').findFirst({
+    populate: { navLinks: { populate: { children: true } } },
+  });
+  if (!doc) return;
+
+  const d = doc as Record<string, any>;
+  const current = (d.navLinks ?? []) as Array<{ label: string; href: string; children?: unknown[] }>;
+
+  const matchesOldShape =
+    current.length === OLD_HEADER_NAV_SHAPE.length &&
+    current.every(
+      (link, i) =>
+        link.label === OLD_HEADER_NAV_SHAPE[i].label &&
+        link.href === OLD_HEADER_NAV_SHAPE[i].href &&
+        (link.children ?? []).length === 0
+    );
+
+  if (!matchesOldShape) return;
+
+  await strapi.documents('api::header.header').update({
+    documentId: d.documentId,
+    data: { navLinks: headerSeed.navLinks },
+  });
+}
+
+// Purely additive: appends an "Actualités" resource link if it's missing,
+// without touching anything else — safe regardless of how much an editor
+// has already customized the footer's other links or labels.
+async function migrateFooterActualitesLink(strapi: Core.Strapi) {
+  const doc = await strapi.documents('api::footer.footer').findFirst({
+    populate: { resourceLinks: true },
+  });
+  if (!doc) return;
+
+  const d = doc as Record<string, any>;
+  const resourceLinks = (d.resourceLinks ?? []) as Array<{ label: string; href: string }>;
+
+  if (resourceLinks.some((link) => link.label === 'Actualités')) return;
+
+  await strapi.documents('api::footer.footer').update({
+    documentId: d.documentId,
+    data: {
+      resourceLinks: [...resourceLinks.map((link) => withoutId(link as any)), { label: 'Actualités', href: '/actualites' }],
+    } as any,
+  });
+}
+
 type SingleTypeUid =
   | 'api::homepage.homepage'
   | 'api::header.header'
@@ -136,7 +206,8 @@ type SingleTypeUid =
   | 'api::qui-sommes-nous.qui-sommes-nous'
   | 'api::tarifs.tarifs'
   | 'api::simulateur.simulateur'
-  | 'api::faq.faq';
+  | 'api::faq.faq'
+  | 'api::actualites.actualites';
 
 async function seedSingleType(
   strapi: Core.Strapi,
@@ -151,6 +222,45 @@ async function seedSingleType(
     data,
     ...(published ? { status: 'published' as const } : {}),
   });
+}
+
+// Collection types have no single "the" document to check like
+// seedSingleType does, so emptiness is the idempotency signal: only seed
+// when the collection has never been touched at all.
+async function seedCollectionIfEmpty(
+  strapi: Core.Strapi,
+  uid: 'api::article-category.article-category' | 'api::article.article',
+  items: Record<string, unknown>[]
+) {
+  const existing = await strapi.documents(uid).findMany({ limit: 1 });
+  if (existing.length > 0) return;
+
+  const created: Record<string, any>[] = [];
+  for (const item of items) {
+    const doc = await strapi.documents(uid).create({ data: item as any, status: 'published' });
+    created.push(doc as Record<string, any>);
+  }
+  return created;
+}
+
+async function seedArticleCategoriesAndArticles(strapi: Core.Strapi) {
+  await seedCollectionIfEmpty(strapi, 'api::article-category.article-category', articleCategoriesSeed);
+
+  const existingArticles = await strapi.documents('api::article.article').findMany({ limit: 1 });
+  if (existingArticles.length > 0) return;
+
+  const categories = await strapi.documents('api::article-category.article-category').findMany({
+    limit: articleCategoriesSeed.length,
+  });
+  const categoryIdBySlug = new Map(categories.map((c: any) => [c.slug, c.id]));
+
+  for (const { categorySlug, ...article } of articlesSeed) {
+    const categoryId = categoryIdBySlug.get(categorySlug);
+    await strapi.documents('api::article.article').create({
+      data: { ...article, category: categoryId ?? null } as any,
+      status: 'published',
+    });
+  }
 }
 
 export default {
@@ -188,7 +298,11 @@ export default {
       published: true,
     });
     await seedSingleType(strapi, 'api::faq.faq', faqSeed, { published: true });
+    await seedSingleType(strapi, 'api::actualites.actualites', actualitesSeed, { published: true });
+    await seedArticleCategoriesAndArticles(strapi);
 
     await fixHomepageCtaLinks(strapi);
+    await migrateHeaderNavStructure(strapi);
+    await migrateFooterActualitesLink(strapi);
   },
 };

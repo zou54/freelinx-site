@@ -1,5 +1,20 @@
 import type { Schema, Struct } from '@strapi/strapi';
 
+export interface SectionsActualitesHero extends Struct.ComponentSchema {
+  collectionName: 'components_sections_actualites_heroes';
+  info: {
+    displayName: 'Actualites Hero';
+    icon: 'rocket';
+  };
+  attributes: {
+    badge: Schema.Attribute.String;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
+    subtitle: Schema.Attribute.Text;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
 export interface SectionsBenefits extends Struct.ComponentSchema {
   collectionName: 'components_sections_benefits';
   info: {
@@ -597,7 +612,19 @@ export interface SharedNavLink extends Struct.ComponentSchema {
     icon: 'link';
   };
   attributes: {
-    hasChevron: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    children: Schema.Attribute.Component<'shared.nav-link-child', true>;
+    href: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
+    label: Schema.Attribute.String & Schema.Attribute.Required;
+  };
+}
+
+export interface SharedNavLinkChild extends Struct.ComponentSchema {
+  collectionName: 'components_shared_nav_link_children';
+  info: {
+    displayName: 'Nav Link Child';
+    icon: 'link';
+  };
+  attributes: {
     href: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
     label: Schema.Attribute.String & Schema.Attribute.Required;
   };
@@ -620,6 +647,18 @@ export interface SharedPricingPlan extends Struct.ComponentSchema {
     title: Schema.Attribute.String & Schema.Attribute.Required;
     variant: Schema.Attribute.Enumeration<['red', 'blue', 'green']> &
       Schema.Attribute.DefaultTo<'red'>;
+  };
+}
+
+export interface SharedSeo extends Struct.ComponentSchema {
+  collectionName: 'components_shared_seos';
+  info: {
+    displayName: 'SEO';
+    icon: 'search';
+  };
+  attributes: {
+    description: Schema.Attribute.Text;
+    title: Schema.Attribute.String;
   };
 }
 
@@ -676,6 +715,7 @@ export interface SharedTestimonialItem extends Struct.ComponentSchema {
 declare module '@strapi/strapi' {
   export namespace Public {
     export interface ComponentSchemas {
+      'sections.actualites-hero': SectionsActualitesHero;
       'sections.benefits': SectionsBenefits;
       'sections.commitments': SectionsCommitments;
       'sections.faq': SectionsFaq;
@@ -715,7 +755,9 @@ declare module '@strapi/strapi' {
       'shared.icon-text-item': SharedIconTextItem;
       'shared.label-detail': SharedLabelDetail;
       'shared.nav-link': SharedNavLink;
+      'shared.nav-link-child': SharedNavLinkChild;
       'shared.pricing-plan': SharedPricingPlan;
+      'shared.seo': SharedSeo;
       'shared.statement-quote': SharedStatementQuote;
       'shared.team-member': SharedTeamMember;
       'shared.testimonial-item': SharedTestimonialItem;
