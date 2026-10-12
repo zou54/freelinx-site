@@ -15,7 +15,7 @@ export const homepageSeed = {
     primaryCtaLabel: 'Prendre rendez-vous',
     primaryCtaHref: '#',
     secondaryCtaLabel: 'Demander une simulation gratuite →',
-    secondaryCtaHref: '#',
+    secondaryCtaHref: '/simulateur',
     stats: [
       { icon: 'ExpertiseIcon', label: 'Plus de 10 ans', sublabel: "d'expertise" },
       { icon: 'NoFeesIcon', label: '0€ de frais', sublabel: 'cachés' },
@@ -87,7 +87,7 @@ export const homepageSeed = {
       title: 'Envie de savoir combien vous allez gagner ?',
       description: 'Simulez gratuitement votre salaire en quelques clics.',
       primaryLabel: 'Simuler mon salaire →',
-      primaryHref: '#',
+      primaryHref: '/simulateur',
     },
   },
 
@@ -145,7 +145,7 @@ export const homepageSeed = {
       title: 'Envie de savoir combien vous pouvez gagner ?',
       description: 'Simulez gratuitement votre salaire net en quelques clics.',
       primaryLabel: 'Simuler mon salaire →',
-      primaryHref: '#',
+      primaryHref: '/simulateur',
     },
   },
 
@@ -183,7 +183,7 @@ export const homepageSeed = {
       title: 'Un partenaire engagé à vos côtés',
       description: 'Notre réussite dépend de la vôtre. Nous mettons tout en œuvre pour vous aider à aller plus loin.',
       primaryLabel: 'Découvrir nos services →',
-      primaryHref: '#',
+      primaryHref: '/portage-salarial',
       secondaryLabel: 'Être rappelé par un expert',
       secondaryHref: '#',
     },
@@ -226,7 +226,7 @@ export const homepageSeed = {
       description:
         'Nos experts sont à votre disposition pour répondre à vos questions et réaliser une simulation personnalisée.',
       primaryLabel: 'Je demande une simulation →',
-      primaryHref: '#',
+      primaryHref: '/simulateur',
       secondaryLabel: 'Être rappelé par un expert',
       secondaryHref: '#',
     },
@@ -256,7 +256,7 @@ export const homepageSeed = {
       title: 'Rejoignez les centaines d\'experts qui nous font déjà confiance',
       description: 'Développez votre activité en toute sérénité avec un partenaire fiable et engagé à vos côtés.',
       primaryLabel: 'Je demande une simulation →',
-      primaryHref: '#',
+      primaryHref: '/simulateur',
       secondaryLabel: 'Être rappelé par un expert',
       secondaryHref: '#',
     },
@@ -353,7 +353,7 @@ export const homepageSeed = {
       "Notre équipe d'experts vous accompagne à chaque étape et réalise une simulation personnalisée de votre future rémunération.",
     quote: "Votre liberté d'entreprendre, notre expertise à vos côtés.",
     primaryCtaLabel: 'DEMANDER UNE SIMULATION',
-    primaryCtaHref: '#',
+    primaryCtaHref: '/simulateur',
     secondaryCtaLabel: 'ÊTRE RAPPELÉ',
     secondaryCtaHref: '#',
     iconItems: [

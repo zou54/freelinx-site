@@ -1,5 +1,6 @@
 import { resolveIcon, ResolvedIcon } from "@/lib/icon-map";
 import HeroImage from "@/components/ui/HeroImage";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { PcHeroData } from "@/lib/content/portage-commercial";
 
 export default function PortageCommercialHero({ data }: { data: PcHeroData }) {
@@ -30,7 +31,7 @@ export default function PortageCommercialHero({ data }: { data: PcHeroData }) {
           <div className="mt-5 flex flex-wrap gap-2.5">
             {data.primaryCtaLabel && (
               <a
-                href={data.primaryCtaHref ?? "#"}
+                href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-red px-[18px] py-3 text-[13.5px] font-semibold text-white shadow-[0_8px_20px_-6px_rgba(232,21,79,0.5)] transition-transform duration-150 hover:-translate-y-px hover:bg-red-dark"
               >
                 {data.primaryCtaLabel}
@@ -38,7 +39,7 @@ export default function PortageCommercialHero({ data }: { data: PcHeroData }) {
             )}
             {data.secondaryCtaLabel && (
               <a
-                href={data.secondaryCtaHref ?? "#"}
+                href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border-[1.5px] border-[#E3E4EA] bg-white px-[18px] py-3 text-[13.5px] font-semibold text-navy transition-colors duration-150 hover:border-red hover:text-red"
               >
                 <ResolvedIcon name="PortageCommercialPhoneOutlineIcon" width={16} height={16} />

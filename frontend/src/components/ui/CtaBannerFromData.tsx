@@ -1,8 +1,17 @@
 import CtaBanner from "@/components/ui/CtaBanner";
 import { ResolvedIcon } from "@/lib/icon-map";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { CtaBannerData } from "@/types/strapi";
 
-export default function CtaBannerFromData({ data, className }: { data?: CtaBannerData; className?: string }) {
+export default function CtaBannerFromData({
+  data,
+  className,
+  primaryFallbackHref,
+}: {
+  data?: CtaBannerData;
+  className?: string;
+  primaryFallbackHref?: string;
+}) {
   if (!data) return null;
 
   return (
@@ -12,9 +21,9 @@ export default function CtaBannerFromData({ data, className }: { data?: CtaBanne
       title={data.title}
       description={data.description}
       primaryLabel={data.primaryLabel ?? ""}
-      primaryHref={data.primaryHref}
+      primaryHref={resolveCtaHref(data.primaryLabel, data.primaryHref, primaryFallbackHref)}
       secondaryLabel={data.secondaryLabel}
-      secondaryHref={data.secondaryHref}
+      secondaryHref={resolveCtaHref(data.secondaryLabel, data.secondaryHref)}
     />
   );
 }

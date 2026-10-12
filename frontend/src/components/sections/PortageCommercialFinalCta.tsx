@@ -1,4 +1,5 @@
 import { PortageCommercialCheckCircleIcon, PortageCommercialPhoneOutlineIcon } from "@/components/icons/portage-commercial";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { FinalCtaData } from "@/lib/content/portage-commercial";
 
 export default function PortageCommercialFinalCta({ data }: { data: FinalCtaData }) {
@@ -25,7 +26,7 @@ export default function PortageCommercialFinalCta({ data }: { data: FinalCtaData
         <div className="flex min-w-[245px] flex-col gap-3 justify-self-start lg:justify-self-end">
           {data.primaryCtaLabel && (
             <a
-              href={data.primaryCtaHref ?? "#"}
+              href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-red px-[22px] py-3 text-[14px] font-semibold text-white shadow-[0_8px_20px_-6px_rgba(232,21,79,0.5)] transition-transform duration-150 hover:-translate-y-px hover:bg-red-dark"
             >
               {data.primaryCtaLabel}
@@ -33,7 +34,7 @@ export default function PortageCommercialFinalCta({ data }: { data: FinalCtaData
           )}
           {data.secondaryCtaLabel && (
             <a
-              href={data.secondaryCtaHref ?? "#"}
+              href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] border-[#E3E4EA] bg-white px-[22px] py-3 text-[14px] font-semibold text-navy transition-colors duration-150 hover:border-red hover:text-red"
             >
               <PortageCommercialPhoneOutlineIcon width={16} height={16} />

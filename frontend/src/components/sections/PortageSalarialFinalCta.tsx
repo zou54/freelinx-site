@@ -1,3 +1,4 @@
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { FinalCtaWithChecklist } from "@/lib/content/portage-salarial";
 
 const CheckIcon = () => (
@@ -31,7 +32,7 @@ export default function PortageSalarialFinalCta({ data }: { data: FinalCtaWithCh
         <div className="flex w-full min-w-[245px] flex-col gap-3 justify-self-start lg:justify-self-end">
           {data.primaryCtaLabel && (
             <a
-              href={data.primaryCtaHref ?? "#"}
+              href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-red px-[22px] py-3 text-[14.5px] font-semibold text-white shadow-[0_8px_20px_-6px_rgba(232,21,79,0.55)] transition-transform duration-150 hover:-translate-y-px hover:bg-red-dark"
             >
               {data.primaryCtaLabel}
@@ -39,7 +40,7 @@ export default function PortageSalarialFinalCta({ data }: { data: FinalCtaWithCh
           )}
           {data.secondaryCtaLabel && (
             <a
-              href={data.secondaryCtaHref ?? "#"}
+              href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
               className="inline-flex w-full items-center justify-center gap-2 rounded-full border-[1.5px] border-[#E3E4EA] bg-white px-[22px] py-3 text-[14.5px] font-semibold text-navy transition-all duration-150 hover:-translate-y-px hover:border-red hover:text-red"
             >
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">

@@ -1,5 +1,6 @@
 import { resolveIcon } from "@/lib/icon-map";
 import HeroImage from "@/components/ui/HeroImage";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { PsHeroData } from "@/lib/content/portage-salarial";
 
 export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
@@ -25,7 +26,7 @@ export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
           <div className="mt-5 flex flex-wrap gap-2.5">
             {data.primaryCtaLabel && (
               <a
-                href={data.primaryCtaHref ?? "#"}
+                href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-full bg-red px-[18px] py-3 text-[13.5px] font-semibold text-white shadow-[0_8px_20px_-6px_rgba(232,21,79,0.5)] transition-transform duration-150 hover:-translate-y-px hover:bg-red-dark"
               >
                 {data.primaryCtaLabel}
@@ -33,7 +34,7 @@ export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
             )}
             {data.secondaryCtaLabel && (
               <a
-                href={data.secondaryCtaHref ?? "#"}
+                href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
                 className="inline-flex items-center gap-2 whitespace-nowrap rounded-full border-[1.5px] border-[#E3E4EA] bg-white px-[18px] py-3 text-[13.5px] font-semibold text-navy transition-all duration-150 hover:-translate-y-px hover:border-red hover:text-red"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">

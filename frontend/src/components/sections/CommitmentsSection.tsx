@@ -25,7 +25,7 @@ export default function CommitmentsSection({ data }: { data: CommitmentsSectionD
         })}
       </div>
 
-      <CtaBannerFromData className="mt-11" data={data.cta} />
+      <CtaBannerFromData className="mt-11" data={data.cta} primaryFallbackHref="/portage-salarial" />
     </section>
   );
 }

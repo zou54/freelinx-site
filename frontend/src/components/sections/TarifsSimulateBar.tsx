@@ -1,4 +1,5 @@
 import { ResolvedIcon } from "@/lib/icon-map";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { CtaBannerData } from "@/types/strapi";
 
 export default function TarifsSimulateBar({ data }: { data: CtaBannerData }) {
@@ -14,7 +15,7 @@ export default function TarifsSimulateBar({ data }: { data: CtaBannerData }) {
         </div>
         {data.primaryLabel && (
           <a
-            href={data.primaryHref ?? "#"}
+            href={resolveCtaHref(data.primaryLabel, data.primaryHref)}
             className="inline-flex w-full items-center justify-center gap-2 rounded-full bg-red px-[22px] py-3 text-[13.5px] font-semibold text-white shadow-[0_8px_20px_-6px_rgba(232,21,79,0.5)] transition-transform duration-150 hover:-translate-y-px hover:bg-red-dark sm:w-auto"
           >
             {data.primaryLabel}

@@ -43,6 +43,90 @@ async function setPublicPermissions(strapi: Core.Strapi) {
   }
 }
 
+function withoutId<T extends { id?: unknown }>(obj: T): Omit<T, 'id'> {
+  const { id, ...rest } = obj;
+  return rest;
+}
+
+function isBrokenHref(href: unknown): boolean {
+  return !href || href === '#';
+}
+
+// One-time, idempotent correction for CTAs whose href was never filled in
+// (still "#") on documents created before this field existed in the seed.
+// Strapi requires the full component object on write (no partial merge), so
+// each touched component is read in full and written back unchanged except
+// for the one href field — this never touches a label or any other content
+// an editor may have already customized, and running it again is a no-op
+// once every href is fixed.
+async function fixHomepageCtaLinks(strapi: Core.Strapi) {
+  const doc = await strapi.documents('api::homepage.homepage').findFirst({
+    populate: {
+      hero: { populate: { stats: true, heroImage: true } },
+      stepsSection: { populate: { steps: true, cta: true } },
+      benefitsSection: { populate: { benefits: true, cta: true } },
+      commitmentsSection: { populate: { commitments: true, cta: true } },
+      figuresSection: { populate: { figures: true, cta: true } },
+      sectorsSection: { populate: { sectors: true, cta: true } },
+      finalCtaSection: { populate: { iconItems: true, statItems: true, checklistItems: true } },
+    },
+  });
+
+  if (!doc) return;
+
+  const d = doc as Record<string, any>;
+  const patch: Record<string, unknown> = {};
+
+  // Hero's "Demander une simulation gratuite" secondary CTA.
+  if (d.hero && isBrokenHref(d.hero.secondaryCtaHref)) {
+    patch.hero = {
+      ...withoutId(d.hero),
+      heroImage: d.hero.heroImage ? d.hero.heroImage.id : null,
+      stats: (d.hero.stats ?? []).map(withoutId),
+      secondaryCtaHref: '/simulateur',
+    };
+  }
+
+  // Sections whose `cta.primaryHref` was never filled in: simulation-worded
+  // CTAs fall back to /simulateur, "Découvrir nos services" to /portage-salarial.
+  const ctaSections: Array<{ key: string; itemsKey: string; fallbackHref: string }> = [
+    { key: 'stepsSection', itemsKey: 'steps', fallbackHref: '/simulateur' },
+    { key: 'benefitsSection', itemsKey: 'benefits', fallbackHref: '/simulateur' },
+    { key: 'commitmentsSection', itemsKey: 'commitments', fallbackHref: '/portage-salarial' },
+    { key: 'figuresSection', itemsKey: 'figures', fallbackHref: '/simulateur' },
+    { key: 'sectorsSection', itemsKey: 'sectors', fallbackHref: '/simulateur' },
+  ];
+
+  for (const { key, itemsKey, fallbackHref } of ctaSections) {
+    const section = d[key];
+    if (!section?.cta || !isBrokenHref(section.cta.primaryHref)) continue;
+    patch[key] = {
+      ...withoutId(section),
+      [itemsKey]: (section[itemsKey] ?? []).map(withoutId),
+      cta: { ...withoutId(section.cta), primaryHref: fallbackHref },
+    };
+  }
+
+  // Final CTA's "DEMANDER UNE SIMULATION" primary button.
+  if (d.finalCtaSection && isBrokenHref(d.finalCtaSection.primaryCtaHref)) {
+    patch.finalCtaSection = {
+      ...withoutId(d.finalCtaSection),
+      iconItems: (d.finalCtaSection.iconItems ?? []).map(withoutId),
+      statItems: (d.finalCtaSection.statItems ?? []).map(withoutId),
+      checklistItems: (d.finalCtaSection.checklistItems ?? []).map(withoutId),
+      primaryCtaHref: '/simulateur',
+    };
+  }
+
+  if (Object.keys(patch).length === 0) return;
+
+  await strapi.documents('api::homepage.homepage').update({
+    documentId: d.documentId,
+    data: patch,
+    status: 'published',
+  });
+}
+
 type SingleTypeUid =
   | 'api::homepage.homepage'
   | 'api::header.header'
@@ -104,5 +188,7 @@ export default {
       published: true,
     });
     await seedSingleType(strapi, 'api::faq.faq', faqSeed, { published: true });
+
+    await fixHomepageCtaLinks(strapi);
   },
 };

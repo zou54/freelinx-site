@@ -1,5 +1,6 @@
 import { BarsIcon, ShieldIcon } from "@/components/icons";
 import { resolveIcon } from "@/lib/icon-map";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { FinalCtaSectionData } from "@/types/strapi";
 
 export default function FinalCtaSection({ data }: { data: FinalCtaSectionData }) {
@@ -65,7 +66,7 @@ export default function FinalCtaSection({ data }: { data: FinalCtaSectionData })
             <div className="mt-[26px] flex flex-col gap-3">
               {data.primaryCtaLabel && (
                 <a
-                  href={data.primaryCtaHref ?? "#"}
+                  href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
                   className="inline-flex items-center justify-between gap-2.5 rounded-full bg-white px-[22px] py-[15px] text-[14.5px] font-semibold text-red transition-transform duration-150 hover:-translate-y-px"
                 >
                   <span className="flex items-center gap-2.5">
@@ -81,7 +82,7 @@ export default function FinalCtaSection({ data }: { data: FinalCtaSectionData })
               )}
               {data.secondaryCtaLabel && (
                 <a
-                  href={data.secondaryCtaHref ?? "#"}
+                  href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
                   className="inline-flex items-center justify-between gap-2.5 rounded-full border-[1.5px] border-white/50 bg-transparent px-[22px] py-[15px] text-[14.5px] font-semibold text-white transition-transform duration-150 hover:-translate-y-px"
                 >
                   <span className="flex items-center gap-2.5">

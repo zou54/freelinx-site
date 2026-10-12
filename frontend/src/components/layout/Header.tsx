@@ -1,7 +1,9 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 import { ChevronDownIcon, ClockIcon, PhoneIcon, PinIcon } from "@/components/icons";
+import { resolveCtaHref } from "@/lib/cta-href";
 import type { HeaderData } from "@/types/strapi";
 
 // Structural, not content: the only dropdown on the site, always these two
@@ -12,10 +14,26 @@ const SERVICES_DROPDOWN = [
   { label: "Portage commercial", href: "/portage-commercial" },
 ];
 
+const SERVICES_PATHS = SERVICES_DROPDOWN.map((s) => s.href);
+
+// "/" only matches the homepage exactly; every other link matches by exact
+// pathname (no nested routes besides the services dropdown, handled by the
+// caller instead since it covers two paths at once).
+function isLinkActive(href: string, pathname: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href;
+}
+
+const ACTIVE_LINK_CLASS = "text-white font-bold underline decoration-2 underline-offset-[7px]";
+const INACTIVE_LINK_CLASS =
+  "text-white/85 font-semibold hover:text-white hover:underline hover:decoration-2 hover:underline-offset-[7px]";
+
 export default function Header({ data }: { data: HeaderData }) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
+  const pathname = usePathname();
   const navLinks = data.navLinks ?? [];
+  const isServicesActive = SERVICES_PATHS.includes(pathname);
 
   return (
     <>
@@ -63,35 +81,45 @@ export default function Header({ data }: { data: HeaderData }) {
         <header className="mx-auto flex min-h-[65px] max-w-[1120px] items-center justify-between gap-6 px-14">
           <nav className="hidden lg:block">
             <ul className="flex flex-shrink-0 items-center gap-7">
-              {navLinks.map((link, i) =>
+              {navLinks.map((link) =>
                 link.hasChevron ? (
                   <li key={link.label} className="group relative flex-shrink-0">
                     <a
                       href={link.href}
-                      className="flex items-center gap-1.5 whitespace-nowrap text-[15px] font-semibold text-white/92 transition-colors duration-150 hover:text-white/85"
+                      aria-current={isServicesActive ? "page" : undefined}
+                      className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] transition-colors duration-150 ${
+                        isServicesActive ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
+                      }`}
                     >
                       {link.label}
                       <ChevronDownIcon className="opacity-80" />
                     </a>
                     <div className="invisible absolute left-0 top-full mt-3.5 min-w-[222px] -translate-y-1.5 rounded-[14px] bg-white p-2.5 opacity-0 shadow-[0_24px_48px_-20px_rgba(11,15,43,0.35)] transition-all duration-150 group-hover:visible group-hover:translate-y-0 group-hover:opacity-100 group-focus-within:visible group-focus-within:translate-y-0 group-focus-within:opacity-100">
-                      {SERVICES_DROPDOWN.map((sub) => (
-                        <a
-                          key={sub.label}
-                          href={sub.href}
-                          className="flex items-center gap-2.5 whitespace-nowrap rounded-[9px] px-3.5 py-2.5 text-[14px] font-semibold text-navy transition-colors duration-150 hover:bg-pink-pale-2 hover:text-red"
-                        >
-                          <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red" />
-                          {sub.label}
-                        </a>
-                      ))}
+                      {SERVICES_DROPDOWN.map((sub) => {
+                        const subActive = isLinkActive(sub.href, pathname);
+                        return (
+                          <a
+                            key={sub.label}
+                            href={sub.href}
+                            aria-current={subActive ? "page" : undefined}
+                            className={`flex items-center gap-2.5 whitespace-nowrap rounded-[9px] px-3.5 py-2.5 text-[14px] transition-colors duration-150 hover:bg-pink-pale-2 hover:text-red ${
+                              subActive ? "font-bold text-red" : "font-semibold text-navy"
+                            }`}
+                          >
+                            <span className="h-1.5 w-1.5 flex-shrink-0 rounded-full bg-red" />
+                            {sub.label}
+                          </a>
+                        );
+                      })}
                     </div>
                   </li>
                 ) : (
                   <li key={link.label} className="flex-shrink-0">
                     <a
                       href={link.href}
-                      className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] font-semibold transition-colors duration-150 ${
-                        i === 0 ? "text-white" : "text-white/92 hover:text-white/85"
+                      aria-current={isLinkActive(link.href, pathname) ? "page" : undefined}
+                      className={`flex items-center gap-1.5 whitespace-nowrap text-[15px] transition-colors duration-150 ${
+                        isLinkActive(link.href, pathname) ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
                       }`}
                     >
                       {link.label}
@@ -104,7 +132,7 @@ export default function Header({ data }: { data: HeaderData }) {
           <div className="hidden flex-shrink-0 items-center gap-3.5 lg:flex">
             {data.primaryCtaLabel && (
               <a
-                href={data.primaryCtaHref ?? "#"}
+                href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg bg-navy px-[26px] py-[13px] text-[13px] font-bold uppercase tracking-[0.6px] text-white transition-all duration-150 hover:-translate-y-px hover:bg-[#161B3D]"
               >
                 {data.primaryCtaLabel}
@@ -112,7 +140,7 @@ export default function Header({ data }: { data: HeaderData }) {
             )}
             {data.secondaryCtaLabel && (
               <a
-                href={data.secondaryCtaHref ?? "#"}
+                href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
                 className="inline-flex items-center justify-center whitespace-nowrap rounded-lg border-[1.5px] border-white/55 bg-transparent px-[26px] py-[13px] text-[13px] font-bold uppercase tracking-[0.6px] text-white transition-all duration-150 hover:-translate-y-px hover:bg-white/12"
               >
                 {data.secondaryCtaLabel}
@@ -151,8 +179,11 @@ export default function Header({ data }: { data: HeaderData }) {
                   <div key={link.label} className="border-b border-white/15">
                     <button
                       type="button"
+                      aria-current={isServicesActive ? "page" : undefined}
                       onClick={() => setMobileServicesOpen((v) => !v)}
-                      className="flex w-full items-center justify-between py-4 text-[16px] font-semibold text-white"
+                      className={`flex w-full items-center justify-between py-4 text-[16px] ${
+                        isServicesActive ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
+                      }`}
                     >
                       {link.label}
                       <ChevronDownIcon
@@ -163,15 +194,21 @@ export default function Header({ data }: { data: HeaderData }) {
                     </button>
                     {mobileServicesOpen && (
                       <div className="flex flex-col gap-1 pb-4 pl-3">
-                        {SERVICES_DROPDOWN.map((sub) => (
-                          <a
-                            key={sub.label}
-                            href={sub.href}
-                            className="py-2 text-[14.5px] font-semibold text-white/85"
-                          >
-                            {sub.label}
-                          </a>
-                        ))}
+                        {SERVICES_DROPDOWN.map((sub) => {
+                          const subActive = isLinkActive(sub.href, pathname);
+                          return (
+                            <a
+                              key={sub.label}
+                              href={sub.href}
+                              aria-current={subActive ? "page" : undefined}
+                              className={`py-2 text-[14.5px] ${
+                                subActive ? "font-bold text-white" : "font-semibold text-white/85"
+                              }`}
+                            >
+                              {sub.label}
+                            </a>
+                          );
+                        })}
                       </div>
                     )}
                   </div>
@@ -179,7 +216,10 @@ export default function Header({ data }: { data: HeaderData }) {
                   <a
                     key={link.label}
                     href={link.href}
-                    className="flex items-center justify-between border-b border-white/15 py-4 text-[16px] font-semibold text-white"
+                    aria-current={isLinkActive(link.href, pathname) ? "page" : undefined}
+                    className={`flex items-center justify-between border-b border-white/15 py-4 text-[16px] ${
+                      isLinkActive(link.href, pathname) ? ACTIVE_LINK_CLASS : INACTIVE_LINK_CLASS
+                    }`}
                   >
                     {link.label}
                   </a>
@@ -188,7 +228,7 @@ export default function Header({ data }: { data: HeaderData }) {
               <div className="mt-5 flex flex-col gap-3">
                 {data.primaryCtaLabel && (
                   <a
-                    href={data.primaryCtaHref ?? "#"}
+                    href={resolveCtaHref(data.primaryCtaLabel, data.primaryCtaHref)}
                     className="w-full rounded-lg bg-navy px-[26px] py-[13px] text-center text-[13px] font-bold uppercase tracking-[0.6px] text-white"
                   >
                     {data.primaryCtaLabel}
@@ -196,7 +236,7 @@ export default function Header({ data }: { data: HeaderData }) {
                 )}
                 {data.secondaryCtaLabel && (
                   <a
-                    href={data.secondaryCtaHref ?? "#"}
+                    href={resolveCtaHref(data.secondaryCtaLabel, data.secondaryCtaHref)}
                     className="w-full rounded-lg border-[1.5px] border-white/55 bg-transparent px-[26px] py-[13px] text-center text-[13px] font-bold uppercase tracking-[0.6px] text-white"
                   >
                     {data.secondaryCtaLabel}
