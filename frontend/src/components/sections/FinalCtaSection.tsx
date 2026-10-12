@@ -7,7 +7,7 @@ export default function FinalCtaSection({ data }: { data: FinalCtaSectionData })
   const statItems = data.statItems ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 pb-[90px] pt-[30px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <div className="relative overflow-hidden rounded-[28px] bg-gradient-to-br from-red to-red-dark p-6 text-white sm:p-14">
         <div className="grid grid-cols-1 items-start gap-[50px] lg:grid-cols-[1.05fr_0.95fr]">
           <div>

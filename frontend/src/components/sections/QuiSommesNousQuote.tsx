@@ -3,7 +3,7 @@ import type { StatementQuoteData } from "@/lib/content/qui-sommes-nous";
 
 export default function QuiSommesNousQuote({ data }: { data: StatementQuoteData }) {
   return (
-    <section className="mx-auto max-w-[1120px] px-6 pb-[52px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <div className="rounded-[24px] bg-pink-pale p-7 sm:p-11">
         <div className="grid grid-cols-1 items-center gap-8 text-center lg:grid-cols-[auto_1fr_auto_auto] lg:text-left">
           <QuiSommesNousQuoteMarkIcon className="mx-auto h-[34px] w-[46px] flex-shrink-0 text-red lg:mx-0" />

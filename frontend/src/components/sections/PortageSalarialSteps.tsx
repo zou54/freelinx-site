@@ -14,7 +14,7 @@ export default function PortageSalarialSteps({ data }: { data: StepsSectionData 
   const steps = data.steps ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] rounded-[28px] bg-pink-pale-2 px-6 py-[46px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] rounded-[28px] bg-pink-pale-2 px-6 section-y sm:px-14">
       <Eyebrow title={data.title} />
       <div className="grid grid-cols-1 gap-8 sm:grid-cols-5">
         {steps.map((step, i) => {

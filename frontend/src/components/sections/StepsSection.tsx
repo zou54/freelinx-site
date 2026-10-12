@@ -7,7 +7,7 @@ export default function StepsSection({ data }: { data: StepsSectionData }) {
   const steps = data.steps ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 py-[90px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <SectionHeader pill={data.pill ?? ""} title={data.title} description={data.description} />
 
       <div className="grid grid-cols-1 gap-11 md:grid-cols-4 md:gap-0">

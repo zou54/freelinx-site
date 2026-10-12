@@ -3,7 +3,7 @@ import type { QsnStatementData } from "@/lib/content/qui-sommes-nous";
 
 export default function QuiSommesNousMission({ data }: { data: QsnStatementData }) {
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[52px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <div className="rounded-[24px] bg-pink-pale-2 p-7 sm:p-11">
         <div className="grid grid-cols-1 items-center gap-8 text-center sm:gap-11 lg:grid-cols-[auto_1fr] lg:text-left">
           <div className="mx-auto flex h-[150px] w-[150px] flex-shrink-0 items-center justify-center rounded-full bg-white shadow-[0_20px_40px_-20px_rgba(11,15,43,0.18)] lg:mx-0">

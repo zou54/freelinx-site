@@ -25,7 +25,7 @@ export default async function SimulateurPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-[1120px] px-14 pb-[90px]">
+      <section className="mx-auto max-w-[1120px] px-14 section-y">
         <SimulateurApp copy={copy} />
       </section>
     </main>

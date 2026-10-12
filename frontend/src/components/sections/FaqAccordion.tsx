@@ -61,7 +61,7 @@ export default function FaqAccordion({ items }: { items: FaqQuestionData[] }) {
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   return (
-    <section className="mx-auto max-w-[760px] px-14 py-[90px]">
+    <section className="mx-auto max-w-[760px] px-14 section-y">
       <div className="space-y-4">
         {items.map((item, index) => (
           <FaqAccordionItem

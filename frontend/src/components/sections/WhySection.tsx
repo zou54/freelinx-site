@@ -4,7 +4,7 @@ export default function WhySection({ data }: { data: WhySectionData }) {
   const features = data.features ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 pb-5 pt-[84px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <div className="mx-auto max-w-[700px] text-center">
         <h2 className="mb-[18px] text-[30px] font-bold tracking-[-0.3px] text-navy">{data.title}</h2>
         {data.intro1 && <p className="mb-3 text-[15.5px] leading-[1.75] text-gray-text">{data.intro1}</p>}
@@ -12,7 +12,7 @@ export default function WhySection({ data }: { data: WhySectionData }) {
         {data.intro3 && <p className="mb-3 text-[15.5px] leading-[1.75] text-gray-text">{data.intro3}</p>}
       </div>
 
-      <div className="mx-auto mb-[100px] mt-[52px] grid max-w-[1080px] grid-cols-1 gap-[22px] lg:grid-cols-3">
+      <div className="mx-auto mt-[52px] grid max-w-[1080px] grid-cols-1 gap-[22px] lg:grid-cols-3">
         {features.map((f) => (
           <div
             key={f.number}

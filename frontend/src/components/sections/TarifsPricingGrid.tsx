@@ -31,7 +31,7 @@ export default function TarifsPricingGrid({ data }: { data: PricingSectionData }
   const plans = data.plans ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 py-[52px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <div className="mx-auto mb-10 max-w-[700px] text-center">
         <h2 className="mb-2.5 text-[26px] font-bold text-navy">{data.title}</h2>
         <div className="mx-auto mb-[18px] h-[3px] w-11 rounded-sm bg-red" />

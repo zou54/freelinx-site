@@ -14,7 +14,7 @@ export default function PortageSalarialWhy({ data }: { data: WhyChooseData }) {
   const reasons = data.reasons ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[46px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <Eyebrow title={data.title} />
       <div className="grid grid-cols-2 gap-x-4 gap-y-[30px] sm:grid-cols-3 lg:grid-cols-6">
         {reasons.map((r) => {

@@ -6,7 +6,7 @@ export default function TestimonialsSection({ data }: { data: TestimonialsSectio
   const testimonials = data.testimonials ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 py-[90px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <SectionHeader pill={data.pill ?? ""} title={data.title} description={data.description} />
 
       <div className="grid grid-cols-1 gap-9 md:grid-cols-3">

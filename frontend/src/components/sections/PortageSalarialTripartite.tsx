@@ -26,7 +26,7 @@ function TriLink({ from, to }: { from?: string; to?: string }) {
 
 export default function PortageSalarialTripartite({ data }: { data: TripartiteData }) {
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[46px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <Eyebrow title={data.title} />
       <div className="grid grid-cols-1 items-center gap-11 lg:grid-cols-[1fr_1.25fr]">
         <div>

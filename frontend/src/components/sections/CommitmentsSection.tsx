@@ -7,7 +7,7 @@ export default function CommitmentsSection({ data }: { data: CommitmentsSectionD
   const commitments = data.commitments ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 py-[90px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <SectionHeader pill={data.pill ?? ""} title={data.title} description={data.description} />
 
       <div className="grid grid-cols-2 gap-5 lg:grid-cols-4">

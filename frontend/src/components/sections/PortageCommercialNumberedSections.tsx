@@ -21,7 +21,7 @@ function NumberedSection({
   children: ReactNode;
 }) {
   return (
-    <section className="mx-auto max-w-[1120px] border-t border-[#F1E3E8] px-6 py-11 sm:px-10">
+    <section className="mx-auto max-w-[1120px] border-t border-[#F1E3E8] px-6 section-y sm:px-10">
       <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-[280px_1fr]">
         <div className="flex items-start gap-4">
           <div className="flex h-[52px] w-[52px] flex-shrink-0 items-center justify-center rounded-full bg-pink-pale text-red [&_svg]:h-6 [&_svg]:w-6">

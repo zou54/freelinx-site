@@ -7,7 +7,7 @@ export default function BenefitsSection({ data }: { data: BenefitsSectionData })
   const benefits = data.benefits ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] rounded-[32px] bg-pink-pale-2 px-6 py-[90px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] rounded-[32px] bg-pink-pale-2 px-6 section-y sm:px-14">
       <div className="mb-[46px] grid grid-cols-1 items-center gap-[50px] lg:grid-cols-[1fr_0.85fr]">
         <div>
           {data.pill && (

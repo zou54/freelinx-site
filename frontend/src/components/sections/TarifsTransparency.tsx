@@ -5,7 +5,7 @@ export default function TarifsTransparency({ data }: { data: TransparencySection
   const checklistItems = data.checklistItems ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 py-[52px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <div className="grid grid-cols-1 items-stretch gap-9 lg:grid-cols-2">
         <div>
           <h3 className="mb-2.5 text-[19px] font-bold text-navy">{data.title}</h3>

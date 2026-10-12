@@ -7,7 +7,7 @@ export default function SectorsSection({ data }: { data: SectorsSectionData }) {
   const sectors = data.sectors ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] rounded-[32px] bg-pink-pale-2 px-6 py-[90px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] rounded-[32px] bg-pink-pale-2 px-6 section-y sm:px-14">
       <SectionHeader pill={data.pill ?? ""} title={data.title} description={data.description} />
 
       <div className="grid grid-cols-2 gap-x-[18px] gap-y-10 sm:grid-cols-3 lg:grid-cols-6">

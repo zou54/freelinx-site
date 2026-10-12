@@ -37,6 +37,19 @@
   --breakpoint-lg: 1080px;
 }
 
+/* Shared vertical rhythm for content sections. Two adjacent sections on the
+   same background should never be more than ~160px apart (py-20 + py-20);
+   hero sections and the stats/picto row use their own tailored spacing
+   instead of this utility. */
+@utility section-y {
+  @apply py-16 md:py-20;
+}
+
+/* Compact spacing for a row of stat/picto items directly under a hero. */
+@utility stats-y {
+  @apply py-10 md:py-12;
+}
+
 * {
   box-sizing: border-box;
 }

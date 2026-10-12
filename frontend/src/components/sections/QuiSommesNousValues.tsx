@@ -5,7 +5,7 @@ export default function QuiSommesNousValues({ data }: { data: QsnValuesData }) {
   const values = data.values ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[52px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <div className="mb-9 text-center">
         <h2 className="mb-3.5 text-[26px] font-bold text-navy">{data.title}</h2>
         <div className="mx-auto h-[3px] w-11 rounded-full bg-red" />

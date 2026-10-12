@@ -7,7 +7,7 @@ export default function FaqSection({ data }: { data: FaqSectionData }) {
   const faqs = data.faqs ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-14 py-[90px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <SectionHeader pill={data.pill ?? ""} title={data.title} description={data.description} />
 
       <div className="grid grid-cols-1 gap-x-5 gap-y-[38px] md:grid-cols-3">

@@ -14,7 +14,7 @@ export default function PortageSalarialAdvantages({ data }: { data: BenefitsSect
   const benefits = data.benefits ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[46px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <Eyebrow title={data.title} />
       <div className="grid grid-cols-1 gap-x-[30px] gap-y-[26px] sm:grid-cols-3">
         {benefits.map((a) => {

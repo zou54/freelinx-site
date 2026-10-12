@@ -18,7 +18,7 @@ export default async function FaqPage() {
     <main>
       <FaqHero data={faq.heroSection} />
       <FaqAccordion items={questions} />
-      <section className="mx-auto max-w-[1120px] px-14 pb-[90px]">
+      <section className="mx-auto max-w-[1120px] px-14 section-y">
         <CtaBannerFromData data={faq.cta} />
       </section>
     </main>

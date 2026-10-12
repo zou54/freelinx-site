@@ -3,7 +3,7 @@ import type { CtaBannerData } from "@/types/strapi";
 
 export default function TarifsSimulateBar({ data }: { data: CtaBannerData }) {
   return (
-    <section className="mx-auto max-w-[1120px] px-14 pb-[52px]">
+    <section className="mx-auto max-w-[1120px] px-14 section-y">
       <div className="grid grid-cols-1 items-center gap-[22px] rounded-[18px] bg-[#F4F5FA] px-6 py-[26px] text-center sm:grid-cols-[auto_1fr_auto] sm:px-8 sm:text-left">
         <div className="mx-auto flex h-16 w-16 flex-shrink-0 items-center justify-center rounded-2xl bg-white text-[#3B5BDB] shadow-[0_8px_18px_-10px_rgba(11,15,43,0.18)] sm:mx-0">
           <ResolvedIcon name={data.icon} width={32} height={32} />

@@ -11,7 +11,7 @@ export default function PortageSalarialFinalCta({ data }: { data: FinalCtaWithCh
   const checks = data.checklistItems ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[46px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <div className="grid grid-cols-1 items-center gap-7 rounded-[22px] bg-pink-pale px-6 py-[34px] sm:px-10 lg:grid-cols-3">
         <div>
           <h3 className="mb-2 text-[20px] font-bold text-navy">{data.title}</h3>

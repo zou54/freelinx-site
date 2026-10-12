@@ -20,7 +20,7 @@ export default function PortageSalarialPourQui({ data }: { data: PourQuiData }) 
   const profiles = data.profiles ?? [];
 
   return (
-    <section className="mx-auto max-w-[1120px] px-6 py-[46px] sm:px-14">
+    <section className="mx-auto max-w-[1120px] px-6 section-y sm:px-14">
       <Eyebrow title={data.title} />
       <div className="grid grid-cols-1 items-start gap-[50px] lg:grid-cols-2">
         <div>

@@ -63,7 +63,7 @@ export default function Hero({ data }: { data: HeroData }) {
         </div>
       </section>
 
-      <section className="bg-white pb-10">
+      <section className="bg-white stats-y">
         <div className="mx-auto grid max-w-[980px] grid-cols-2 gap-5 px-14 lg:grid-cols-4">
           {stats.map((stat) => {
             const Icon = resolveIcon(stat.icon);
