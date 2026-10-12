@@ -118,7 +118,6 @@ export interface SectionsHero extends Struct.ComponentSchema {
     primaryCtaLabel: Schema.Attribute.String;
     secondaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
     secondaryCtaLabel: Schema.Attribute.String;
-    slides: Schema.Attribute.Component<'shared.media-slide', true>;
     stats: Schema.Attribute.Component<'shared.icon-stat', true>;
     title: Schema.Attribute.Text & Schema.Attribute.Required;
   };
@@ -591,18 +590,6 @@ export interface SharedLabelDetail extends Struct.ComponentSchema {
   };
 }
 
-export interface SharedMediaSlide extends Struct.ComponentSchema {
-  collectionName: 'components_shared_media_slides';
-  info: {
-    displayName: 'Media Slide';
-    icon: 'picture';
-  };
-  attributes: {
-    alt: Schema.Attribute.String;
-    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
-  };
-}
-
 export interface SharedNavLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_nav_links';
   info: {
@@ -727,7 +714,6 @@ declare module '@strapi/strapi' {
       'shared.icon-stat-text': SharedIconStatText;
       'shared.icon-text-item': SharedIconTextItem;
       'shared.label-detail': SharedLabelDetail;
-      'shared.media-slide': SharedMediaSlide;
       'shared.nav-link': SharedNavLink;
       'shared.pricing-plan': SharedPricingPlan;
       'shared.statement-quote': SharedStatementQuote;

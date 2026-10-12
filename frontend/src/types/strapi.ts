@@ -5,11 +5,6 @@ export interface MediaData {
   height?: number;
 }
 
-export interface MediaSlide {
-  image?: MediaData | null;
-  alt?: string;
-}
-
 export interface IconStat {
   icon: string;
   label: string;
@@ -88,7 +83,6 @@ export interface HeroData {
   stats?: IconStat[];
   heroImage?: MediaData | null;
   heroImageAlt?: string;
-  slides?: MediaSlide[];
 }
 
 export interface WhySectionData {

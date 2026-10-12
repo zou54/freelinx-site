@@ -40,7 +40,7 @@ export async function fetchStrapi<T>(
 }
 
 const HOMEPAGE_POPULATE = {
-  hero: { populate: { stats: true, heroImage: true, slides: { populate: { image: true } } } },
+  hero: { populate: { stats: true, heroImage: true } },
   whySection: { populate: { features: true } },
   stepsSection: { populate: { steps: true, cta: true } },
   benefitsSection: { populate: { benefits: true, cta: true } },
