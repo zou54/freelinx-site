@@ -1,4 +1,5 @@
 import { resolveIcon, ResolvedIcon } from "@/lib/icon-map";
+import HeroImage from "@/components/ui/HeroImage";
 import type { PcHeroData } from "@/lib/content/portage-commercial";
 
 export default function PortageCommercialHero({ data }: { data: PcHeroData }) {
@@ -58,6 +59,10 @@ export default function PortageCommercialHero({ data }: { data: PcHeroData }) {
             );
           })}
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1120px] px-6 sm:px-10">
+        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

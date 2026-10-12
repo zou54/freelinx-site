@@ -1,4 +1,5 @@
 import { fetchStrapi } from "@/lib/strapi";
+import type { MediaData } from "@/types/strapi";
 
 export interface TeamMemberData {
   name: string;
@@ -14,6 +15,8 @@ export interface QsnHeroData {
   paragraph1?: string;
   paragraph2?: string;
   team?: TeamMemberData[];
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
 }
 
 export interface QsnStatementData {
@@ -104,7 +107,7 @@ export const DEFAULT_QUI_SOMMES_NOUS: QuiSommesNousData = {
 };
 
 const QUI_SOMMES_NOUS_POPULATE = {
-  heroSection: { populate: { team: { populate: { photo: true } } } },
+  heroSection: { populate: { team: { populate: { photo: true } }, heroImage: true } },
   missionSection: true,
   convictionSection: true,
   valuesSection: { populate: { values: true } },

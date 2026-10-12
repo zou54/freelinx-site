@@ -1,10 +1,12 @@
 import { fetchStrapi } from "@/lib/strapi";
-import type { CtaBannerData } from "@/types/strapi";
+import type { CtaBannerData, MediaData } from "@/types/strapi";
 
 export interface FaqHeroData {
   pill?: string;
   title: string;
   subtitle?: string;
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
 }
 
 export interface FaqListItem {
@@ -146,7 +148,7 @@ export const DEFAULT_FAQ: FaqData = {
 };
 
 const FAQ_POPULATE = {
-  heroSection: true,
+  heroSection: { populate: { heroImage: true } },
   questions: { populate: { items: true } },
   cta: true,
 };

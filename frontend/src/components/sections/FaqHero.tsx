@@ -1,3 +1,4 @@
+import HeroImage from "@/components/ui/HeroImage";
 import type { FaqHeroData } from "@/lib/content/faq";
 
 export default function FaqHero({ data }: { data: FaqHeroData }) {
@@ -12,6 +13,8 @@ export default function FaqHero({ data }: { data: FaqHeroData }) {
         {data.subtitle && (
           <p className="text-[14.5px] leading-[1.75] text-gray-text">{data.subtitle}</p>
         )}
+
+        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

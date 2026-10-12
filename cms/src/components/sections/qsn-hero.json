@@ -14,6 +14,8 @@
       "type": "component",
       "component": "shared.team-member",
       "repeatable": true
-    }
+    },
+    "heroImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "heroImageAlt": { "type": "string" }
   }
 }

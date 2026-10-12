@@ -4,6 +4,7 @@ import type {
   FinalCtaSectionData,
   IconStatText,
   IconTextItem,
+  MediaData,
   StepsSectionData,
 } from "@/types/strapi";
 
@@ -20,6 +21,8 @@ export interface PsHeroData {
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   checklist?: IconStatText[];
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
 }
 
 export interface TripartiteData {
@@ -244,7 +247,7 @@ export const DEFAULT_PORTAGE_SALARIAL: PortageSalarialData = {
 };
 
 const PORTAGE_SALARIAL_POPULATE = {
-  heroSection: { populate: { checklist: true } },
+  heroSection: { populate: { checklist: true, heroImage: true } },
   tripartiteSection: true,
   advantagesSection: { populate: { benefits: true, cta: true } },
   stepsSection: { populate: { steps: true, cta: true } },

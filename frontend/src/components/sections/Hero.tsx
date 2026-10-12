@@ -1,4 +1,6 @@
 import { resolveIcon } from "@/lib/icon-map";
+import HeroImage from "@/components/ui/HeroImage";
+import HeroSlider from "@/components/ui/HeroSlider";
 import type { HeroData } from "@/types/strapi";
 
 export default function Hero({ data }: { data: HeroData }) {
@@ -80,6 +82,12 @@ export default function Hero({ data }: { data: HeroData }) {
             );
           })}
         </div>
+
+        {data.slides && data.slides.length > 0 ? (
+          <HeroSlider slides={data.slides} />
+        ) : (
+          <HeroImage image={data.heroImage} alt={data.heroImageAlt} className="mx-auto mt-10 max-w-[980px]" />
+        )}
       </div>
     </section>
   );

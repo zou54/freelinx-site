@@ -1,4 +1,5 @@
 import { resolveIcon } from "@/lib/icon-map";
+import HeroImage from "@/components/ui/HeroImage";
 import type { PsHeroData } from "@/lib/content/portage-salarial";
 
 export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
@@ -57,6 +58,10 @@ export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
             );
           })}
         </div>
+      </div>
+
+      <div className="relative mx-auto max-w-[1120px] px-6 sm:px-14">
+        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

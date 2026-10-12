@@ -55,6 +55,8 @@ export interface SectionsFaqHero extends Struct.ComponentSchema {
     icon: 'question';
   };
   attributes: {
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     pill: Schema.Attribute.String;
     subtitle: Schema.Attribute.Text;
     title: Schema.Attribute.String & Schema.Attribute.Required;
@@ -109,11 +111,14 @@ export interface SectionsHero extends Struct.ComponentSchema {
     bannerHighlight: Schema.Attribute.String;
     bannerText: Schema.Attribute.String;
     description: Schema.Attribute.Text;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     highlight: Schema.Attribute.Text;
     primaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
     primaryCtaLabel: Schema.Attribute.String;
     secondaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
     secondaryCtaLabel: Schema.Attribute.String;
+    slides: Schema.Attribute.Component<'shared.media-slide', true>;
     stats: Schema.Attribute.Component<'shared.icon-stat', true>;
     title: Schema.Attribute.Text & Schema.Attribute.Required;
   };
@@ -127,6 +132,8 @@ export interface SectionsPcHero extends Struct.ComponentSchema {
   };
   attributes: {
     checklist: Schema.Attribute.Component<'shared.icon-stat-text', true>;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     highlightLine: Schema.Attribute.String;
     paragraph1: Schema.Attribute.Text;
     paragraph2: Schema.Attribute.Text;
@@ -238,6 +245,8 @@ export interface SectionsPsHero extends Struct.ComponentSchema {
   };
   attributes: {
     checklist: Schema.Attribute.Component<'shared.icon-stat-text', true>;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     paragraph1: Schema.Attribute.Text;
     paragraph2: Schema.Attribute.Text;
     primaryCtaHref: Schema.Attribute.String & Schema.Attribute.DefaultTo<'#'>;
@@ -255,6 +264,8 @@ export interface SectionsQsnHero extends Struct.ComponentSchema {
     icon: 'rocket';
   };
   attributes: {
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     paragraph1: Schema.Attribute.Text;
     paragraph2: Schema.Attribute.Text;
     pill: Schema.Attribute.String;
@@ -328,6 +339,8 @@ export interface SectionsTarifsHero extends Struct.ComponentSchema {
   };
   attributes: {
     features: Schema.Attribute.Component<'shared.icon-text-item', true>;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     highlight: Schema.Attribute.Text;
     paragraph1: Schema.Attribute.Text;
     paragraph2: Schema.Attribute.Text;
@@ -578,6 +591,18 @@ export interface SharedLabelDetail extends Struct.ComponentSchema {
   };
 }
 
+export interface SharedMediaSlide extends Struct.ComponentSchema {
+  collectionName: 'components_shared_media_slides';
+  info: {
+    displayName: 'Media Slide';
+    icon: 'picture';
+  };
+  attributes: {
+    alt: Schema.Attribute.String;
+    image: Schema.Attribute.Media<'images'> & Schema.Attribute.Required;
+  };
+}
+
 export interface SharedNavLink extends Struct.ComponentSchema {
   collectionName: 'components_shared_nav_links';
   info: {
@@ -702,6 +727,7 @@ declare module '@strapi/strapi' {
       'shared.icon-stat-text': SharedIconStatText;
       'shared.icon-text-item': SharedIconTextItem;
       'shared.label-detail': SharedLabelDetail;
+      'shared.media-slide': SharedMediaSlide;
       'shared.nav-link': SharedNavLink;
       'shared.pricing-plan': SharedPricingPlan;
       'shared.statement-quote': SharedStatementQuote;

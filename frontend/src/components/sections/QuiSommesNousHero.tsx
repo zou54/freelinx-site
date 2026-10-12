@@ -1,3 +1,4 @@
+import HeroImage from "@/components/ui/HeroImage";
 import type { QsnHeroData } from "@/lib/content/qui-sommes-nous";
 
 export default function QuiSommesNousHero({ data }: { data: QsnHeroData }) {
@@ -66,6 +67,10 @@ export default function QuiSommesNousHero({ data }: { data: QsnHeroData }) {
             ))}
           </div>
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1120px] px-6 sm:px-14">
+        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

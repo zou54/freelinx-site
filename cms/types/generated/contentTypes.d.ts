@@ -772,6 +772,8 @@ export interface ApiSimulateurSimulateur extends Struct.SingleTypeSchema {
     graphProjectionTitle: Schema.Attribute.String;
     graphRepartitionTitle: Schema.Attribute.String;
     heroDescription: Schema.Attribute.Text;
+    heroImage: Schema.Attribute.Media<'images'>;
+    heroImageAlt: Schema.Attribute.String;
     heroPill: Schema.Attribute.String;
     heroTitle: Schema.Attribute.Text & Schema.Attribute.Required;
     inconvenientsLabel: Schema.Attribute.String;

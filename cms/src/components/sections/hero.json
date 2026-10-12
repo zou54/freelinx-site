@@ -20,6 +20,13 @@
       "type": "component",
       "component": "shared.icon-stat",
       "repeatable": true
+    },
+    "heroImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "heroImageAlt": { "type": "string" },
+    "slides": {
+      "type": "component",
+      "component": "shared.media-slide",
+      "repeatable": true
     }
   }
 }

@@ -1,5 +1,5 @@
 import { fetchStrapi } from "@/lib/strapi";
-import type { CtaBannerData, IconTextItem } from "@/types/strapi";
+import type { CtaBannerData, IconTextItem, MediaData } from "@/types/strapi";
 
 export interface ChecklistItem {
   label: string;
@@ -29,6 +29,8 @@ export interface TarifsHeroData {
   paragraph1?: string;
   paragraph2?: string;
   features?: IconTextItem[];
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
 }
 
 export interface PricingSectionData {
@@ -171,7 +173,7 @@ export const DEFAULT_TARIFS: TarifsData = {
 };
 
 const TARIFS_POPULATE = {
-  heroSection: { populate: { features: true } },
+  heroSection: { populate: { features: true, heroImage: true } },
   pricingSection: { populate: { plans: { populate: { featureItems: true } } } },
   transparencySection: { populate: { checklistItems: true, quote: true } },
   simulateBar: true,

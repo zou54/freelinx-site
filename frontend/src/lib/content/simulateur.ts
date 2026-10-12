@@ -1,4 +1,5 @@
 import { fetchStrapi } from "@/lib/strapi";
+import type { MediaData } from "@/types/strapi";
 
 export interface ChecklistItem {
   label: string;
@@ -9,6 +10,8 @@ export interface SimulateurCopyData {
   heroTitle: string;
   heroDescription: string;
   complianceBadge: string;
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
 
   formTitle: string;
   modeLabel: string;
@@ -230,6 +233,7 @@ export const DEFAULT_SIMULATEUR_COPY: SimulateurCopyData = {
 };
 
 const SIMULATEUR_POPULATE = {
+  heroImage: true,
   infosImportantesBullets: true,
   portageAvantages: true,
   portageInconvenients: true,

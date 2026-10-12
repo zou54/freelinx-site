@@ -1,7 +1,15 @@
 import qs from "qs";
 
-const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
+export const STRAPI_URL = process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 const STRAPI_API_TOKEN = process.env.STRAPI_API_TOKEN;
+
+// Strapi returns media URLs relative to its own origin (e.g. "/uploads/x.png")
+// unless an external provider is configured. Prefix with STRAPI_URL so <Image>
+// can load them from the frontend's origin.
+export function getStrapiMediaUrl(url?: string | null): string | null {
+  if (!url) return null;
+  return url.startsWith("http") ? url : `${STRAPI_URL}${url}`;
+}
 
 // How long a page can serve cached Strapi content before revalidating, in seconds.
 const REVALIDATE_SECONDS = 60;
@@ -32,7 +40,7 @@ export async function fetchStrapi<T>(
 }
 
 const HOMEPAGE_POPULATE = {
-  hero: { populate: { stats: true } },
+  hero: { populate: { stats: true, heroImage: true, slides: { populate: { image: true } } } },
   whySection: { populate: { features: true } },
   stepsSection: { populate: { steps: true, cta: true } },
   benefitsSection: { populate: { benefits: true, cta: true } },

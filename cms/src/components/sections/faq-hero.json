@@ -8,6 +8,8 @@
   "attributes": {
     "pill": { "type": "string" },
     "title": { "type": "string", "required": true },
-    "subtitle": { "type": "text" }
+    "subtitle": { "type": "text" },
+    "heroImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "heroImageAlt": { "type": "string" }
   }
 }

@@ -1,4 +1,5 @@
 import { fetchStrapi } from "@/lib/strapi";
+import type { MediaData } from "@/types/strapi";
 
 export interface IconStatTextData {
   icon: string;
@@ -39,6 +40,8 @@ export interface PcHeroData {
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   checklist?: IconStatTextData[];
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
 }
 
 export interface PcNumberedIntroData {
@@ -234,7 +237,7 @@ export const DEFAULT_PORTAGE_COMMERCIAL: PortageCommercialData = {
 };
 
 const PORTAGE_COMMERCIAL_POPULATE = {
-  heroSection: { populate: { checklist: true } },
+  heroSection: { populate: { checklist: true, heroImage: true } },
   numberedIntro: { populate: { checklistItems: true, callout: true } },
   numberedWhy: { populate: { resultItems: true } },
   numberedHow: { populate: { steps: true } },

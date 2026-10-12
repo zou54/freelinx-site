@@ -16,6 +16,8 @@
     "heroTitle": { "type": "text", "required": true },
     "heroDescription": { "type": "text" },
     "complianceBadge": { "type": "string" },
+    "heroImage": { "type": "media", "multiple": false, "allowedTypes": ["images"] },
+    "heroImageAlt": { "type": "string" },
 
     "formTitle": { "type": "string" },
     "modeLabel": { "type": "string" },

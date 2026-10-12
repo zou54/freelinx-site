@@ -1,3 +1,15 @@
+export interface MediaData {
+  url: string;
+  alternativeText?: string | null;
+  width?: number;
+  height?: number;
+}
+
+export interface MediaSlide {
+  image?: MediaData | null;
+  alt?: string;
+}
+
 export interface IconStat {
   icon: string;
   label: string;
@@ -74,6 +86,9 @@ export interface HeroData {
   secondaryCtaLabel?: string;
   secondaryCtaHref?: string;
   stats?: IconStat[];
+  heroImage?: MediaData | null;
+  heroImageAlt?: string;
+  slides?: MediaSlide[];
 }
 
 export interface WhySectionData {

@@ -1,4 +1,5 @@
 import { ResolvedIcon } from "@/lib/icon-map";
+import HeroImage from "@/components/ui/HeroImage";
 import type { TarifsHeroData } from "@/lib/content/tarifs";
 
 export default function TarifsHero({ data }: { data: TarifsHeroData }) {
@@ -41,6 +42,10 @@ export default function TarifsHero({ data }: { data: TarifsHeroData }) {
             </div>
           ))}
         </div>
+      </div>
+
+      <div className="mx-auto max-w-[1120px] px-14">
+        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

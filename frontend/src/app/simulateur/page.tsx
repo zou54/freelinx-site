@@ -1,4 +1,5 @@
 import SimulateurApp from "@/components/simulateur/SimulateurApp";
+import HeroImage from "@/components/ui/HeroImage";
 import { DEFAULT_SIMULATEUR_COPY, getSimulateurCopy } from "@/lib/content/simulateur";
 
 export default async function SimulateurPage() {
@@ -18,6 +19,8 @@ export default async function SimulateurPage() {
           </svg>
           {copy.complianceBadge}
         </div>
+
+        <HeroImage image={copy.heroImage} alt={copy.heroImageAlt} />
       </section>
 
       <section className="mx-auto max-w-[1120px] px-14 pb-[90px]">
