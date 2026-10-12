@@ -1,34 +1,28 @@
 import Image from "next/image";
 import { getStrapiMediaUrl } from "@/lib/strapi";
+import { HERO_OVERLAY_GRADIENT_CLASS } from "@/lib/hero-overlay";
 import type { MediaData } from "@/types/strapi";
 
-// Purely additive: renders nothing (and takes up no space) when no image is
-// set in Strapi, so existing hero layouts are visually unchanged until an
-// editor uploads one.
-export default function HeroImage({
-  image,
-  alt,
-  className = "",
-}: {
-  image?: MediaData | null;
-  alt?: string;
-  className?: string;
-}) {
+// Renders the hero's background photo (full-bleed, behind the text) plus its
+// readability overlay. Purely additive: renders nothing when no image is set
+// in Strapi, so existing hero layouts are visually unchanged until an editor
+// uploads one. Place as the first child of a `relative overflow-hidden`
+// section, with the text content wrapped in a sibling `relative z-10` div.
+export default function HeroImage({ image, alt }: { image?: MediaData | null; alt?: string }) {
   const src = getStrapiMediaUrl(image?.url);
   if (!src) return null;
 
   return (
-    <div
-      className={`relative mt-8 overflow-hidden rounded-[20px] shadow-[0_20px_44px_-20px_rgba(11,15,43,0.25)] ${className}`}
-    >
+    <div className="absolute inset-0 z-0">
       <Image
         src={src}
         alt={alt || image?.alternativeText || ""}
-        width={image?.width ?? 1200}
-        height={image?.height ?? 600}
-        className="h-auto w-full object-cover"
-        sizes="(min-width: 1024px) 1120px, 100vw"
+        fill
+        priority
+        className="object-cover"
+        sizes="100vw"
       />
+      <div className={`absolute inset-0 ${HERO_OVERLAY_GRADIENT_CLASS}`} />
     </div>
   );
 }

@@ -10,8 +10,10 @@ export default function TarifsHero({ data }: { data: TarifsHeroData }) {
       : [data.title, null];
 
   return (
-    <section className="bg-gradient-to-r from-pink-pale-2 via-pink-pale-2/90 to-white pb-[70px] pt-16">
-      <div className="mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-[60px] px-14 lg:grid-cols-[1.6fr_1fr]">
+    <section className="relative overflow-hidden bg-gradient-to-r from-pink-pale-2 via-pink-pale-2/90 to-white pb-[70px] pt-16">
+      <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
+
+      <div className="relative z-10 mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-[60px] px-14 lg:grid-cols-[1.6fr_1fr]">
         <div>
           {data.pill && (
             <div className="mb-3.5 text-[12px] font-extrabold uppercase tracking-[0.6px] text-red">{data.pill}</div>
@@ -42,10 +44,6 @@ export default function TarifsHero({ data }: { data: TarifsHeroData }) {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className="mx-auto max-w-[1120px] px-14">
-        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

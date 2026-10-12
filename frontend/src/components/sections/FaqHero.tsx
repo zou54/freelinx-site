@@ -3,8 +3,10 @@ import type { FaqHeroData } from "@/lib/content/faq";
 
 export default function FaqHero({ data }: { data: FaqHeroData }) {
   return (
-    <section className="bg-gradient-to-r from-pink-pale-2 via-pink-pale-2/90 to-white pb-[70px] pt-16">
-      <div className="mx-auto max-w-[760px] px-14 text-center">
+    <section className="relative overflow-hidden bg-gradient-to-r from-pink-pale-2 via-pink-pale-2/90 to-white pb-[70px] pt-16">
+      <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
+
+      <div className="relative z-10 mx-auto max-w-[760px] px-14 text-center">
         {data.pill && (
           <div className="mb-3.5 text-[12px] font-extrabold uppercase tracking-[0.6px] text-red">{data.pill}</div>
         )}
@@ -13,8 +15,6 @@ export default function FaqHero({ data }: { data: FaqHeroData }) {
         {data.subtitle && (
           <p className="text-[14.5px] leading-[1.75] text-gray-text">{data.subtitle}</p>
         )}
-
-        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

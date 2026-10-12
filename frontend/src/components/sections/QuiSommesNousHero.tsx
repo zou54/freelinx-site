@@ -5,8 +5,10 @@ export default function QuiSommesNousHero({ data }: { data: QsnHeroData }) {
   const team = data.team ?? [];
 
   return (
-    <section className="pb-[60px] pt-12">
-      <div className="mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-14 px-6 sm:px-14 lg:grid-cols-2">
+    <section className="relative overflow-hidden pb-[60px] pt-12">
+      <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
+
+      <div className="relative z-10 mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-14 px-6 sm:px-14 lg:grid-cols-2">
         <div>
           {data.pill && (
             <div className="mb-3.5 text-[12px] font-extrabold uppercase tracking-[0.6px] text-red">{data.pill}</div>
@@ -67,10 +69,6 @@ export default function QuiSommesNousHero({ data }: { data: QsnHeroData }) {
             ))}
           </div>
         </div>
-      </div>
-
-      <div className="mx-auto max-w-[1120px] px-6 sm:px-14">
-        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

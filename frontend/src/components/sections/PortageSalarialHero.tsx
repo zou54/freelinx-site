@@ -7,11 +7,12 @@ export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-pink-pale-2 to-white to-70% pb-[70px] pt-16">
+      <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       <div
         aria-hidden
         className="pointer-events-none absolute -top-[140px] -right-[180px] h-[560px] w-[560px] rounded-full bg-[radial-gradient(circle,rgba(232,21,79,0.10)_0%,rgba(232,21,79,0)_70%)]"
       />
-      <div className="relative mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-9 px-6 sm:px-14 lg:grid-cols-[2fr_1fr]">
+      <div className="relative z-10 mx-auto grid max-w-[1120px] grid-cols-1 items-center gap-9 px-6 sm:px-14 lg:grid-cols-[2fr_1fr]">
         <div>
           <h1 className="mb-3.5 text-[32px] leading-[1.22] font-bold text-navy lg:text-[38px]">{data.title}</h1>
           <div className="mb-5 h-1 w-12 rounded-full bg-red" />
@@ -58,10 +59,6 @@ export default function PortageSalarialHero({ data }: { data: PsHeroData }) {
             );
           })}
         </div>
-      </div>
-
-      <div className="relative mx-auto max-w-[1120px] px-6 sm:px-14">
-        <HeroImage image={data.heroImage} alt={data.heroImageAlt} />
       </div>
     </section>
   );

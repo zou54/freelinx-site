@@ -1,19 +1,70 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Image from "next/image";
 import { resolveIcon } from "@/lib/icon-map";
-import HeroImage from "@/components/ui/HeroImage";
-import HeroSlider from "@/components/ui/HeroSlider";
+import { getStrapiMediaUrl } from "@/lib/strapi";
+import { HERO_OVERLAY_GRADIENT_CLASS } from "@/lib/hero-overlay";
 import type { HeroData } from "@/types/strapi";
+
+const AUTO_ADVANCE_MS = 5000;
 
 export default function Hero({ data }: { data: HeroData }) {
   const stats = data.stats ?? [];
+  const slides = (data.slides ?? []).filter((slide) => getStrapiMediaUrl(slide.image?.url));
+  const hasSlides = slides.length > 0;
+  const singleImageSrc = !hasSlides ? getStrapiMediaUrl(data.heroImage?.url) : null;
+  const [index, setIndex] = useState(0);
+
+  useEffect(() => {
+    if (slides.length < 2) return;
+    const timer = setInterval(() => {
+      setIndex((current) => (current + 1) % slides.length);
+    }, AUTO_ADVANCE_MS);
+    return () => clearInterval(timer);
+  }, [slides.length]);
 
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-pink-pale-2 to-white to-78% pt-[72px] pb-10">
+      {(hasSlides || singleImageSrc) && (
+        <div className="absolute inset-0 z-0">
+          {hasSlides
+            ? slides.map((slide, i) => {
+                const src = getStrapiMediaUrl(slide.image?.url)!;
+                return (
+                  <Image
+                    key={src}
+                    src={src}
+                    alt={slide.alt || slide.image?.alternativeText || ""}
+                    fill
+                    priority={i === 0}
+                    className={`object-cover transition-opacity duration-1000 ${
+                      i === index ? "opacity-100" : "opacity-0"
+                    }`}
+                    sizes="100vw"
+                  />
+                );
+              })
+            : (
+                <Image
+                  src={singleImageSrc!}
+                  alt={data.heroImageAlt || data.heroImage?.alternativeText || ""}
+                  fill
+                  priority
+                  className="object-cover"
+                  sizes="100vw"
+                />
+              )}
+          <div className={`absolute inset-0 ${HERO_OVERLAY_GRADIENT_CLASS}`} />
+        </div>
+      )}
+
       <div
         aria-hidden
         className="pointer-events-none absolute -top-[120px] -right-[160px] h-[520px] w-[520px] rounded-full bg-[radial-gradient(circle,rgba(232,21,79,0.10)_0%,rgba(232,21,79,0)_70%)]"
       />
 
-      <div className="relative mx-auto flex max-w-[760px] flex-col items-center px-14 text-center">
+      <div className="relative z-10 mx-auto flex max-w-[760px] flex-col items-center px-14 text-center">
         {data.badge && (
           <span className="mb-[22px] inline-flex items-center gap-1.5 rounded-full border-[1.5px] border-red bg-white px-[18px] py-[7px] text-[12.5px] font-bold tracking-[0.6px] text-red">
             {data.badge}
@@ -60,9 +111,26 @@ export default function Hero({ data }: { data: HeroData }) {
         </div>
 
         <div className="mb-14 -mt-1 flex gap-2">
-          <span className="h-2 w-[22px] rounded-full bg-red" />
-          <span className="h-2 w-2 rounded-full bg-[#E7DCE0]" />
-          <span className="h-2 w-2 rounded-full bg-[#E7DCE0]" />
+          {hasSlides
+            ? slides.map((slide, i) => (
+                <button
+                  key={`dot-${slide.image?.url ?? i}`}
+                  type="button"
+                  aria-label={`Image ${i + 1}`}
+                  aria-current={i === index}
+                  onClick={() => setIndex(i)}
+                  className={`h-2 rounded-full transition-all duration-200 ${
+                    i === index ? "w-[22px] bg-red" : "w-2 bg-[#E7DCE0]"
+                  }`}
+                />
+              ))
+            : (
+                <>
+                  <span className="h-2 w-[22px] rounded-full bg-red" />
+                  <span className="h-2 w-2 rounded-full bg-[#E7DCE0]" />
+                  <span className="h-2 w-2 rounded-full bg-[#E7DCE0]" />
+                </>
+              )}
         </div>
 
         <div className="mx-auto grid max-w-[980px] grid-cols-2 gap-5 lg:grid-cols-4">
@@ -82,12 +150,6 @@ export default function Hero({ data }: { data: HeroData }) {
             );
           })}
         </div>
-
-        {data.slides && data.slides.length > 0 ? (
-          <HeroSlider slides={data.slides} />
-        ) : (
-          <HeroImage image={data.heroImage} alt={data.heroImageAlt} className="mx-auto mt-10 max-w-[980px]" />
-        )}
       </div>
     </section>
   );
